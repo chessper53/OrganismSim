@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react';
 import './Dashboard.css';
 import { generateOrganisms } from '../Utilis/generateOrganisms';
-import { findClosestOpponent, moveTowardOpponent, getDistance } from '../Utilis/pathFinder';
+import { findClosestOpponent, moveTowardOpponent, healTeammate, getDistance } from '../Utilis/abilities';
+import { roles } from '../Utilis/roles';
+
+// Import organism icons
 import agroBlue from '../assets/agroBlue.png';
 import agroRed from '../assets/agroRed.png';
 import civilianBlue from '../assets/civilianBlue.png';
 import civilianRed from '../assets/civilianRed.png';
-import civilianDead from '../assets/civDead.png';
+import medicBlue from '../assets/medicBlue.png';
+import medicRed from '../assets/medicRed.png';
+import civilianDead from '../assets/civDead.png'; 
 import agroDead from '../assets/agrDead.png';
+import medicDead from '../assets/medicDead.png'; 
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -20,10 +26,16 @@ const shuffleArray = (array) => {
 const Organism = ({ organism }) => {
   const getOrganismIcon = () => {
     if (!organism.isAlive) {
-      return organism.role === 'aggressive' ? agroDead : civilianDead;
+      return organism.role === 'aggressive'
+        ? agroDead
+        : organism.role === 'medic'
+        ? medicDead
+        : civilianDead;
     }
     if (organism.role === 'aggressive') {
       return organism.type === 'red' ? agroRed : agroBlue;
+    } else if (organism.role === 'medic') {
+      return organism.type === 'red' ? medicRed : medicBlue;
     } else {
       return organism.type === 'red' ? civilianRed : civilianBlue;
     }
@@ -31,13 +43,13 @@ const Organism = ({ organism }) => {
 
   return (
     <img
-      src={getOrganismIcon()} 
+      src={getOrganismIcon()}
       alt={organism.type}
       style={{
         position: 'absolute',
         left: organism.position.x,
         top: organism.position.y,
-        width: '20px', 
+        width: '20px',
         height: '20px',
       }}
       title={`Role: ${organism.role}`}
@@ -62,29 +74,23 @@ const Dashboard = () => {
         return shuffledOrganisms.map((organism) => {
           if (!organism.isAlive) return organism;
 
-          if (organism.role === 'aggressive') {
-            const opponent = findClosestOpponent(
-              organism,
-              shuffledOrganisms.filter((opp) => opp.isAlive && opp.type !== organism.type)
-            );
+          const role = roles[organism.role];
+          let updatedOrganism = organism;
 
-            if (opponent && getDistance(organism, opponent) < 10) {
-              if (Math.random() < 0.3) { 
-                opponent.health -= 1;
-                if (opponent.health <= 0) opponent.isAlive = false;
-              }
-            } else if (opponent) {
-              organism = moveTowardOpponent(organism, opponent);
-            }
-          }
+          const opponent = organism.role === 'aggressive'
+            ? findClosestOpponent(organism, shuffledOrganisms)
+            : null;
 
-          const newPosX = organism.position.x + Math.random() * 5 - 2.5;
-          const newPosY = organism.position.y + Math.random() * 5 - 2.5;
+          updatedOrganism = role.behavior(
+            organism,
+            shuffledOrganisms,
+            opponent,
+            moveTowardOpponent,
+            getDistance,
+            healTeammate
+          );
 
-          return {
-            ...organism,
-            position: { x: newPosX, y: newPosY },
-          };
+          return updatedOrganism;
         });
       });
     }, 50);

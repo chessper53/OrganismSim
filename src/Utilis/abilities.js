@@ -9,7 +9,7 @@ export const getDistance = (org1, org2) => {
     let closestDistance = Infinity;
   
     organisms.forEach((opponent) => {
-      if (opponent.isAlive && opponent.id !== organism.id) {
+      if (opponent.isAlive && opponent.id !== organism.id && opponent.type !== organism.type) {
         const distance = getDistance(organism, opponent);
         if (distance < closestDistance) {
           closestDistance = distance;
@@ -19,6 +19,10 @@ export const getDistance = (org1, org2) => {
     });
   
     return closestOpponent;
+  };
+  
+  export const healTeammate = (organism, organisms) => {
+    return organisms.find((teammate) => teammate.isAlive && teammate.type === organism.type && teammate.health < 3);
   };
   
   export const moveTowardOpponent = (organism, opponent) => {

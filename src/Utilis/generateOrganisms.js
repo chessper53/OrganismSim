@@ -1,35 +1,30 @@
-const getRandomPosition = (maxWidth, maxHeight) => {
-    const x = Math.floor(Math.random() * (maxWidth - 10)); 
-    const y = Math.floor(Math.random() * (maxHeight - 10));
-    return { x, y };
-  };
-  
-  const getRandomRole = () => (Math.random() < 0.80 ? 'passive' : 'aggressive');
-  
-  export const generateOrganisms = (countRed = 250, countBlue = 250, width = window.innerWidth, height = window.innerHeight - 100) => {
+export const generateOrganisms = (countRed = 250, countBlue = 250, width = window.innerWidth, height = window.innerHeight - 100) => {
     const organisms = [];
+    const medicRatio = 0.01; 
+    const medicCountRed = Math.floor(countRed * medicRatio);
+    const medicCountBlue = Math.floor(countBlue * medicRatio);
   
-
     for (let i = 0; i < countRed; i++) {
-      organisms.push({
-        id: `blue-${i}`,
-        type: 'blue',
-        health: 30, 
-        position: getRandomPosition(width, height),
-        isAlive: true,  
-        role: getRandomRole(), 
-      });
-    }
-  
-
-    for (let i = 0; i < countBlue; i++) {
+      const role = i < medicCountRed ? 'medic' : Math.random() < 0.67 ? 'passive' : 'aggressive';
       organisms.push({
         id: `red-${i}`,
         type: 'red',
-        health: 30,  
-        position: getRandomPosition(width, height),
+        health: 3,
+        position: { x: Math.random() * width, y: Math.random() * height },
         isAlive: true,
-        role: getRandomRole(),
+        role: role,
+      });
+    }
+  
+    for (let i = 0; i < countBlue; i++) {
+      const role = i < medicCountBlue ? 'medic' : Math.random() < 0.67 ? 'passive' : 'aggressive';
+      organisms.push({
+        id: `blue-${i}`,
+        type: 'blue',
+        health: 3,
+        position: { x: Math.random() * width, y: Math.random() * height },
+        isAlive: true,
+        role: role,
       });
     }
   
