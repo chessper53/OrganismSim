@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import './Banner.css'; 
 
-const Banner = ({ aliveRed, aliveBlue }) => {
-  // Initialize state for each unit's count
+const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
   const [legionnaireCount, setLegionnaireCount] = useState(0);
   const [medicCount, setMedicCount] = useState(0);
   const [centurionCount, setCenturionCount] = useState(0);
@@ -10,15 +9,19 @@ const Banner = ({ aliveRed, aliveBlue }) => {
   const [shieldBearerCount, setShieldBearerCount] = useState(0);
   const [simulationStarted, setSimulationStarted] = useState(false);
 
-  // Define functions to handle click events for increase/decrease
-  const handleLegionnaireClick = (delta) => setLegionnaireCount(Math.max(legionnaireCount + delta, 0));
-  const handleMedicClick = (delta) => setMedicCount(Math.max(medicCount + delta, 0));
-  const handleCenturionClick = (delta) => setCenturionCount(Math.max(centurionCount + delta, 0));
-  const handleKingClick = (delta) => setKingCount(Math.max(kingCount + delta, 0));
-  const handleShieldBearerClick = (delta) => setShieldBearerCount(Math.max(shieldBearerCount + delta, 0));
+  const totalCost = legionnaireCount * 1 + medicCount * 2 + centurionCount * 3 + kingCount * 10 + shieldBearerCount * 5;
 
-  // Handle start button
-  const handleStart = () => setSimulationStarted(true);
+  const handleStart = () => {
+    const unitCounts = {
+      legionnaire: legionnaireCount,
+      medic: medicCount,
+      centurion: centurionCount,
+      Emperor: kingCount,
+      shieldBearer: shieldBearerCount,
+    };
+    onStartSimulation(unitCounts);  
+    setSimulationStarted(true);
+  };
 
   return (
     <div className='Banner'>
@@ -27,40 +30,40 @@ const Banner = ({ aliveRed, aliveBlue }) => {
           <img src="src/assets/DeadState/legionnaireDead.png" alt="Legionnaire" />
           <label>{legionnaireCount}</label>
           <div className="controls">
-            <button onClick={() => handleLegionnaireClick(1)}>+</button>
-            <button onClick={() => handleLegionnaireClick(-1)}>-</button>
+            <button onClick={() => setLegionnaireCount(Math.max(legionnaireCount + 10, 0))}>+</button>
+            <button onClick={() => setLegionnaireCount(Math.max(legionnaireCount - 10, 0))}>-</button>
           </div>
         </div>
         <div className='UnitSelector'>
           <img src="src/assets/DeadState/medicDead.png" alt="Medic" />
           <label>{medicCount}</label>
           <div className="controls">
-            <button onClick={() => handleMedicClick(1)}>+</button>
-            <button onClick={() => handleMedicClick(-1)}>-</button>
+            <button onClick={() => setMedicCount(Math.max(medicCount + 10, 0))}>+</button>
+            <button onClick={() => setMedicCount(Math.max(medicCount - 10, 0))}>-</button>
           </div>
         </div>
         <div className='UnitSelector'>
           <img src="src/assets/DeadState/centurionDead.png" alt="Centurion" />
           <label>{centurionCount}</label>
           <div className="controls">
-            <button onClick={() => handleCenturionClick(1)}>+</button>
-            <button onClick={() => handleCenturionClick(-1)}>-</button>
+            <button onClick={() => setCenturionCount(Math.max(centurionCount + 10, 0))}>+</button>
+            <button onClick={() => setCenturionCount(Math.max(centurionCount - 10, 0))}>-</button>
           </div>
         </div>
         <div className='UnitSelector'>
           <img src="src/assets/DeadState/kingDead.png" alt="King" />
           <label>{kingCount}</label>
           <div className="controls">
-            <button onClick={() => handleKingClick(1)}>+</button>
-            <button onClick={() => handleKingClick(-1)}>-</button>
+            <button onClick={() => setKingCount(Math.max(kingCount + 10, 0))}>+</button>
+            <button onClick={() => setKingCount(Math.max(kingCount - 10, 0))}>-</button>
           </div>
         </div>
         <div className='UnitSelector'>
           <img src="src/assets/DeadState/shieldBearerDead.png" alt="Shield Bearer" />
           <label>{shieldBearerCount}</label>
           <div className="controls">
-            <button onClick={() => handleShieldBearerClick(1)}>+</button>
-            <button onClick={() => handleShieldBearerClick(-1)}>-</button>
+            <button onClick={() => setShieldBearerCount(Math.max(shieldBearerCount + 10, 0))}>+</button>
+            <button onClick={() => setShieldBearerCount(Math.max(shieldBearerCount - 10, 0))}>-</button>
           </div>
         </div>
       </div>
@@ -75,6 +78,10 @@ const Banner = ({ aliveRed, aliveBlue }) => {
         <button className="start-button" onClick={handleStart}>
           {simulationStarted ? "Restart Simulation" : "Start Simulation"}
         </button>
+      </div>
+
+      <div className="CostDiv">
+        <p>Total Cost: {totalCost}</p>
       </div>
     </div>
   );

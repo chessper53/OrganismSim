@@ -8,6 +8,11 @@ import Banner from '../Banner/Banner';
 
 const Dashboard = () => {
   const [organisms, setOrganisms] = useState(generateOrganisms());
+  const [simulationStarted, setSimulationStarted] = useState(false);
+  const handleStartSimulation = (unitCounts) => {
+    setOrganisms(generateOrganisms(unitCounts)); 
+    setSimulationStarted(true);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -44,11 +49,15 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <Banner aliveRed={aliveRed} aliveBlue={aliveBlue} />
+      <Banner aliveRed={aliveRed} aliveBlue={aliveBlue} onStartSimulation={handleStartSimulation} />
       <div className="simulation-box">
-        {organisms.map((organism) => (
-          <Organism key={organism.id} organism={organism} />
-        ))}
+      {simulationStarted && (
+        <div className="simulation-box">
+          {organisms.map((organism) => (
+            <Organism key={organism.id} organism={organism} />
+          ))}
+        </div>
+      )}
       </div>
     </div>
   );

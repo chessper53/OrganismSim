@@ -1,43 +1,67 @@
 import { roles } from './roles';
 
-export const generateOrganisms = (countRed = 250, countBlue = 250, width = window.innerWidth, height = window.innerHeight - 100) => {
+export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, height = window.innerHeight - 100) => {
   const organisms = [];
 
-  const generateOrganism = (id, type) => {
-    const roleKeys = Object.keys(roles);
-    let selectedRole = null;
-
-    for (const roleKey of roleKeys) {
-      if (Math.random() < roles[roleKey].spawnChance) {
-        selectedRole = roleKey;
-        break;
-      }
-    }
-    if (!selectedRole) {
-      selectedRole = 'civilian'; 
-    }
-    const roleData = roles[selectedRole];
-    return {
-      id,
-      type,
-      speed: roleData.speed,
-      health: roleData.health, 
+  for (let i = 0; i < 150; i++) {
+    organisms.push({
+      id: `red-civilian-${i}`,
+      type: 'red',
+      speed: roles.civilian.speed,
+      health: roles.civilian.health,
       position: { x: Math.random() * width, y: Math.random() * height },
       isAlive: true,
-      role: selectedRole,  
-    };
-  };
+      role: 'civilian',
+    });
 
-  for (let i = 0; i < countRed; i++) {
-    organisms.push(generateOrganism(`red-${i}`, 'red'));
+    organisms.push({
+      id: `blue-civilian-${i}`,
+      type: 'blue',
+      speed: roles.civilian.speed,
+      health: roles.civilian.health,
+      position: { x: Math.random() * width, y: Math.random() * height },
+      isAlive: true,
+      role: 'civilian',
+    });
   }
 
-  for (let i = 0; i < countBlue; i++) {
-    organisms.push(generateOrganism(`blue-${i}`, 'blue'));
-  }
+  Object.keys(unitCounts).forEach((unitType) => {
+    const count = unitCounts[unitType] || 0; 
+    const roleData = roles[unitType];
+
+    if (!roleData) {
+      console.error(`Unknown role: ${unitType}`);
+      return;
+    }
+
+    for (let i = 0; i < count; i++) {
+      organisms.push({
+        id: `red-${unitType}-${i}`,
+        type: 'red',
+        speed: roleData.speed,
+        health: roleData.health,
+        position: { x: Math.random() * width, y: Math.random() * height },
+        isAlive: true,
+        role: unitType,
+      });
+    }
+
+    for (let i = 0; i < count; i++) {
+      organisms.push({
+        id: `blue-${unitType}-${i}`,
+        type: 'blue',
+        speed: roleData.speed,
+        health: roleData.health,
+        position: { x: Math.random() * width, y: Math.random() * height },
+        isAlive: true,
+        role: unitType,
+      });
+    }
+  });
 
   return organisms;
 };
+
 
 export const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
