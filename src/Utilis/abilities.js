@@ -24,9 +24,9 @@ export const getDistance = (org1, org2) => {
   export const healTeammate = (organism, organisms) => {
     return organisms.find((teammate) => teammate.isAlive && teammate.type === organism.type && teammate.health < 3);
   };
-  
+
   export const moveTowardOpponent = (organism, opponent) => {
-    const speed = 3; 
+    const speed = organism.speed || 3; 
   
     if (opponent) {
       const dx = opponent.position.x - organism.position.x;
@@ -41,4 +41,5 @@ export const getDistance = (org1, org2) => {
   
     return organism;
   };
+  
   

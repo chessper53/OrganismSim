@@ -103,9 +103,9 @@ const Dashboard = () => {
           const role = roles[organism.role];
           let updatedOrganism = organism;
 
-          const opponent = organism.role === 'aggressive'
-            ? findClosestOpponent(organism, shuffledOrganisms)
-            : null;
+          const opponent = (organism.role === 'aggressive' || organism.role === 'king')
+          ? findClosestOpponent(organism, shuffledOrganisms)
+          : null;
 
           updatedOrganism = role.behavior(
             organism,

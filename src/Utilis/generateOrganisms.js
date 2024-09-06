@@ -1,33 +1,42 @@
+import { roles } from './roles';
+
 export const generateOrganisms = (countRed = 250, countBlue = 250, width = window.innerWidth, height = window.innerHeight - 100) => {
-    const organisms = [];
-    const medicRatio = 0.01; 
-    const medicCountRed = Math.floor(countRed * medicRatio);
-    const medicCountBlue = Math.floor(countBlue * medicRatio);
-  
-    for (let i = 0; i < countRed; i++) {
-      const role = i < medicCountRed ? 'medic' : Math.random() < 0.67 ? 'passive' : 'aggressive';
-      organisms.push({
-        id: `red-${i}`,
-        type: 'red',
-        health: 3,
-        position: { x: Math.random() * width, y: Math.random() * height },
-        isAlive: true,
-        role: role,
-      });
+  const organisms = [];
+
+  const generateOrganism = (id, type) => {
+    const roleKeys = Object.keys(roles);
+    let selectedRole = null;
+
+    for (const roleKey of roleKeys) {
+      if (Math.random() < roles[roleKey].spawnChance) {
+        selectedRole = roleKey;
+        break;
+      }
     }
-  
-    for (let i = 0; i < countBlue; i++) {
-      const role = i < medicCountBlue ? 'medic' : Math.random() < 0.67 ? 'passive' : 'aggressive';
-      organisms.push({
-        id: `blue-${i}`,
-        type: 'blue',
-        health: 3,
-        position: { x: Math.random() * width, y: Math.random() * height },
-        isAlive: true,
-        role: role,
-      });
+
+    if (!selectedRole) {
+      selectedRole = 'passive'; 
     }
-  
-    return organisms;
+
+    const roleData = roles[selectedRole];
+
+    return {
+      id,
+      type,
+      health: roleData.health, 
+      position: { x: Math.random() * width, y: Math.random() * height },
+      isAlive: true,
+      role: selectedRole,  
+    };
   };
-  
+
+  for (let i = 0; i < countRed; i++) {
+    organisms.push(generateOrganism(`red-${i}`, 'red'));
+  }
+
+  for (let i = 0; i < countBlue; i++) {
+    organisms.push(generateOrganism(`blue-${i}`, 'blue'));
+  }
+
+  return organisms;
+};
