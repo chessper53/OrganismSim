@@ -3,8 +3,6 @@ import './Dashboard.css';
 import { generateOrganisms } from '../Utilis/generateOrganisms';
 import { findClosestOpponent, moveTowardOpponent, healTeammate, getDistance } from '../Utilis/abilities';
 import { roles } from '../Utilis/roles';
-
-// Import organism icons
 import agroBlue from '../assets/agroBlue.png';
 import agroRed from '../assets/agroRed.png';
 import civilianBlue from '../assets/civilianBlue.png';
@@ -103,7 +101,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <h1 className="sim-title">
-        Sim - Red Alive: {aliveRed} | Blue Alive: {aliveBlue}
+        Red Alive: {aliveRed} | Blue Alive: {aliveBlue}
       </h1>
       <div className="simulation-box">
         {organisms.map((organism) => (
