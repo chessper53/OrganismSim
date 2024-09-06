@@ -1,0 +1,84 @@
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .Banner {
+    width: 100%;
+    padding: 10px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .SelectorDiv {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+  }
+  
+  .UnitSelector {
+    text-align: center;
+  }
+  
+  .UnitSelector img {
+    width: 40px; /* Reduced size */
+    height: 40px; /* Reduced size */
+    margin-bottom: 3px; /* Adjusted margin */
+    cursor: pointer;
+  }
+  
+  .UnitSelector label {
+    font-size: 14px; /* Slightly smaller font */
+    margin-top: 5px;
+  }
+  
+  .controls {
+    margin-top: 3px; /* Reduced margin */
+  }
+  
+  .controls button {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 3px 8px; /* Smaller button size */
+    margin: 0 3px; /* Adjusted spacing */
+    font-size: 14px; /* Smaller font size */
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .controls button:hover {
+    background-color: #444;
+  }
+  
+  .AliveDiv {
+    display: flex;
+    justify-content: center;
+    padding: 5px 0; /* Reduced padding */
+    font-size: 16px; /* Smaller font size */
+  }
+  
+  .StartDiv {
+    display: flex;
+    justify-content: center;
+    padding: 10px; /* Reduced padding */
+  }
+  
+  .start-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px; /* Reduced button size */
+    font-size: 14px; /* Smaller font */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .start-button:hover {
+    background-color: #0056b3;
+  }
+  

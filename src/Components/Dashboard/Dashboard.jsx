@@ -4,6 +4,7 @@ import { generateOrganisms, shuffleArray, countAlive } from '../../Utilis/Organi
 import Organism from '../Organism/Organism';
 import { roles } from '../../Utilis/roles';
 import { findClosestOpponent, findClosestTeammate} from '../../Utilis/abilities';
+import Banner from '../Banner/Banner';
 
 const Dashboard = () => {
   const [organisms, setOrganisms] = useState(generateOrganisms());
@@ -43,9 +44,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <h1 className="sim-title">
-        Red Alive: {aliveRed} | Blue Alive: {aliveBlue}
-      </h1>
+      <Banner aliveRed={aliveRed} aliveBlue={aliveBlue} />
       <div className="simulation-box">
         {organisms.map((organism) => (
           <Organism key={organism.id} organism={organism} />
