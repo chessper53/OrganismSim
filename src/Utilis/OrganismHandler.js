@@ -38,3 +38,17 @@ export const generateOrganisms = (countRed = 250, countBlue = 250, width = windo
 
   return organisms;
 };
+
+export const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
+export const countAlive = (organisms) => {
+  const aliveRed = organisms.filter((org) => org.isAlive && org.type === 'red').length;
+  const aliveBlue = organisms.filter((org) => org.isAlive && org.type === 'blue').length;
+  return { aliveRed, aliveBlue };
+};

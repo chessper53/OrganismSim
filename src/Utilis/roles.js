@@ -1,4 +1,4 @@
-import { moveTowardOpponent, getDistance } from "./abilities";
+import { moveTowardOpponent, getDistance, healTeammate, findClosestOpponent } from "./abilities";
 
 export const roles = {
   civilian: {
@@ -20,7 +20,7 @@ export const roles = {
     health: 1,
     spawnChance: 0.3,
     behaviorType: 'seeker',  
-    behavior: (organism, organisms, opponent, moveTowardOpponent, getDistance) => {
+    behavior: (organism, organisms, opponent) => {
       if (opponent && getDistance(organism, opponent) < 10) {
         if (Math.random() < 0.3) { 
           opponent.health -= 0.5;
@@ -37,7 +37,7 @@ export const roles = {
     health: 4,
     spawnChance: 0.3,
     behaviorType: 'seeker',  
-    behavior: (organism, organisms, opponent, moveTowardOpponent, getDistance) => {
+    behavior: (organism, organisms, opponent,) => {
       if (opponent && getDistance(organism, opponent) < 10) {
         if (Math.random() < 0.3) { 
           opponent.health -= 1;
@@ -54,7 +54,7 @@ export const roles = {
     health: 30,
     spawnChance: 0.05,
     behaviorType: 'seeker',  
-    behavior: (organism, organisms, opponent, moveTowardOpponent, getDistance) => {
+    behavior: (organism, organisms, opponent,) => {
       if (opponent && getDistance(organism, opponent) < 15) {
         if (Math.random() < 0.5) { 
           opponent.health -= 3;
@@ -71,7 +71,7 @@ export const roles = {
     health: 3,
     spawnChance: 0.02,
     behaviorType: 'protector', 
-    behavior: (organism, organisms, _, __, ___, healTeammate) => {
+    behavior: (organism, organisms, _, __, ___) => {
       const teammate = healTeammate(organism, organisms);
       if (teammate && teammate.health < 3) {
         organism = moveTowardOpponent(organism, teammate);
@@ -94,8 +94,8 @@ export const roles = {
     health: 60,  
     spawnChance: 0.02,
     behaviorType: 'protector',  
-    behavior: (organism, organisms, _, __, ___, findClosestTeammate) => {
-      const teammate = findClosestTeammate(organism, organisms); 
+    behavior: (organism, organisms, _, __, ___) => {
+      const teammate = findClosestOpponent(organism, organisms); 
       if (teammate) {
         organism = moveTowardOpponent(organism, teammate);  
       } else {
