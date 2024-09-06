@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './Dashboard.css';
 import { generateOrganisms } from '../Utilis/generateOrganisms';
-import { findClosestOpponent, moveTowardOpponent, healTeammate, getDistance } from '../Utilis/abilities';
+import { findClosestOpponent, moveTowardOpponent, healTeammate, getDistance , findClosestTeammate} from '../Utilis/abilities';
 import { roles } from '../Utilis/roles';
 import agroBlue from '../assets/BlueTeam/agroBlue.png';
 import agroRed from '../assets/RedTeam/agroRed.png';
@@ -96,17 +96,22 @@ const Dashboard = () => {
     const interval = setInterval(() => {
       setOrganisms((prevOrganisms) => {
         const shuffledOrganisms = shuffleArray([...prevOrganisms]);
-
+      
         return shuffledOrganisms.map((organism) => {
           if (!organism.isAlive) return organism;
-
+      
           const role = roles[organism.role];
           let updatedOrganism = organism;
-
-          const opponent = (organism.role === 'aggressive' || organism.role === 'king')
-          ? findClosestOpponent(organism, shuffledOrganisms)
-          : null;
-
+          let opponent = null;
+      
+          if (role.behaviorType === 'seeker') {
+            // Seeker goes toward enemies
+            opponent = findClosestOpponent(organism, shuffledOrganisms.filter(o => o.type !== organism.type && o.isAlive));
+          } else if (role.behaviorType === 'protector') {
+            // Protector goes toward allies
+            opponent = findClosestTeammate(organism, shuffledOrganisms.filter(o => o.type === organism.type && o.isAlive && o.health < 3));
+          }
+      
           updatedOrganism = role.behavior(
             organism,
             shuffledOrganisms,
@@ -115,7 +120,6 @@ const Dashboard = () => {
             getDistance,
             healTeammate
           );
-
           return updatedOrganism;
         });
       });

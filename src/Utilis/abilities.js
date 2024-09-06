@@ -17,8 +17,23 @@ export const getDistance = (org1, org2) => {
         }
       }
     });
-  
     return closestOpponent;
+  };
+
+  export const findClosestTeammate = (organism, organisms) => {
+    let closestTeammate = null;
+    let closestDistance = Infinity;
+  
+    organisms.forEach((teammate) => {
+      if (teammate.id !== organism.id && teammate.isAlive) {
+        const distance = getDistance(organism, teammate);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestTeammate = teammate;
+        }
+      }
+    });
+    return closestTeammate;
   };
   
   export const healTeammate = (organism, organisms) => {

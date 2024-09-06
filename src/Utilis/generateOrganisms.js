@@ -13,13 +13,10 @@ export const generateOrganisms = (countRed = 250, countBlue = 250, width = windo
         break;
       }
     }
-
     if (!selectedRole) {
       selectedRole = 'passive'; 
     }
-
     const roleData = roles[selectedRole];
-
     return {
       id,
       type,
