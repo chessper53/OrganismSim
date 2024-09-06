@@ -57,5 +57,3 @@ export const getDistance = (org1, org2) => {
   
     return organism;
   };
-  
-  

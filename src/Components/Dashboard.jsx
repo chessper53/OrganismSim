@@ -3,29 +3,35 @@ import './Dashboard.css';
 import { generateOrganisms } from '../Utilis/generateOrganisms';
 import { findClosestOpponent, moveTowardOpponent, healTeammate, getDistance , findClosestTeammate} from '../Utilis/abilities';
 import { roles } from '../Utilis/roles';
-import agroBlue from '../assets/BlueTeam/agroBlue.png';
-import agroRed from '../assets/RedTeam/agroRed.png';
+import agroBlue from '../assets/BlueTeam/legionnaireBlue.png';
+import agroRed from '../assets/RedTeam/legionnaireRed.png';
 import civilianBlue from '../assets/BlueTeam/civilianBlue.png';
 import civilianRed from '../assets/RedTeam/civilianRed.png';
 import medicBlue from '../assets/BlueTeam/medicBlue.png';
 import medicRed from '../assets/RedTeam/medicRed.png';
 import civilianDead from '../assets/DeadState/civiDead.png'; 
-import agroDead from '../assets/DeadState/agroDead.png';
+import agroDead from '../assets/DeadState/legionnaireDead.png';
 import medicDead from '../assets/DeadState/medicDead.png'; 
 import kingBlue from "../assets/BlueTeam/KingBlue.png"
 import kingRed from '../assets/RedTeam/KingRed.png';
 import kingDead from '../assets/DeadState/KingDead.png';
+import centurionBlue from "../assets/BlueTeam/centurionBlue.png"
+import centurionRed from '../assets/RedTeam/centurionRed.png';
+import centurionDead from '../assets/DeadState/centurionDead.png';
+import shieldBearerBlue from "../assets/BlueTeam/centurionBlue.png"
+import shieldBearerRed from '../assets/RedTeam/shieldBearerRed.png';
+import shieldBearerDead from '../assets/DeadState/shieldBearerDead.png';
 
 
 const roleIcons = {
-  aggressive: {
+  legionnaire: {
     alive: {
       blue: agroBlue,
       red: agroRed,
     },
     dead: agroDead,
   },
-  passive: {
+  civilian: {
     alive: {
       blue: civilianBlue,
       red: civilianRed,
@@ -39,12 +45,26 @@ const roleIcons = {
     },
     dead: medicDead,
   },
-  king: {
+  Emperor: {
     alive: {
       blue: kingBlue,
       red: kingRed,
     },
     dead: kingDead,
+  },
+  centurion: {
+    alive: {
+      blue: centurionBlue,
+      red: centurionRed,
+    },
+    dead: centurionDead,
+  },
+  shieldBearer: {
+    alive: {
+      blue: shieldBearerBlue,
+      red: shieldBearerRed,
+    },
+    dead: shieldBearerDead,
   }
 };
 

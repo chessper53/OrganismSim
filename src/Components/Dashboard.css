@@ -20,9 +20,27 @@
   .simulation-box {
     position: relative;
     width: 100vw;
-    height: calc(100vh - 50px); /* Takes up the whole screen minus the banner */
+    height: calc(100vh - 50px); 
     background-color: white;
     overflow: hidden;
     border: none;
   }
   
+
+@keyframes green-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(0, 255, 0, 1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+  }
+}
+
+.healing-effect {
+  animation: green-glow 1s ease-in-out; 
+  border-radius: 50%;
+  transition: all 0.5s ease-in-out;
+}
