@@ -16,7 +16,7 @@ export const roles = {
     },
   },
   aggressive: {
-    speed: 5,
+    speed: 1.75,
     health: 5,
     spawnChance: 0.3,
     behaviorType: 'seeker',  
@@ -34,7 +34,7 @@ export const roles = {
   },
   king: {
     speed: 1,
-    health: 10000,
+    health: 30,
     spawnChance: 0.03,
     behaviorType: 'seeker',  
     behavior: (organism, organisms, opponent, moveTowardOpponent, getDistance) => {
@@ -50,7 +50,7 @@ export const roles = {
     },
   },
   medic: {
-    speed: 2.5,
+    speed: 3,
     health: 3,
     spawnChance: 0.01,
     behaviorType: 'protector', 

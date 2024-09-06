@@ -20,6 +20,7 @@ export const generateOrganisms = (countRed = 250, countBlue = 250, width = windo
     return {
       id,
       type,
+      speed: roleData.speed,
       health: roleData.health, 
       position: { x: Math.random() * width, y: Math.random() * height },
       isAlive: true,

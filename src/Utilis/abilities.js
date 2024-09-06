@@ -41,6 +41,7 @@ export const getDistance = (org1, org2) => {
   };
 
   export const moveTowardOpponent = (organism, opponent) => {
+    console.log(organism.speed);
     const speed = organism.speed || 3; 
   
     if (opponent) {
