@@ -3,40 +3,59 @@ import './Dashboard.css';
 import { generateOrganisms } from '../Utilis/generateOrganisms';
 import { findClosestOpponent, moveTowardOpponent, healTeammate, getDistance } from '../Utilis/abilities';
 import { roles } from '../Utilis/roles';
-import agroBlue from '../assets/agroBlue.png';
-import agroRed from '../assets/agroRed.png';
-import civilianBlue from '../assets/civilianBlue.png';
-import civilianRed from '../assets/civilianRed.png';
-import medicBlue from '../assets/medicBlue.png';
-import medicRed from '../assets/medicRed.png';
-import civilianDead from '../assets/civDead.png'; 
-import agroDead from '../assets/agrDead.png';
-import medicDead from '../assets/medicDead.png'; 
+import agroBlue from '../assets/BlueTeam/agroBlue.png';
+import agroRed from '../assets/RedTeam/agroRed.png';
+import civilianBlue from '../assets/BlueTeam/civilianBlue.png';
+import civilianRed from '../assets/RedTeam/civilianRed.png';
+import medicBlue from '../assets/BlueTeam/medicBlue.png';
+import medicRed from '../assets/RedTeam/medicRed.png';
+import civilianDead from '../assets/DeadState/civiDead.png'; 
+import agroDead from '../assets/DeadState/agroDead.png';
+import medicDead from '../assets/DeadState/medicDead.png'; 
+import kingBlue from "../assets/BlueTeam/KingBlue.png"
+import kingRed from '../assets/RedTeam/KingRed.png';
+import kingDead from '../assets/DeadState/KingDead.png';
 
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+
+const roleIcons = {
+  aggressive: {
+    alive: {
+      blue: agroBlue,
+      red: agroRed,
+    },
+    dead: agroDead,
+  },
+  passive: {
+    alive: {
+      blue: civilianBlue,
+      red: civilianRed,
+    },
+    dead: civilianDead,
+  },
+  medic: {
+    alive: {
+      blue: medicBlue,
+      red: medicRed,
+    },
+    dead: medicDead,
+  },
+  king: {
+    alive: {
+      blue: kingBlue,
+      red: kingRed,
+    },
+    dead: kingDead,
   }
-  return array;
 };
 
 const Organism = ({ organism }) => {
   const getOrganismIcon = () => {
+    const role = roleIcons[organism.role] || {};
     if (!organism.isAlive) {
-      return organism.role === 'aggressive'
-        ? agroDead
-        : organism.role === 'medic'
-        ? medicDead
-        : civilianDead;
+      return role.dead;
     }
-    if (organism.role === 'aggressive') {
-      return organism.type === 'red' ? agroRed : agroBlue;
-    } else if (organism.role === 'medic') {
-      return organism.type === 'red' ? medicRed : medicBlue;
-    } else {
-      return organism.type === 'red' ? civilianRed : civilianBlue;
-    }
+    const type = role.alive || {};
+    return organism.type === 'red' ? type.red : type.blue;
   };
 
   return (
@@ -53,6 +72,15 @@ const Organism = ({ organism }) => {
       title={`Role: ${organism.role}`}
     />
   );
+};
+
+
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 };
 
 const Dashboard = () => {

@@ -25,6 +25,20 @@ export const roles = {
         }
         return organism;
       },
+    },   
+    king: {
+      speed: 7.5,
+      behavior: (organism, organisms, opponent, moveTowardOpponent, getDistance) => {
+        if (opponent && getDistance(organism, opponent) < 10) {
+          if (Math.random() < 0.5) { 
+            opponent.health -= 2;
+            if (opponent.health <= 0) opponent.isAlive = false;
+          }
+        } else if (opponent) {
+          organism = moveTowardOpponent(organism, opponent);
+        }
+        return organism;
+      },
     },
     medic: {
       speed: 2.5,
@@ -43,7 +57,6 @@ export const roles = {
             position: { x: newPosX, y: newPosY },
           };
         }
-  
         return organism;
       },
     },
