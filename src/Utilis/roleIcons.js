@@ -19,6 +19,9 @@ import shieldBearerDead from '../assets/DeadState/shieldBearerDead.png';
 import archerBlue from "../assets/BlueTeam/archerBlue.png";
 import archerRed from '../assets/RedTeam/archerRed.png';
 import archerDead from '../assets/DeadState/archerDead.png';
+import romanShipBlue from "../assets/BlueTeam/romanShipBlue.png";
+import romanShipRed from '../assets/RedTeam/romanShipRed.png';
+import romanShipDead from '../assets/DeadState/romanShipDead.png';
 
 export const roleIcons = {
   legionnaire: {
@@ -69,5 +72,12 @@ export const roleIcons = {
       red: archerRed,
     },
     dead: archerDead,
+  },
+  romanShip: {
+    alive: {
+      blue: romanShipBlue,
+      red: romanShipRed,
+    },
+    dead: romanShipDead,
   }
 };

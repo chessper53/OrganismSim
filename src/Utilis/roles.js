@@ -119,7 +119,7 @@ export const roles = {
         const distanceToOpponent = getDistance(organism, opponent);
 
         if (distanceToOpponent <= roles.archer.rangeDistance) {
-          if (Math.random() < 0.5) {
+          if (Math.random() < 0.3) {
             opponent.health -= 0.5; 
             if (opponent.health <= 0) opponent.isAlive = false;
           }
