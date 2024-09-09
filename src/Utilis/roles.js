@@ -147,7 +147,7 @@ export const roles = {
       if (opponent) {
         const distanceToOpponent = getDistance(organism, opponent);
 
-        if (distanceToOpponent <= roles.archer.rangeDistance) {
+        if (distanceToOpponent <= roles.romanShip.rangeDistance) {
           if (Math.random() < 0.5) {
             opponent.health -= 1; 
             if (opponent.health <= 0) opponent.isAlive = false;
