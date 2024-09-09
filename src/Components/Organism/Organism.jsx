@@ -1,4 +1,4 @@
-import { roleIcons } from "../../Utilis/roleIcons";
+import { roleIcons } from "../../Utilis/IconRedirector";
 import "./Organism.css"
 
 const Organism = ({ organism }) => {

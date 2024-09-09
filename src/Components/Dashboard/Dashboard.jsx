@@ -5,26 +5,17 @@ import Organism from '../Organism/Organism';
 import { roles } from '../../Utilis/roles';
 import { findClosestOpponent, findClosestTeammate } from '../../Utilis/abilities';
 import Banner from '../Banner/Banner';
+import { generateObstacles } from '../../Utilis/NonTraversablePoints';
 
 const Dashboard = () => {
   const [organisms, setOrganisms] = useState(generateOrganisms());
+  const [obstacles, setObstacles] = useState([]);
   const [simulationStarted, setSimulationStarted] = useState(false);
   const [editMode, setEditMode] = useState(true); 
-  const [battlefieldDimensions, setBattlefieldDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
-    const updateBattlefieldSize = () => {
-      const headerHeight = document.querySelector('.simulation-header')?.offsetHeight || 0;
-      const availableHeight = window.innerHeight - headerHeight;
-      const width = window.innerWidth;
-      const height = availableHeight;
-      setBattlefieldDimensions({ width, height });
-    };
-
-    window.addEventListener('resize', updateBattlefieldSize);
-    updateBattlefieldSize(); 
-
-    return () => window.removeEventListener('resize', updateBattlefieldSize);
+    const { obstacles: generatedObstacles } = generateObstacles(30);
+    setObstacles(generatedObstacles);
   }, []);
 
   const handleStartSimulation = (unitCounts) => {
@@ -42,25 +33,21 @@ const Dashboard = () => {
     const interval = setInterval(() => {
       setOrganisms((prevOrganisms) => {
         const shuffledOrganisms = shuffleArray([...prevOrganisms]);
-      
+
         return shuffledOrganisms.map((organism) => {
           if (!organism.isAlive) return organism;
-      
+
           const role = roles[organism.role];
           let updatedOrganism = organism;
           let opponent = null;
-      
+
           if (role.behaviorType === 'seeker') {
             opponent = findClosestOpponent(organism, shuffledOrganisms.filter(o => o.type !== organism.type && o.isAlive));
           } else if (role.behaviorType === 'protector') {
             opponent = findClosestTeammate(organism, shuffledOrganisms.filter(o => o.type === organism.type && o.isAlive && o.health < 3));
           }
-      
-          updatedOrganism = role.behavior(
-            organism,
-            shuffledOrganisms,
-            opponent,
-          );
+
+          updatedOrganism = role.behavior(organism, shuffledOrganisms, opponent);
           return updatedOrganism;
         });
       });
@@ -83,12 +70,26 @@ const Dashboard = () => {
       )}
 
       {simulationStarted && !editMode && (
-        <div 
-          className="simulation-box" 
-          style={{ width: battlefieldDimensions.width, height: battlefieldDimensions.height }}
-        >
+        <div className="simulation-box">
+          {/* Render organisms */}
           {organisms.map((organism) => (
             <Organism key={organism.id} organism={organism} />
+          ))}
+
+          {/* Render obstacles */}
+          {obstacles.map((obstacle) => (
+            <img
+              key={obstacle.id}
+              src={obstacle.imageSrc}
+              alt="obstacle"
+              style={{
+                position: 'absolute',
+                left: obstacle.x,
+                top: obstacle.y,
+                width: `${obstacle.width}px`,
+                height: `${obstacle.height}px`,
+              }}
+            />
           ))}
         </div>
       )}

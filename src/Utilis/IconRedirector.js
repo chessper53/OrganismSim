@@ -81,3 +81,7 @@ export const roleIcons = {
     dead: romanShipDead,
   }
 };
+
+export const ObstacleIcons = {
+
+};

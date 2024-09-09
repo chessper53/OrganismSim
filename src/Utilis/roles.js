@@ -1,13 +1,15 @@
 import { getDistance, findClosestTeammate, moveTowardOpponent, healTeammate } from "./abilities";
 export const roles = {
   civilian: {
-    speed: 2,
-    health: 3,
+    speed: 1,
+    health: 1,
     cost: 0,
     behaviorType: 'wanderer',
     behavior: (organism) => {
       const newPosX = organism.position.x + Math.random() * 5 - 2.5;
       const newPosY = organism.position.y + Math.random() * 5 - 2.5;
+      // const newPosX = organism.position.x;
+      // const newPosY = organism.position.y;
       return {
         ...organism,
         position: { x: newPosX, y: newPosY },
