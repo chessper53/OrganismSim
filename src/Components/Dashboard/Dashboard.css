@@ -1,39 +1,42 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
 .dashboard-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-    height: 100vh;
-  }
-
-  
-  .simulation-box {
-    position: relative;
-    width: 100vw;
-    height: calc(100vh - 50px); 
-    background-color: white;
-    overflow: hidden;
-    border: none;
-  }
-  
-
-@keyframes green-glow {
-  0% {
-    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 15px rgba(0, 255, 0, 1);
-  }
-  100% {
-    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh; /* Full height */
+  width: 100vw;  /* Full width */
+  margin: 0;
+  padding: 0;
 }
 
-.healing-effect {
-  animation: green-glow 1s ease-in-out; 
+.simulation-header {
+  width: 100%;
+  height: 50px; /* Fixed height for the header */
+  background-color: #1e1e1e;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.simulation-box {
+  position: relative;
+  width: 100vw;
+  height: calc(100vh - 50px); /* Remaining height after the header */
+  background-color: white;
+  overflow: hidden;
+}
+
+.organism {
+  position: absolute;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  transition: all 0.5s ease-in-out;
 }
-
-

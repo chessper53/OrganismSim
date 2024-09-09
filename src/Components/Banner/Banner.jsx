@@ -7,9 +7,10 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
   const [centurionCount, setCenturionCount] = useState(0);
   const [kingCount, setKingCount] = useState(0);
   const [shieldBearerCount, setShieldBearerCount] = useState(0);
+  const [archerCount, setArcherCount] = useState(0);
 
   // Calculate the total cost
-  const totalCost = legionnaireCount * 1 + medicCount * 2 + centurionCount * 3 + kingCount * 10 + shieldBearerCount * 5;
+  const totalCost = legionnaireCount * 1 + medicCount * 2 + centurionCount * 3 +archerCount * 3 + kingCount * 10 + shieldBearerCount * 5;
 
   // Handle starting the simulation
   const handleStart = () => {
@@ -19,6 +20,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
       centurion: centurionCount,
       Emperor: kingCount,
       shieldBearer: shieldBearerCount,
+      archer: archerCount,
     };
     onStartSimulation(unitCounts);
   };
@@ -59,6 +61,13 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
           </div>
         </div>
         <div className='UnitSelector'>
+          <img src="src/assets/DeadState/archerDead.png" alt="Archer" />
+          <label>{archerCount}</label>
+          <div className="controls">
+            <button onClick={() => setArcherCount(Math.max(shieldBearerCount + 5, 0))}>+</button>
+            <button onClick={() => setArcherCount(Math.max(shieldBearerCount - 5, 0))}>-</button>
+          </div>
+        </div><div className='UnitSelector'>
           <img src="src/assets/DeadState/shieldBearerDead.png" alt="Shield Bearer" />
           <label>{shieldBearerCount}</label>
           <div className="controls">

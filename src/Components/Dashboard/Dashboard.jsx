@@ -3,15 +3,31 @@ import './Dashboard.css';
 import { generateOrganisms, shuffleArray, countAlive } from '../../Utilis/OrganismHandler';
 import Organism from '../Organism/Organism';
 import { roles } from '../../Utilis/roles';
-import { findClosestOpponent, findClosestTeammate} from '../../Utilis/abilities';
+import { findClosestOpponent, findClosestTeammate } from '../../Utilis/abilities';
 import Banner from '../Banner/Banner';
 
 const Dashboard = () => {
   const [organisms, setOrganisms] = useState(generateOrganisms());
   const [simulationStarted, setSimulationStarted] = useState(false);
   const [editMode, setEditMode] = useState(true); 
+  const [battlefieldDimensions, setBattlefieldDimensions] = useState({ width: 0, height: 0 });
 
-   const handleStartSimulation = (unitCounts) => {
+  useEffect(() => {
+    const updateBattlefieldSize = () => {
+      const headerHeight = document.querySelector('.simulation-header')?.offsetHeight || 0;
+      const availableHeight = window.innerHeight - headerHeight;
+      const width = window.innerWidth;
+      const height = availableHeight;
+      setBattlefieldDimensions({ width, height });
+    };
+
+    window.addEventListener('resize', updateBattlefieldSize);
+    updateBattlefieldSize(); 
+
+    return () => window.removeEventListener('resize', updateBattlefieldSize);
+  }, []);
+
+  const handleStartSimulation = (unitCounts) => {
     setOrganisms(generateOrganisms(unitCounts));  
     setSimulationStarted(true);
     setEditMode(false);
@@ -67,7 +83,10 @@ const Dashboard = () => {
       )}
 
       {simulationStarted && !editMode && (
-        <div className="simulation-box">
+        <div 
+          className="simulation-box" 
+          style={{ width: battlefieldDimensions.width, height: battlefieldDimensions.height }}
+        >
           {organisms.map((organism) => (
             <Organism key={organism.id} organism={organism} />
           ))}
@@ -76,4 +95,5 @@ const Dashboard = () => {
     </div>
   );
 };
+
 export default Dashboard;
