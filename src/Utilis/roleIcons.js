@@ -13,7 +13,7 @@ import kingDead from '../assets/DeadState/KingDead.png';
 import centurionBlue from "../assets/BlueTeam/centurionBlue.png";
 import centurionRed from '../assets/RedTeam/centurionRed.png';
 import centurionDead from '../assets/DeadState/centurionDead.png';
-import shieldBearerBlue from "../assets/BlueTeam/centurionBlue.png";
+import shieldBearerBlue from "../assets/BlueTeam/shieldBearerBlue.png";
 import shieldBearerRed from '../assets/RedTeam/shieldBearerRed.png';
 import shieldBearerDead from '../assets/DeadState/shieldBearerDead.png';
 

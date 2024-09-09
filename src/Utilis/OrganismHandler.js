@@ -3,7 +3,7 @@ import { roles } from './roles';
 export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, height = window.innerHeight - 100) => {
   const organisms = [];
 
-  for (let i = 0; i < 150; i++) {
+  for (let i = 0; i < 40; i++) {
     organisms.push({
       id: `red-civilian-${i}`,
       type: 'red',

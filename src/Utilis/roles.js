@@ -3,7 +3,8 @@ export const roles = {
   civilian: {
     speed: 2,
     health: 3,
-    cost: 0, // Civilians don't have a cost
+    range: 10,
+    cost: 0,
     behaviorType: 'wanderer',
     behavior: (organism) => {
       const newPosX = organism.position.x + Math.random() * 5 - 2.5;
@@ -17,7 +18,9 @@ export const roles = {
   legionnaire: {
     speed: 1.75,
     health: 1,
-    cost: 1, // Set the cost of the unit
+    range: 10,
+    // NEED TO ADD RANGE FOR STUFF YK YK
+    cost: 100, 
     behaviorType: 'seeker',
     behavior: (organism, organisms, opponent) => {
       if (opponent && getDistance(organism, opponent) < 10) {
@@ -50,13 +53,13 @@ export const roles = {
   },
   Emperor: {
     speed: 1,
-    health: 30,
+    health: 10,
     cost: 10,
     behaviorType: 'seeker',
     behavior: (organism, organisms, opponent) => {
       if (opponent && getDistance(organism, opponent) < 15) {
         if (Math.random() < 0.5) {
-          opponent.health -= 3;
+          opponent.health -= 10;
           if (opponent.health <= 0) opponent.isAlive = false;
         }
       } else if (opponent) {
@@ -90,6 +93,26 @@ export const roles = {
   },
   shieldBearer: {
     speed: 3,
+    health: 60,
+    cost: 5,
+    behaviorType: 'protector',
+    behavior: (organism, organisms, _, __, ___) => {
+      const teammate = findClosestTeammate(organism, organisms);
+      if (teammate) {
+        organism = moveTowardOpponent(organism, teammate);
+      } else {
+        const newPosX = organism.position.x + Math.random() * 5 - 2.5;
+        const newPosY = organism.position.y + Math.random() * 5 - 2.5;
+        return {
+          ...organism,
+          position: { x: newPosX, y: newPosY },
+        };
+      }
+      return organism;
+    },
+  },
+  romanShip: {
+    speed: 2,
     health: 60,
     cost: 5,
     behaviorType: 'protector',
