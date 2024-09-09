@@ -32,20 +32,25 @@ export const battlefieldDimensions = {
         imageSrc: obstacleType,
       });
   
-      // Mark these points as non-traversable by scaling to match the grid
-      const startX = Math.floor((x - 250) / 5);  // scale down to match grid
-      const endX = Math.floor((x + width + 250) / 5); // scale down to match grid
-      const startY = Math.floor((y - 250) / 5);  // scale down to match grid
-      const endY = Math.floor((y + height + 250) / 5); // scale down to match grid
+      // Mark these points as non-traversable
+      const startX = Math.floor((x - 5) / 5);  // scale down to match grid
+      const endX = Math.floor((x + width + 5) / 5); // scale down to match grid
+      const startY = Math.floor((y - 5) / 5);  // scale down to match grid
+      const endY = Math.floor((y + height + 5) / 5); // scale down to match grid
   
+      // Ensure coordinates are within the window size
       for (let ix = startX; ix < endX; ix++) {
         for (let iy = startY; iy < endY; iy++) {
-          if (ix >= 0 && iy >= 0 && ix < battlefieldDimensions.width && iy < battlefieldDimensions.height) {
+          if (ix >= 0 && iy >= 0 && ix < window.innerWidth / 5 && iy < window.innerHeight / 5) {
             nonTraversablePoints.push({ x: ix, y: iy });
           }
         }
       }
     }
   
+    console.log('Generated Obstacles:', obstacles);
+    console.log('Generated Non-Traversable Points:', nonTraversablePoints);
+  
     return { obstacles, nonTraversablePoints };
   };
+  

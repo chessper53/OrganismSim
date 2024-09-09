@@ -10,12 +10,15 @@ import { generateObstacles } from '../../Utilis/NonTraversablePoints';
 const Dashboard = () => {
   const [organisms, setOrganisms] = useState(generateOrganisms());
   const [obstacles, setObstacles] = useState([]);
+  const [nonTraversablePoints, setNonTraversablePoints] = useState([]);  
   const [simulationStarted, setSimulationStarted] = useState(false);
   const [editMode, setEditMode] = useState(true); 
 
   useEffect(() => {
-    const { obstacles: generatedObstacles } = generateObstacles(30);
+    const { obstacles: generatedObstacles, nonTraversablePoints: generatedNonTraversablePoints } = generateObstacles(20);
     setObstacles(generatedObstacles);
+    //initializeGridWithObstacles(obstacles)
+    setNonTraversablePoints(generatedNonTraversablePoints);  
   }, []);
 
   const handleStartSimulation = (unitCounts) => {
@@ -47,14 +50,14 @@ const Dashboard = () => {
             opponent = findClosestTeammate(organism, shuffledOrganisms.filter(o => o.type === organism.type && o.isAlive && o.health < 3));
           }
 
-          updatedOrganism = role.behavior(organism, shuffledOrganisms, opponent);
+          updatedOrganism = role.behavior(organism, shuffledOrganisms, opponent, obstacles);
           return updatedOrganism;
         });
       });
     }, 50);
 
     return () => clearInterval(interval);
-  }, [organisms]);
+  }, [organisms, obstacles]);
 
   const { aliveRed, aliveBlue } = countAlive(organisms);
 

@@ -1,5 +1,5 @@
 import PF from 'pathfinding';
-import { nonTraversablePoints, battlefieldDimensions } from './NonTraversablePoints';
+import {battlefieldDimensions, nonTraversablePoints } from './NonTraversablePoints';
 
 export const getDistance = (org1, org2) => {
   const dx = org1.position.x - org2.position.x;
@@ -45,8 +45,8 @@ export const healTeammate = (organism, organisms) => {
 
 
 export const moveTowardOpponent3 = (organism, opponent) => {
+  var nonTraversablePoints = JSON.parse(localStorage.getItem("NonTraversablePoints"));
   const speed = organism.speed || 3;
-
   const gridWidth = battlefieldDimensions.width;
   const gridHeight = battlefieldDimensions.height;
 
@@ -117,44 +117,57 @@ export const moveTowardOpponent2 = (organism, opponent) => {
   return organism;
 };
 
-export const moveTowardOpponent = (organism, opponent) => {
+export const moveTowardOpponent = (organism, opponent, obstacles) => {
   const speed = organism.speed || 3;
-  const stoppingDistance = 15;  // Distance to stop before reaching the opponent
-  const avoidanceRadius = 50;   // Radius to start avoiding obstacles
+  const stoppingDistance = 10;
+
+  // Create a grid based on battlefield dimensions
+  const grid = new PF.Grid(battlefieldDimensions.width, battlefieldDimensions.height);
+
+  // Mark obstacle areas as non-walkable with bounds checking
+  obstacles.forEach((obstacle) => {
+    const startX = Math.floor(obstacle.x / 5);
+    const endX = Math.floor((obstacle.x + obstacle.width) / 5);
+    const startY = Math.floor(obstacle.y / 5);
+    const endY = Math.floor((obstacle.y + obstacle.height) / 5);
+
+    for (let x = startX; x <= endX; x++) {
+      for (let y = startY; y <= endY; y++) {
+        // Ensure x and y are within grid bounds
+        if (x >= 0 && x < battlefieldDimensions.width && y >= 0 && y < battlefieldDimensions.height) {
+          console.log(`Obstacle ID: ${obstacle.id}, Avoid X: ${x}, Avoid Y: ${y}`);
+          grid.setWalkableAt(x, y, false); // Mark the point as non-walkable
+        }
+      }
+    }
+  });
 
   if (opponent) {
-    // Calculate vector toward opponent
-    let dx = opponent.position.x - organism.position.x;
-    let dy = opponent.position.y - organism.position.y;
-    let distanceToOpponent = Math.sqrt(dx * dx + dy * dy);
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
-    // Normalize the direction to the opponent
-    if (distanceToOpponent > 0) {
-      dx /= distanceToOpponent;
-      dy /= distanceToOpponent;
-    }
+    const startX = clamp(Math.floor(organism.position.x / 5), 0, battlefieldDimensions.width - 1);
+    const startY = clamp(Math.floor(organism.position.y / 5), 0, battlefieldDimensions.height - 1);
+    const endX = clamp(Math.floor(opponent.position.x / 5), 0, battlefieldDimensions.width - 1);
+    const endY = clamp(Math.floor(opponent.position.y / 5), 0, battlefieldDimensions.height - 1);
 
-    // Check for nearby obstacles and adjust direction
-    nonTraversablePoints.forEach(obstacle => {
-      const ox = obstacle.x - organism.position.x;
-      const oy = obstacle.y - organism.position.y;
-      const distanceToObstacle = Math.sqrt(ox * ox + oy * oy);
+    const finder = new PF.JumpPointFinder();
+    const path = finder.findPath(startX, startY, endX, endY, grid);
 
-      // If the organism is too close to the obstacle, adjust direction
-      if (distanceToObstacle < avoidanceRadius) {
-        const avoidanceStrength = (avoidanceRadius - distanceToObstacle) / avoidanceRadius;
-        dx -= (ox / distanceToObstacle) * avoidanceStrength;  // Move away from obstacle
-        dy -= (oy / distanceToObstacle) * avoidanceStrength;
+    if (path.length > 1) {
+      const [nextX, nextY] = path[1];
+      const dx = nextX * 5 - organism.position.x;
+      const dy = nextY * 5 - organism.position.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      const distanceToOpponent = Math.sqrt(
+        (opponent.position.x - organism.position.x) ** 2 + 
+        (opponent.position.y - organism.position.y) ** 2
+      );
+
+      if (distanceToOpponent > stoppingDistance && distance > 0) {
+        organism.position.x += (dx / distance) * speed;
+        organism.position.y += (dy / distance) * speed;
       }
-    });
-
-    // Recalculate distance to the opponent after adjustments
-    distanceToOpponent = Math.sqrt(dx * dx + dy * dy);
-
-    // Move the organism towards the opponent while avoiding obstacles
-    if (distanceToOpponent > stoppingDistance) {
-      organism.position.x += (dx / distanceToOpponent) * speed;
-      organism.position.y += (dy / distanceToOpponent) * speed;
     }
   }
 
