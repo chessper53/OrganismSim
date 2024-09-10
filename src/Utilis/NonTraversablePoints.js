@@ -23,6 +23,16 @@ export const battlefieldDimensions = {
         ? "/src/assets/Obstacles/ObstacleForrest.png"
         : "/src/assets/Obstacles/ObstacleMountain.png";
   
+
+        obstacles.push({
+          id: `Lake`,
+          x,
+          y,
+          width: 250,
+          height: 150,
+          imageSrc: "/src/assets/Obstacles/ObstacleLake.png"
+        });
+
       obstacles.push({
         id: `obstacle-${i}`,
         x,
@@ -32,13 +42,11 @@ export const battlefieldDimensions = {
         imageSrc: obstacleType,
       });
   
-      // Mark these points as non-traversable
-      const startX = Math.floor((x - 5) / 5);  // scale down to match grid
-      const endX = Math.floor((x + width + 5) / 5); // scale down to match grid
-      const startY = Math.floor((y - 5) / 5);  // scale down to match grid
-      const endY = Math.floor((y + height + 5) / 5); // scale down to match grid
+      const startX = Math.floor((x - 5) / 5); 
+      const endX = Math.floor((x + width + 5) / 5); 
+      const startY = Math.floor((y - 5) / 5);  
+      const endY = Math.floor((y + height + 5) / 5);
   
-      // Ensure coordinates are within the window size
       for (let ix = startX; ix < endX; ix++) {
         for (let iy = startY; iy < endY; iy++) {
           if (ix >= 0 && iy >= 0 && ix < window.innerWidth / 5 && iy < window.innerHeight / 5) {
@@ -47,6 +55,8 @@ export const battlefieldDimensions = {
         }
       }
     }
+
+
   
     console.log('Generated Obstacles:', obstacles);
     console.log('Generated Non-Traversable Points:', nonTraversablePoints);

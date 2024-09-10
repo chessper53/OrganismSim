@@ -33,39 +33,41 @@ const Dashboard = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentTime = Date.now(); 
+      const currentTime = Date.now(); // Capture the current time for spawning logic
   
       setOrganisms((prevOrganisms) => {
         const shuffledOrganisms = shuffleArray([...prevOrganisms]);
+        const newOrganisms = []; // Collect new units to add
   
-        return shuffledOrganisms.map((organism) => {
+        const updatedOrganisms = shuffledOrganisms.map((organism) => {
           if (!organism.isAlive) return organism;
   
           const role = roles[organism.role];
           let updatedOrganism = organism;
-          let opponent = null;
   
           if (role.behaviorType === 'spawner') {
-            updatedOrganism = role.behavior(organism, shuffledOrganisms, currentTime);
-          } 
-          else if (role.behaviorType === 'seeker') {
-            opponent = findClosestOpponent(organism, shuffledOrganisms.filter(o => o.type !== organism.type && o.isAlive));
-            updatedOrganism = role.behavior(organism, shuffledOrganisms, opponent, obstacles);
-          }
-          else if (role.behaviorType === 'protector') {
-            opponent = findClosestTeammate(organism, shuffledOrganisms.filter(o => o.type === organism.type && o.isAlive && o.health < 3));
-            updatedOrganism = role.behavior(organism, shuffledOrganisms, opponent, obstacles);
-          } 
-          else {
+            const { updatedOrganism: newUpdatedOrganism, newUnits } = role.behavior(organism, shuffledOrganisms, currentTime);
+            updatedOrganism = newUpdatedOrganism;
+            newOrganisms.push(...newUnits); 
+          } else {
+            let opponent = null;
+  
+            if (role.behaviorType === 'seeker') {
+              opponent = findClosestOpponent(organism, shuffledOrganisms.filter(o => o.type !== organism.type && o.isAlive));
+            } else if (role.behaviorType === 'protector') {
+              opponent = findClosestTeammate(organism, shuffledOrganisms.filter(o => o.type === organism.type && o.isAlive && o.health < 3));
+            }
+  
             updatedOrganism = role.behavior(organism, shuffledOrganisms, opponent, obstacles);
           }
   
           return updatedOrganism;
         });
-      });
-    }, 50); 
   
-
+        return [...updatedOrganisms, ...newOrganisms];
+      });
+    }, 50);
+  
     return () => clearInterval(interval);
   }, [organisms, obstacles]);
 

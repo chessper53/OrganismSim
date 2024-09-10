@@ -1,10 +1,12 @@
 import { getDistance, findClosestTeammate, moveTowardOpponent, healTeammate } from "./abilities";
+
 export const roles = {
   civilian: {
     speed: 1,
     health: 1,
     cost: 0,
     behaviorType: 'wanderer',
+    description: "Non-combatant civilian that roams the battlefield aimlessly.",
     behavior: (organism) => {
       const newPosX = organism.position.x + Math.random() * 5 - 2.5;
       const newPosY = organism.position.y + Math.random() * 5 - 2.5;
@@ -17,8 +19,9 @@ export const roles = {
   legionnaire: {
     speed: 1.75,
     health: 1,
-    cost: 100, 
+    cost: 100,
     behaviorType: 'seeker',
+    description: "Basic infantry unit that seeks out and attacks enemies in close combat.",
     behavior: (organism, organisms, opponent, obstacles) => {
       if (opponent && getDistance(organism, opponent) < 10) {
         if (Math.random() < 0.3) {
@@ -34,8 +37,9 @@ export const roles = {
   centurion: {
     speed: 4,
     health: 4,
-    cost: 3,
+    cost: 300,
     behaviorType: 'seeker',
+    description: "Elite warrior with enhanced health and speed, engages enemies in close range.",
     behavior: (organism, organisms, opponent, obstacles) => {
       if (opponent && getDistance(organism, opponent) < 10) {
         if (Math.random() < 0.3) {
@@ -51,8 +55,9 @@ export const roles = {
   Emperor: {
     speed: 1,
     health: 10,
-    cost: 10,
+    cost: 1000,
     behaviorType: 'seeker',
+    description: "Powerful and heavily armored leader unit that deals high damage at close range.",
     behavior: (organism, organisms, opponent, obstacles) => {
       if (opponent && getDistance(organism, opponent) < 15) {
         if (Math.random() < 0.5) {
@@ -64,12 +69,13 @@ export const roles = {
       }
       return organism;
     },
-  }, 
+  },
   elephant: {
     speed: 0.5,
     health: 10,
-    cost: 30,
+    cost: 3000,
     behaviorType: 'seeker',
+    description: "Heavy unit with enormous health that slowly crushes enemies in close combat.",
     behavior: (organism, organisms, opponent, obstacles) => {
       if (opponent && getDistance(organism, opponent) < 15) {
         if (Math.random() < 0.5) {
@@ -85,8 +91,9 @@ export const roles = {
   medic: {
     speed: 3,
     health: 3,
-    cost: 2,
+    cost: 200,
     behaviorType: 'protector',
+    description: "Heals nearby teammates, keeping them in the fight.",
     behavior: (organism, organisms, opponent, obstacles) => {
       const teammate = healTeammate(organism, organisms);
       if (teammate && teammate.health < 3) {
@@ -108,8 +115,9 @@ export const roles = {
   shieldBearer: {
     speed: 3,
     health: 60,
-    cost: 5,
+    cost: 500,
     behaviorType: 'protector',
+    description: "Tank unit that shields nearby teammates, protecting them from harm.",
     behavior: (organism, organisms, opponent, obstacles) => {
       const teammate = findClosestTeammate(organism, organisms);
       if (teammate) {
@@ -126,10 +134,11 @@ export const roles = {
     },
   },
   banner: {
-    speed: 10,
+    speed: 4,
     health: 5,
-    cost: 5,
+    cost: 500,
     behaviorType: 'protector',
+    description: "Unit that increases morale and heals teammates in close proximity.",
     behavior: (organism, organisms, opponent, obstacles) => {
       const teammate = healTeammate(organism, organisms);
       if (teammate) {
@@ -151,16 +160,16 @@ export const roles = {
   archer: {
     speed: 2,
     health: 1,
-    cost: 5,
+    cost: 500,
     behaviorType: 'seeker',
-    rangeDistance: 50, 
+    rangeDistance: 50,
+    description: "Ranged unit that attacks enemies from a distance.",
     behavior: (organism, organisms, opponent, obstacles) => {
       if (opponent) {
         const distanceToOpponent = getDistance(organism, opponent);
-
         if (distanceToOpponent <= roles.archer.rangeDistance) {
           if (Math.random() < 0.3) {
-            opponent.health -= 0.5; 
+            opponent.health -= 0.5;
             if (opponent.health <= 0) opponent.isAlive = false;
           }
         } else {
@@ -180,16 +189,16 @@ export const roles = {
   romanShip: {
     speed: 1,
     health: 60,
-    cost: 15,
+    cost: 1500,
     behaviorType: 'seeker',
-    rangeDistance: 150, 
+    rangeDistance: 150,
+    description: "Water-based unit with high health and long-range attacks.",
     behavior: (organism, organisms, opponent, obstacles) => {
       if (opponent) {
         const distanceToOpponent = getDistance(organism, opponent);
-
         if (distanceToOpponent <= roles.romanShip.rangeDistance) {
           if (Math.random() < 0.5) {
-            opponent.health -= 1; 
+            opponent.health -= 1;
             if (opponent.health <= 0) opponent.isAlive = false;
           }
         } else {
@@ -210,26 +219,26 @@ export const roles = {
     speed: 0,
     health: 10,
     cost: 0,
-    behaviorType: 'spawner', 
+    behaviorType: 'spawner',
+    description: "Static building that spawns legionnaires over time.",
     behavior: (organism, organisms) => {
-      if (organism) {
+      const newUnits = [];
+      if (Math.random() < 0.01) {
         const newLegionnaire = {
           id: `legionnaire-${Date.now()}`,
-          type: organism.type, // Same team as the barracks
-          role: 'legionnaire', // Legionnaire role
+          type: organism.type,
+          role: 'legionnaire',
           position: {
-            x: organism.position.x + Math.random() * 20 - 10, // Small random offset near the barracks
+            x: organism.position.x + Math.random() * 20 - 10,
             y: organism.position.y + Math.random() * 20 - 10,
           },
           isAlive: true,
           health: roles.legionnaire.health,
           speed: roles.legionnaire.speed,
         };
-
-        // Add the new legionnaire to the organisms array using setOrganisms
-        setOrganisms((prevOrganisms) => [...prevOrganisms, newLegionnaire]);
+        newUnits.push(newLegionnaire);
       }
+      return { updatedOrganism: organism, newUnits };
     },
   },
-
 };

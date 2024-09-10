@@ -22,7 +22,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
       romanShip: shiptCount,
       elephant: elephantCount,
       banner: 1,
-      barrack: 2,
+      barrack: 1,
     };
     onStartSimulation(unitCounts);
   };
