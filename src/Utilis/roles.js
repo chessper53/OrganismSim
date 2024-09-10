@@ -1,4 +1,5 @@
 import { getDistance, findClosestTeammate, moveTowardOpponent, healTeammate } from "./abilities";
+import { logKillEvent } from "./KillFeed";
 
 export const roles = {
   civilian: {
@@ -26,7 +27,10 @@ export const roles = {
       if (opponent && getDistance(organism, opponent) < 10) {
         if (Math.random() < 0.3) {
           opponent.health -= 0.5;
-          if (opponent.health <= 0) opponent.isAlive = false;
+          if (opponent.health <= 0) {
+            opponent.isAlive = false;
+            logKillEvent(organism, opponent); // Log the kill event
+          }
         }
       } else if (opponent) {
         organism = moveTowardOpponent(organism, opponent, obstacles);
@@ -44,7 +48,10 @@ export const roles = {
       if (opponent && getDistance(organism, opponent) < 10) {
         if (Math.random() < 0.3) {
           opponent.health -= 1;
-          if (opponent.health <= 0) opponent.isAlive = false;
+          if (opponent.health <= 0) {
+            opponent.isAlive = false;
+            logKillEvent(organism, opponent); // Log the kill event
+          }
         }
       } else if (opponent) {
         organism = moveTowardOpponent(organism, opponent, obstacles);
@@ -62,7 +69,10 @@ export const roles = {
       if (opponent && getDistance(organism, opponent) < 15) {
         if (Math.random() < 0.5) {
           opponent.health -= 3;
-          if (opponent.health <= 0) opponent.isAlive = false;
+          if (opponent.health <= 0) {
+            opponent.isAlive = false;
+            logKillEvent(organism, opponent); // Log the kill event
+          }
         }
       } else if (opponent) {
         organism = moveTowardOpponent(organism, opponent, obstacles);
@@ -80,7 +90,10 @@ export const roles = {
       if (opponent && getDistance(organism, opponent) < 15) {
         if (Math.random() < 0.5) {
           opponent.health -= 10;
-          if (opponent.health <= 0) opponent.isAlive = false;
+          if (opponent.health <= 0) {
+            opponent.isAlive = false;
+            logKillEvent(organism, opponent); // Log the kill event
+          }
         }
       } else if (opponent) {
         organism = moveTowardOpponent(organism, opponent, obstacles);
@@ -170,7 +183,10 @@ export const roles = {
         if (distanceToOpponent <= roles.archer.rangeDistance) {
           if (Math.random() < 0.3) {
             opponent.health -= 0.5;
-            if (opponent.health <= 0) opponent.isAlive = false;
+            if (opponent.health <= 0) {
+              opponent.isAlive = false;
+              logKillEvent(organism, opponent); // Log the kill event
+            }
           }
         } else {
           const adjustedOpponent = {
@@ -196,17 +212,20 @@ export const roles = {
     behavior: (organism, organisms, opponent, obstacles) => {
       if (opponent) {
         const distanceToOpponent = getDistance(organism, opponent);
-        if (distanceToOpponent <= roles.archer.rangeDistance) {
+        if (distanceToOpponent <= roles.ballista.rangeDistance) {
           if (Math.random() < 0.1) {
             opponent.health -= 5;
-            if (opponent.health <= 0) opponent.isAlive = false;
+            if (opponent.health <= 0) {
+              opponent.isAlive = false;
+              logKillEvent(organism, opponent); // Log the kill event
+            }
           }
         } else {
           const adjustedOpponent = {
             ...opponent,
             position: {
-              x: organism.position.x + (opponent.position.x - organism.position.x) * (roles.archer.rangeDistance / distanceToOpponent),
-              y: organism.position.y + (opponent.position.y - organism.position.y) * (roles.archer.rangeDistance / distanceToOpponent),
+              x: organism.position.x + (opponent.position.x - organism.position.x) * (roles.ballista.rangeDistance / distanceToOpponent),
+              y: organism.position.y + (opponent.position.y - organism.position.y) * (roles.ballista.rangeDistance / distanceToOpponent),
             },
           };
           organism = moveTowardOpponent(organism, adjustedOpponent, obstacles);
@@ -228,7 +247,10 @@ export const roles = {
         if (distanceToOpponent <= roles.romanShip.rangeDistance) {
           if (Math.random() < 0.5) {
             opponent.health -= 1;
-            if (opponent.health <= 0) opponent.isAlive = false;
+            if (opponent.health <= 0) {
+              opponent.isAlive = false;
+              logKillEvent(organism, opponent); // Log the kill event
+            }
           }
         } else {
           const adjustedOpponent = {
@@ -279,7 +301,7 @@ export const roles = {
     behavior: (organism, organisms) => {
       const newUnits = [];
       if (Math.random() < 0.01) {
-        const newLegionnaire = {
+        const newMedic = {
           id: `medic-${Date.now()}`,
           type: organism.type,
           role: 'medic',
@@ -291,7 +313,7 @@ export const roles = {
           health: roles.medic.health,
           speed: roles.medic.speed,
         };
-        newUnits.push(newLegionnaire);
+        newUnits.push(newMedic);
       }
       return { updatedOrganism: organism, newUnits };
     },

@@ -1,4 +1,5 @@
 import { roles } from './roles';
+import { generateUserName } from './KillFeed';
 
 export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, height = window.innerHeight - 100, lakeArray = [], nonTraversablePoints = []) => {
   const organisms = [];
@@ -34,6 +35,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
   for (let i = 0; i < 30; i++) {
     organisms.push({
       id: `red-civilian-${i}`,
+      username: generateUserName(),
       type: 'red',
       speed: roles.civilian.speed,
       health: roles.civilian.health,
@@ -44,6 +46,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
 
     organisms.push({
       id: `blue-civilian-${i}`,
+      username: generateUserName(),
       type: 'blue',
       speed: roles.civilian.speed,
       health: roles.civilian.health,
@@ -67,6 +70,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
       const isRomanShip = unitType === 'romanShip'; // Check if the unit is a ship
       organisms.push({
         id: `red-${unitType}-${i}`,
+        username: generateUserName(),
         type: 'red',
         speed: roleData.speed,
         health: roleData.health,
@@ -77,6 +81,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
 
       organisms.push({
         id: `blue-${unitType}-${i}`,
+        username: generateUserName(),
         type: 'blue',
         speed: roleData.speed,
         health: roleData.health,

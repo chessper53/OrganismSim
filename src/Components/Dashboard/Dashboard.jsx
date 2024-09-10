@@ -15,6 +15,7 @@ const Dashboard = () => {
   const [simulationStarted, setSimulationStarted] = useState(false);
   const [editMode, setEditMode] = useState(true); 
 
+
   useEffect(() => {
     const { obstacles: generatedObstacles, nonTraversablePoints: generatedNonTraversablePoints, lake } = generateObstacles(20);
     setObstacles(generatedObstacles);
@@ -87,7 +88,6 @@ const Dashboard = () => {
           <button onClick={handleEditSimulation}>Edit Simulation</button>
         </div>
       )}
-
       {simulationStarted && !editMode && (
         <div className="simulation-box">
           {/* Render organisms */}
