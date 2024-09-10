@@ -3,10 +3,9 @@ import './Dashboard.css';
 import { generateOrganisms, shuffleArray, countAlive } from '../../Utilis/OrganismHandler';
 import Organism from '../Organism/Organism';
 import { roles } from '../../Utilis/roles';
-import { findClosestOpponent, findClosestTeammate } from '../../Utilis/abilities';
+import { findClosestOpponent, findClosestTeammate, initializeGrid} from '../../Utilis/abilities';
 import Banner from '../Banner/Banner';
 import { generateObstacles } from '../../Utilis/NonTraversablePoints';
-
 const Dashboard = () => {
   const [organisms, setOrganisms] = useState(generateOrganisms());
   const [obstacles, setObstacles] = useState([]);
@@ -17,7 +16,7 @@ const Dashboard = () => {
   useEffect(() => {
     const { obstacles: generatedObstacles, nonTraversablePoints: generatedNonTraversablePoints } = generateObstacles(20);
     setObstacles(generatedObstacles);
-    //initializeGridWithObstacles(obstacles)
+    initializeGrid(generatedObstacles);
     setNonTraversablePoints(generatedNonTraversablePoints);  
   }, []);
 

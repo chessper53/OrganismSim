@@ -117,14 +117,12 @@ export const moveTowardOpponent2 = (organism, opponent) => {
   return organism;
 };
 
-export const moveTowardOpponent = (organism, opponent, obstacles) => {
-  const speed = organism.speed || 3;
-  const stoppingDistance = 10;
 
-  // Create a grid based on battlefield dimensions
-  const grid = new PF.Grid(battlefieldDimensions.width, battlefieldDimensions.height);
+let grid;
 
-  // Mark obstacle areas as non-walkable with bounds checking
+export const initializeGrid = (obstacles) => {
+  grid = new PF.Grid(battlefieldDimensions.width, battlefieldDimensions.height);
+
   obstacles.forEach((obstacle) => {
     const startX = Math.floor(obstacle.x / 5);
     const endX = Math.floor((obstacle.x + obstacle.width) / 5);
@@ -133,25 +131,42 @@ export const moveTowardOpponent = (organism, opponent, obstacles) => {
 
     for (let x = startX; x <= endX; x++) {
       for (let y = startY; y <= endY; y++) {
-        // Ensure x and y are within grid bounds
         if (x >= 0 && x < battlefieldDimensions.width && y >= 0 && y < battlefieldDimensions.height) {
-          console.log(`Obstacle ID: ${obstacle.id}, Avoid X: ${x}, Avoid Y: ${y}`);
-          grid.setWalkableAt(x, y, false); // Mark the point as non-walkable
+          grid.setWalkableAt(x, y, false); 
         }
       }
     }
   });
 
+  console.log('Grid initialized with obstacles');
+};
+
+export const getGridClone = () => {
+  if (!grid) {
+    throw new Error('Grid not initialized. Call initializeGrid first.');
+  }
+  return grid.clone(); // Returning a clone each time to ensure no mutation of the original grid
+};
+
+export const moveTowardOpponent = (organism, opponent) => {
+  const speed = organism.speed || 3;
+  const stoppingDistance = 10;
+
+  if (!grid) {
+    console.error('Grid not initialized. Call initializeGrid first.');
+    return organism;
+  }
+
   if (opponent) {
     const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
-    const startX = clamp(Math.floor(organism.position.x / 5), 0, battlefieldDimensions.width - 1);
-    const startY = clamp(Math.floor(organism.position.y / 5), 0, battlefieldDimensions.height - 1);
-    const endX = clamp(Math.floor(opponent.position.x / 5), 0, battlefieldDimensions.width - 1);
-    const endY = clamp(Math.floor(opponent.position.y / 5), 0, battlefieldDimensions.height - 1);
+    const startX = clamp(Math.floor(organism.position.x / 5), 0, grid.width - 1);
+    const startY = clamp(Math.floor(organism.position.y / 5), 0, grid.height - 1);
+    const endX = clamp(Math.floor(opponent.position.x / 5), 0, grid.width - 1);
+    const endY = clamp(Math.floor(opponent.position.y / 5), 0, grid.height - 1);
 
     const finder = new PF.JumpPointFinder();
-    const path = finder.findPath(startX, startY, endX, endY, grid);
+    const path = finder.findPath(startX, startY, endX, endY, getGridClone()); // Clone the grid on each call
 
     if (path.length > 1) {
       const [nextX, nextY] = path[1];
