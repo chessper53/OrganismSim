@@ -28,9 +28,13 @@ import elephantDead from '../assets/DeadState/elephantDead.png';
 import bannerBlue from "../assets/BlueTeam/bannerBlue.png";
 import bannerRed from '../assets/RedTeam/bannerRed.png';
 import bannerDead from '../assets/DeadState/bannerDead.png';
+import ballistaBlue from "../assets/BlueTeam/ballistaBlue.png";
+import ballistaRed from '../assets/RedTeam/ballistaRed.png';
+import ballistaDead from '../assets/DeadState/ballistaDead.png';
 import barracksBlue from "../assets/Structures/barrackBlue.png";
 import barracksRed from '../assets/Structures/barrackRed.png';
 import barracksDead from '../assets/Structures/barrackDead.png';
+
 export const roleIcons = {
   legionnaire: {
     alive: {
@@ -101,6 +105,13 @@ export const roleIcons = {
       red: bannerRed,
     },
     dead: bannerDead,
+  },
+  ballista: {
+    alive: {
+      blue: ballistaBlue,
+      red: ballistaRed,
+    },
+    dead: ballistaDead,
   },
   barrack: {
     alive: {

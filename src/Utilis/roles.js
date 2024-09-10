@@ -186,6 +186,35 @@ export const roles = {
       return organism;
     },
   },
+  ballista: {
+    speed: 0.5,
+    health: 5,
+    cost: 50,
+    behaviorType: 'seeker',
+    rangeDistance: 100,
+    description: "Ranged heavy unit that attacks enemies from a distance.",
+    behavior: (organism, organisms, opponent, obstacles) => {
+      if (opponent) {
+        const distanceToOpponent = getDistance(organism, opponent);
+        if (distanceToOpponent <= roles.archer.rangeDistance) {
+          if (Math.random() < 0.1) {
+            opponent.health -= 5;
+            if (opponent.health <= 0) opponent.isAlive = false;
+          }
+        } else {
+          const adjustedOpponent = {
+            ...opponent,
+            position: {
+              x: organism.position.x + (opponent.position.x - organism.position.x) * (roles.archer.rangeDistance / distanceToOpponent),
+              y: organism.position.y + (opponent.position.y - organism.position.y) * (roles.archer.rangeDistance / distanceToOpponent),
+            },
+          };
+          organism = moveTowardOpponent(organism, adjustedOpponent, obstacles);
+        }
+      }
+      return organism;
+    },
+  },
   romanShip: {
     speed: 1,
     health: 60,

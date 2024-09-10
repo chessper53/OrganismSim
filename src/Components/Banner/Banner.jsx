@@ -10,6 +10,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
   const [archerCount, setArcherCount] = useState(0);
   const [shiptCount, setShipCount] = useState(0);
   const [elephantCount, setElephantCount] = useState(0);
+  const [ballistaCount, setBallistaCount] = useState(0);
 
   const handleStart = () => {
     const unitCounts = {
@@ -21,6 +22,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
       archer: archerCount,
       romanShip: shiptCount,
       elephant: elephantCount,
+      ballista: ballistaCount,
       banner: 1,
       barrack: 1,
     };
@@ -68,6 +70,14 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
           <div className="controls">
             <button onClick={() => setArcherCount(Math.max(archerCount + 5, 0))}>+</button>
             <button onClick={() => setArcherCount(Math.max(archerCount - 5, 0))}>-</button>
+          </div>
+        </div>
+        <div className='UnitSelector'>
+          <img src="src/assets/DeadState/BallistaDead.png" alt="Ballista" />
+          <label>{ballistaCount}</label>
+          <div className="controls">
+            <button onClick={() => setBallistaCount(Math.max(ballistaCount + 5, 0))}>+</button>
+            <button onClick={() => setBallistaCount(Math.max(ballistaCount - 5, 0))}>-</button>
           </div>
         </div>
         <div className='UnitSelector'>
