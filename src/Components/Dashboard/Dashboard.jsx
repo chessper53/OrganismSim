@@ -3,25 +3,29 @@ import './Dashboard.css';
 import { generateOrganisms, shuffleArray, countAlive } from '../../Utilis/OrganismHandler';
 import Organism from '../Organism/Organism';
 import { roles } from '../../Utilis/roles';
-import { findClosestOpponent, findClosestTeammate, initializeGrid} from '../../Utilis/abilities';
+import { findClosestOpponent, findClosestTeammate, initializeGrid } from '../../Utilis/abilities';
 import Banner from '../Banner/Banner';
 import { generateObstacles } from '../../Utilis/NonTraversablePoints';
+
 const Dashboard = () => {
   const [organisms, setOrganisms] = useState(generateOrganisms());
   const [obstacles, setObstacles] = useState([]);
   const [nonTraversablePoints, setNonTraversablePoints] = useState([]);  
+  const [lakeArray, setLakeArray] = useState([]); // For the lake
   const [simulationStarted, setSimulationStarted] = useState(false);
   const [editMode, setEditMode] = useState(true); 
 
   useEffect(() => {
-    const { obstacles: generatedObstacles, nonTraversablePoints: generatedNonTraversablePoints } = generateObstacles(20);
+    const { obstacles: generatedObstacles, nonTraversablePoints: generatedNonTraversablePoints, lake } = generateObstacles(20);
     setObstacles(generatedObstacles);
+    setNonTraversablePoints(generatedNonTraversablePoints);
+    setLakeArray([lake]); // Store lake in an array for easy reference
     initializeGrid(generatedObstacles);
-    setNonTraversablePoints(generatedNonTraversablePoints);  
   }, []);
 
   const handleStartSimulation = (unitCounts) => {
-    setOrganisms(generateOrganisms(unitCounts));  
+    // Pass the lakeArray and nonTraversablePoints to the generateOrganisms function
+    setOrganisms(generateOrganisms(unitCounts, window.innerWidth, window.innerHeight, lakeArray, nonTraversablePoints));  
     setSimulationStarted(true);
     setEditMode(false);
   };
