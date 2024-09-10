@@ -1,1 +1,0 @@
-// Helper function to spend all the coins at random

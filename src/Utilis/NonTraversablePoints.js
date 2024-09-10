@@ -40,7 +40,6 @@ export const battlefieldDimensions = {
       imageSrc: "/src/assets/Obstacles/ObstacleLake.png",
     });
   
-    // Mark the lake area as non-traversable
     const lakeStartX = Math.floor((centerX - 5) / 5);
     const lakeEndX = Math.floor((centerX + lakeWidth + 5) / 5);
     const lakeStartY = Math.floor((centerY - 5) / 5);
@@ -54,7 +53,6 @@ export const battlefieldDimensions = {
       }
     }
   
-    // Now place other obstacles, ensuring they don't overlap with the lake or each other
     for (let i = 0; i < numObstacles; i++) {
       let x, y, width, height, obstacleType, overlap;
   
@@ -63,11 +61,16 @@ export const battlefieldDimensions = {
         y = Math.random() * (window.innerHeight - 50);
         width = 50;
         height = 50;
+
+        const obstacleImages = [
+          "/src/assets/Obstacles/ObstacleForrest.png",
+          "/src/assets/Obstacles/ObstacleMountain.png",
+          "/src/assets/Obstacles/ObstacleVines.png",
+        ];
+        
+        const randomIndex = Math.floor(Math.random() * obstacleImages.length);
+        obstacleType = obstacleImages[randomIndex];
   
-        const random_boolean = Math.random() < 0.5;
-        obstacleType = random_boolean
-          ? "/src/assets/Obstacles/ObstacleForrest.png"
-          : "/src/assets/Obstacles/ObstacleMountain.png";
   
         overlap = obstacles.some((obstacle) =>
           checkOverlap(x, y, width, height, obstacle.x, obstacle.y, obstacle.width, obstacle.height)
