@@ -11,28 +11,69 @@ export const battlefieldDimensions = {
   export const generateObstacles = (numObstacles) => {
     const obstacles = [];
     const nonTraversablePoints = [];
+    const lakeArray = [];
   
+    const checkOverlap = (x1, y1, width1, height1, x2, y2, width2, height2) => {
+      return !(x1 + width1 < x2 || x1 > x2 + width2 || y1 + height1 < y2 || y1 > y2 + height2);
+    };
+  
+    const lakeWidth = 250;
+    const lakeHeight = 150;
+    const centerX = window.innerWidth / 2 - lakeWidth / 2;
+    const centerY = window.innerHeight / 2 - lakeHeight / 2;
+  
+    obstacles.push({
+      id: `Lake`,
+      x: centerX,
+      y: centerY,
+      width: lakeWidth,
+      height: lakeHeight,
+      imageSrc: "/src/assets/Obstacles/ObstacleLake.png",
+    });
+  
+    lakeArray.push({
+      id: `Lake`,
+      x: centerX,
+      y: centerY,
+      width: lakeWidth,
+      height: lakeHeight,
+      imageSrc: "/src/assets/Obstacles/ObstacleLake.png",
+    });
+  
+    // Mark the lake area as non-traversable
+    const lakeStartX = Math.floor((centerX - 5) / 5);
+    const lakeEndX = Math.floor((centerX + lakeWidth + 5) / 5);
+    const lakeStartY = Math.floor((centerY - 5) / 5);
+    const lakeEndY = Math.floor((centerY + lakeHeight + 5) / 5);
+  
+    for (let ix = lakeStartX; ix < lakeEndX; ix++) {
+      for (let iy = lakeStartY; iy < lakeEndY; iy++) {
+        if (ix >= 0 && iy >= 0 && ix < window.innerWidth / 5 && iy < window.innerHeight / 5) {
+          nonTraversablePoints.push({ x: ix, y: iy });
+        }
+      }
+    }
+  
+    // Now place other obstacles, ensuring they don't overlap with the lake or each other
     for (let i = 0; i < numObstacles; i++) {
-      const x = Math.random() * window.innerWidth;
-      const y = Math.random() * window.innerHeight;
-      const width = 50;
-      const height = 50;
+      let x, y, width, height, obstacleType, overlap;
   
-      const random_boolean = Math.random() < 0.5;
-      let obstacleType = random_boolean
-        ? "/src/assets/Obstacles/ObstacleForrest.png"
-        : "/src/assets/Obstacles/ObstacleMountain.png";
+      do {
+        x = Math.random() * (window.innerWidth - 50); 
+        y = Math.random() * (window.innerHeight - 50);
+        width = 50;
+        height = 50;
   
-
-        obstacles.push({
-          id: `Lake`,
-          x,
-          y,
-          width: 250,
-          height: 150,
-          imageSrc: "/src/assets/Obstacles/ObstacleLake.png"
-        });
-
+        const random_boolean = Math.random() < 0.5;
+        obstacleType = random_boolean
+          ? "/src/assets/Obstacles/ObstacleForrest.png"
+          : "/src/assets/Obstacles/ObstacleMountain.png";
+  
+        overlap = obstacles.some((obstacle) =>
+          checkOverlap(x, y, width, height, obstacle.x, obstacle.y, obstacle.width, obstacle.height)
+        );
+      } while (overlap);
+  
       obstacles.push({
         id: `obstacle-${i}`,
         x,
@@ -42,9 +83,9 @@ export const battlefieldDimensions = {
         imageSrc: obstacleType,
       });
   
-      const startX = Math.floor((x - 5) / 5); 
-      const endX = Math.floor((x + width + 5) / 5); 
-      const startY = Math.floor((y - 5) / 5);  
+      const startX = Math.floor((x - 5) / 5);
+      const endX = Math.floor((x + width + 5) / 5);
+      const startY = Math.floor((y - 5) / 5);
       const endY = Math.floor((y + height + 5) / 5);
   
       for (let ix = startX; ix < endX; ix++) {
@@ -55,12 +96,11 @@ export const battlefieldDimensions = {
         }
       }
     }
-
-
   
-    console.log('Generated Obstacles:', obstacles);
-    console.log('Generated Non-Traversable Points:', nonTraversablePoints);
+    console.log("Generated Obstacles:", obstacles);
+    console.log("Generated Non-Traversable Points:", nonTraversablePoints);
+    console.log("Lake:", lakeArray);
   
-    return { obstacles, nonTraversablePoints };
+    return { obstacles, nonTraversablePoints, lakeArray };
   };
   

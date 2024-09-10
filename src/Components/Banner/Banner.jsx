@@ -74,8 +74,8 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
           <img src="src/assets/DeadState/romanShipDead.png" alt="Ship" />
           <label>{shiptCount}</label>
           <div className="controls">
-            <button onClick={() => setShipCount(Math.max(shiptCount + 5, 0))}>+</button>
-            <button onClick={() => setShipCount(Math.max(shiptCount - 5, 0))}>-</button>
+            <button onClick={() => setShipCount(Math.max(shiptCount + 1, 0))}>+</button>
+            <button onClick={() => setShipCount(Math.max(shiptCount - 1, 0))}>-</button>
           </div>
         </div>
         <div className='UnitSelector'>
