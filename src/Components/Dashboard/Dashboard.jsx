@@ -20,7 +20,7 @@ const Dashboard = () => {
     const { obstacles: generatedObstacles, nonTraversablePoints: generatedNonTraversablePoints, lake } = generateObstacles(20);
     setObstacles(generatedObstacles);
     setNonTraversablePoints(generatedNonTraversablePoints);
-    setLakeArray([lake]); // Store lake in an array for easy reference
+    setLakeArray([lake]);
     initializeGrid(generatedObstacles);
   }, []);
 

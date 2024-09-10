@@ -7,7 +7,7 @@ export const logKillEvent = (attacker, defender) => {
   export const generateUserName = () => {
     const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
     const randomName = name[Math.floor(Math.random() * name.length)];
-    return randomPrefix + " "+ randomName;
+    return randomPrefix + " " + randomName;
 };
 
 const prefixes = [ 
