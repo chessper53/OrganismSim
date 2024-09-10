@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './Banner.css'; 
 
 const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
@@ -9,8 +9,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
   const [shieldBearerCount, setShieldBearerCount] = useState(0);
   const [archerCount, setArcherCount] = useState(0);
   const [shiptCount, setShipCount] = useState(0);
-
-  const totalCost = legionnaireCount * 1 + medicCount * 2 + centurionCount * 3 +archerCount * 3 + kingCount * 10 + shieldBearerCount * 5 + shiptCount * 15;
+  const [elephantCount, setElephantCount] = useState(0);
 
   const handleStart = () => {
     const unitCounts = {
@@ -21,6 +20,9 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
       shieldBearer: shieldBearerCount,
       archer: archerCount,
       romanShip: shiptCount,
+      elephant: elephantCount,
+      banner: 1,
+      barrack: 2,
     };
     onStartSimulation(unitCounts);
   };
@@ -77,6 +79,14 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
           </div>
         </div>
         <div className='UnitSelector'>
+          <img src="src/assets/DeadState/elephantDead.png" alt="elephant" />
+          <label>{elephantCount}</label>
+          <div className="controls">
+            <button onClick={() => setElephantCount(Math.max(elephantCount + 5, 0))}>+</button>
+            <button onClick={() => setElephantCount(Math.max(elephantCount - 5, 0))}>-</button>
+          </div>
+        </div>
+        <div className='UnitSelector'>
           <img src="src/assets/DeadState/shieldBearerDead.png" alt="Shield Bearer" />
           <label>{shieldBearerCount}</label>
           <div className="controls">
@@ -89,10 +99,6 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
         <button className="start-button" onClick={handleStart}>
           Start Simulation
         </button>
-      </div>
-
-      <div className="CostDiv">
-        <p>Total Cost: {totalCost}</p>
       </div>
 
       <div className="simulation-box">

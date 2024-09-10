@@ -33,27 +33,38 @@ const Dashboard = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      const currentTime = Date.now(); 
+  
       setOrganisms((prevOrganisms) => {
         const shuffledOrganisms = shuffleArray([...prevOrganisms]);
-
+  
         return shuffledOrganisms.map((organism) => {
           if (!organism.isAlive) return organism;
-
+  
           const role = roles[organism.role];
           let updatedOrganism = organism;
           let opponent = null;
-
-          if (role.behaviorType === 'seeker') {
+  
+          if (role.behaviorType === 'spawner') {
+            updatedOrganism = role.behavior(organism, shuffledOrganisms, currentTime);
+          } 
+          else if (role.behaviorType === 'seeker') {
             opponent = findClosestOpponent(organism, shuffledOrganisms.filter(o => o.type !== organism.type && o.isAlive));
-          } else if (role.behaviorType === 'protector') {
-            opponent = findClosestTeammate(organism, shuffledOrganisms.filter(o => o.type === organism.type && o.isAlive && o.health < 3));
+            updatedOrganism = role.behavior(organism, shuffledOrganisms, opponent, obstacles);
           }
-
-          updatedOrganism = role.behavior(organism, shuffledOrganisms, opponent, obstacles);
+          else if (role.behaviorType === 'protector') {
+            opponent = findClosestTeammate(organism, shuffledOrganisms.filter(o => o.type === organism.type && o.isAlive && o.health < 3));
+            updatedOrganism = role.behavior(organism, shuffledOrganisms, opponent, obstacles);
+          } 
+          else {
+            updatedOrganism = role.behavior(organism, shuffledOrganisms, opponent, obstacles);
+          }
+  
           return updatedOrganism;
         });
       });
-    }, 50);
+    }, 50); 
+  
 
     return () => clearInterval(interval);
   }, [organisms, obstacles]);

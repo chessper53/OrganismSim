@@ -1,5 +1,4 @@
 import { getDistance, findClosestTeammate, moveTowardOpponent, healTeammate } from "./abilities";
-
 export const roles = {
   civilian: {
     speed: 1,
@@ -57,6 +56,23 @@ export const roles = {
     behavior: (organism, organisms, opponent, obstacles) => {
       if (opponent && getDistance(organism, opponent) < 15) {
         if (Math.random() < 0.5) {
+          opponent.health -= 3;
+          if (opponent.health <= 0) opponent.isAlive = false;
+        }
+      } else if (opponent) {
+        organism = moveTowardOpponent(organism, opponent, obstacles);
+      }
+      return organism;
+    },
+  }, 
+  elephant: {
+    speed: 0.5,
+    health: 10,
+    cost: 30,
+    behaviorType: 'seeker',
+    behavior: (organism, organisms, opponent, obstacles) => {
+      if (opponent && getDistance(organism, opponent) < 15) {
+        if (Math.random() < 0.5) {
           opponent.health -= 10;
           if (opponent.health <= 0) opponent.isAlive = false;
         }
@@ -98,6 +114,29 @@ export const roles = {
       const teammate = findClosestTeammate(organism, organisms);
       if (teammate) {
         organism = moveTowardOpponent(organism, teammate, obstacles);
+      } else {
+        const newPosX = organism.position.x + Math.random() * 5 - 2.5;
+        const newPosY = organism.position.y + Math.random() * 5 - 2.5;
+        return {
+          ...organism,
+          position: { x: newPosX, y: newPosY },
+        };
+      }
+      return organism;
+    },
+  },
+  banner: {
+    speed: 10,
+    health: 5,
+    cost: 5,
+    behaviorType: 'protector',
+    behavior: (organism, organisms, opponent, obstacles) => {
+      const teammate = healTeammate(organism, organisms);
+      if (teammate) {
+        organism = moveTowardOpponent(organism, teammate, obstacles);
+        if (Math.random() < 0.5 && getDistance(organism, teammate) < 10) {
+          teammate.health += 5;
+        }
       } else {
         const newPosX = organism.position.x + Math.random() * 5 - 2.5;
         const newPosY = organism.position.y + Math.random() * 5 - 2.5;
@@ -167,4 +206,30 @@ export const roles = {
       return organism;
     },
   },
+  barrack: {
+    speed: 0,
+    health: 10,
+    cost: 0,
+    behaviorType: 'spawner', 
+    behavior: (organism, organisms) => {
+      if (organism) {
+        const newLegionnaire = {
+          id: `legionnaire-${Date.now()}`,
+          type: organism.type, // Same team as the barracks
+          role: 'legionnaire', // Legionnaire role
+          position: {
+            x: organism.position.x + Math.random() * 20 - 10, // Small random offset near the barracks
+            y: organism.position.y + Math.random() * 20 - 10,
+          },
+          isAlive: true,
+          health: roles.legionnaire.health,
+          speed: roles.legionnaire.speed,
+        };
+
+        // Add the new legionnaire to the organisms array using setOrganisms
+        setOrganisms((prevOrganisms) => [...prevOrganisms, newLegionnaire]);
+      }
+    },
+  },
+
 };
