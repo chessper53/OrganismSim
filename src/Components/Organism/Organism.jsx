@@ -22,7 +22,8 @@ const Organism = ({ organism }) => {
         width: '20px',
         height: '20px',
       }}
-      title={`Role: ${organism.role}`}
+      title={`Role: ${organism.role}\nTeam: ${organism.type}
+      ` }
     />
   );
 };
