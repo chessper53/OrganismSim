@@ -22,7 +22,7 @@ const Organism = ({ organism }) => {
         width: '20px',
         height: '20px',
       }}
-      title={`Role: ${organism.role}\nTeam: ${organism.type}
+      title={`Name: ${organism.username}\nTeam: ${organism.type}\nRole: ${organism.role}\nDescription: ${organism.desc}
       ` }
     />
   );

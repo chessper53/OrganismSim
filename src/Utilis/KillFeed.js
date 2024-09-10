@@ -1,6 +1,7 @@
 export const logKillEvent = (attacker, defender) => {
     const killMessage = `${attacker.username} (${attacker.role}) killed ${defender.username} (${defender.role})`;
     console.log(killMessage);
+    localStorage.setItem("KillFeed", killMessage);
     return killMessage;
 };
 
@@ -19,121 +20,120 @@ export const generateUserName = () => {
   }
 };  
 
-
 const prefixes = [ 
   // A
-  "Audacious", "Aggressive", "Arrogant", "Anguished", "Astonishing", "Almighty", "Abominable", "Adamant", "Antagonistic", "Agile",
+  "Atrocious", "Aggressive", "Annihilating", "Abyssal", "Apocalyptic", "Assassin-like", "Agonizing", "Antagonistic", "Armageddon-bound", "All-devouring",
   
   // B
-  "Brutal", "Baleful", "Bold", "Brazen", "Bitter", "Blazing", "Belligerent", "Berserk", "Brawny", "Beastly",
+  "Brutal", "Bloodthirsty", "Berserk", "Bludgeoning", "Barbaric", "Bone-crushing", "Beastly", "Battering", "Bulletproof", "Blackhearted",
   
   // C
-  "Cold-blooded", "Cunning", "Cruel", "Calculated", "Chaotic", "Colossal", "Cutthroat", "Combative", "Crushing", "Clawed",
+  "Catastrophic", "Carnivorous", "Cutthroat", "Chaotic", "Cold-blooded", "Crushing", "Cannibalistic", "Colossal", "Crazed", "Carnage-seeking",
   
   // D
-  "Daring", "Deadly", "Devastating", "Dangerous", "Destructive", "Dominant", "Dauntless", "Defiant", "Doomed", "Demonic",
+  "Deadly", "Devastating", "Demonic", "Destructive", "Deathly", "Doom-bringing", "Depraved", "Decimating", "Daggered", "Dreadful",
   
   // E
-  "Evil", "Enraged", "Elusive", "Empowered", "Explosive", "Extreme", "Eviscerating", "Epic", "Erratic", "Eternal",
+  "Eviscerating", "Explosive", "Endless", "Enslaving", "Enraged", "Executioner-like", "Excruciating", "Eternal", "Eldritch", "Extreme",
   
   // F
-  "Fierce", "Ferocious", "Fearless", "Formidable", "Furious", "Fiery", "Fatal", "Frenzied", "Frantic", "Fabled",
+  "Frenzied", "Ferocious", "Fear-inducing", "Fatal", "Flame-breathing", "Fracturing", "Fierce", "Formidable", "Furious", "Flesh-ripping",
   
   // G
-  "Grim", "Ghoulish", "Gallant", "Gutsy", "Grisly", "Gigantic", "Gory", "Gravely", "Grasping", "Greedy",
+  "Gory", "Gruesome", "Grim", "Gutting", "Giant-slaying", "Ghastly", "Graveborn", "Genocidal", "Goliath-crushing", "Gory-eyed",
   
   // H
-  "Heroic", "Harsh", "Horrific", "Hateful", "Hellish", "Hostile", "Hulking", "Havoc", "Hungry", "Hardened",
+  "Hellish", "Horrifying", "Heartless", "Hateful", "Harbinger-like", "Havoc-wreaking", "Head-crushing", "Heavy-handed", "Headhunting", "Hyper-violent",
   
   // I
-  "Imposing", "Inhumane", "Invincible", "Icy", "Intimidating", "Incensed", "Insolent", "Imperious", "Insidious", "Infectious",
+  "Inhumane", "Insane", "Impaler", "Invincible", "Immortal", "Ire-filled", "Indomitable", "Infernal", "Irredeemable", "Icy-hearted",
   
   // J
-  "Jagged", "Jarring", "Joyless", "Juvenile", "Jittery", "Judgmental", "Jovial", "Jubilant", "Jeering", "Jubilant",
+  "Juggernaut", "Jailbreaking", "Jaw-breaking", "Jungle-born", "Joyless", "Judgment-day", "Jarring", "Jackal-like", "Jagged", "Jury-less",
   
   // L
-  "Lethal", "Lurid", "Lionhearted", "Looming", "Livid", "Lumbering", "Loud", "Lacerating", "Loyal", "Lethargic",
+  "Lethal", "Limb-ripping", "Lucifer-like", "Lacerating", "Lawless", "Loveless", "Legendary", "Livid", "Lustful for blood", "Lionhearted",
   
   // M
-  "Malicious", "Monstrous", "Merciless", "Menacing", "Mighty", "Malevolent", "Massive", "Mad", "Murderous", "Mischievous",
+  "Merciless", "Monstrous", "Malevolent", "Murderous", "Malignant", "Machete-wielding", "Mass-murdering", "Mind-bending", "Maleficent", "Mountain-crushing",
   
   // N
-  "Nefarious", "Nimble", "Nasty", "Noble", "Notorious", "Narrow", "Nagging", "Noble", "Nifty", "Nomadic",
+  "Nefarious", "Nightmarish", "Nail-biting", "Neck-snapping", "Nerve-shattering", "Nuking", "Nihilistic", "Necrotic", "Night-fallen", "Nemesis-born",
   
   // O
-  "Obliterating", "Ominous", "Outrageous", "Overbearing", "Overwhelming", "Oppressive", "Obscure", "Outlaw", "Outspoken", "Obstinate",
+  "Obliterating", "Outlaw", "Overkill", "Overthrowing", "Oath-breaking", "Outrageous", "Onslaught-bringing", "Overpowering", "Oppressor-like", "Omen-giving",
   
   // P
-  "Powerful", "Persistent", "Pugnacious", "Perilous", "Paranoid", "Passionate", "Poisonous", "Phantom", "Pitiless", "Primal",
+  "Pillaging", "Punishing", "Predatory", "Piercing", "Poisonous", "Plague-ridden", "Pyromaniacal", "Pummeling", "Pulverizing", "Power-hungry",
   
   // R
-  "Ruthless", "Relentless", "Rampaging", "Reckless", "Raging", "Radical", "Revolting", "Ravenous", "Rancorous", "Robust",
+  "Ravaging", "Ruthless", "Ripping", "Reaper-like", "Rampaging", "Rage-fueled", "Razor-sharp", "Relentless", "Raging", "Ruination-bringing",
   
   // S
-  "Savage", "Sinister", "Striking", "Spectral", "Spiteful", "Swift", "Scornful", "Silent", "Steadfast", "Smoldering",
+  "Savage", "Sinister", "Soul-crushing", "Skull-splitting", "Slaughtering", "Searing", "Skeletal", "Shredding", "Shadow-born", "Scourge-like",
   
   // T
-  "Terrifying", "Tactical", "Tyrannical", "Tough", "Thorny", "Tenacious", "Traitorous", "Timeless", "Turbulent", "Toxic",
+  "Terrifying", "Throat-ripping", "Tyrannical", "Tormenting", "Thunderous", "Torturous", "Titan-crushing", "Toxic", "Teeth-baring", "Tempestuous",
   
   // V
-  "Vicious", "Vindictive", "Violent", "Volatile", "Vigilant", "Vain", "Vile", "Vulgar", "Venomous", "Vibrant"
+  "Vicious", "Venomous", "Vile", "Violent", "Volcanic", "Vampiric", "Vengeful", "Vortex-like", "Voracious", "Void-bringer"
 ];
 
 const names = [
   // A
-  "Aaron", "Adam", "Albert", "Arthur", "Aidan", "Alexander", "Alfred", "Anthony", "Archibald", "Arnold",
+  "Aaron", "Alec", "Axel", "Arnold", "Aldric", "Anders", "Amos", "Alaric", "August", "Asher",
   
   // B
-  "Benjamin", "Brandon", "Brian", "Bruce", "Bradley", "Bernard", "Blake", "Bryce", "Barrett", "Benson",
+  "Bryce", "Brandon", "Blake", "Brock", "Baron", "Bane", "Benedict", "Braxton", "Boris", "Brutus",
   
   // C
-  "Charles", "Christopher", "Caleb", "Cameron", "Carter", "Colin", "Clint", "Curtis", "Clayton", "Clark",
+  "Cain", "Caleb", "Cassius", "Cedric", "Colt", "Cyrus", "Connor", "Clint", "Carson", "Conrad",
   
   // D
-  "Daniel", "David", "Derek", "Dylan", "Dominic", "Douglas", "Dean", "Dawson", "Damian", "Dennis",
+  "Damon", "Drake", "Dante", "Damian", "Darius", "Desmond", "Dirk", "Dexter", "Donovan", "Duke",
   
   // E
-  "Edward", "Ethan", "Eli", "Eric", "Ezekiel", "Everett", "Edgar", "Eldon", "Emerson", "Eugene",
+  "Ezra", "Elias", "Evan", "Emmett", "Edgar", "Erik", "Eldon", "Ezekiel", "Elric", "Everett",
   
   // F
-  "Frank", "Frederick", "Fergus", "Finn", "Francis", "Felix", "Fletcher", "Forrest", "Foster", "Ford",
+  "Finn", "Fletcher", "Flint", "Felix", "Frederick", "Francis", "Ferdinand", "Floyd", "Frost", "Fenton",
   
   // G
-  "George", "Gavin", "Gregory", "Gordon", "Grayson", "Gerald", "Garrett", "Geoffrey", "Glenn", "Grant",
+  "Griffin", "Gage", "Gareth", "Grant", "Gavin", "Gideon", "Gunnar", "Gordon", "Garrett", "Gerard",
   
   // H
-  "Henry", "Harrison", "Harold", "Hunter", "Hugh", "Howard", "Harry", "Hector", "Hayden", "Hudson",
+  "Hank", "Hunter", "Hugo", "Harvey", "Holden", "Harlan", "Hendrix", "Hugh", "Heath", "Horace",
   
   // I
-  "Isaac", "Ian", "Isaiah", "Ivan", "Irvin", "Isa", "Ira", "Ishmael", "Ignatius", "Ibrahim",
+  "Ira", "Isaac", "Ishmael", "Ivan", "Icarus", "Ignatius", "Indigo", "Isaiah", "Ike", "Irvin",
   
   // J
-  "Jacob", "Jonathan", "Joseph", "Jack", "James", "Joshua", "Jasper", "Jackson", "Jeremy", "Jeremiah",
+  "Jax", "Jericho", "Jethro", "Julius", "Jasper", "Jed", "Jagger", "Jace", "Jared", "Jonah",
   
   // L
-  "Liam", "Lucas", "Louis", "Logan", "Leon", "Luther", "Lloyd", "Leland", "Lawrence", "Lance",
+  "Lucian", "Lance", "Logan", "Leon", "Lachlan", "Luther", "Lorenzo", "Lennox", "Levi", "Lawson",
   
   // M
-  "Matthew", "Marcus", "Michael", "Miles", "Maxwell", "Martin", "Marshall", "Morgan", "Malcolm", "Mitchell",
+  "Maximus", "Magnus", "Milo", "Malcolm", "Marcus", "Maverick", "Morrison", "Mason", "Mordecai", "Merrick",
   
   // N
-  "Nathan", "Nicholas", "Noah", "Nelson", "Norman", "Nolan", "Nigel", "Neville", "Nash", "Nestor",
+  "Nathaniel", "Nash", "Nolan", "Nestor", "Neville", "Nico", "Nicholas", "Norman", "Norris", "Nigel",
   
   // O
-  "Oliver", "Oscar", "Owen", "Orlando", "Otis", "Orson", "Omar", "Olin", "Otto", "Oakley",
+  "Orion", "Odin", "Oscar", "Oleg", "Otto", "Oliver", "Orson", "Omar", "Owen", "Oswald",
   
   // P
-  "Paul", "Patrick", "Peter", "Philip", "Preston", "Peyton", "Percy", "Porter", "Pierce", "Parker",
+  "Pax", "Pierce", "Preston", "Patrick", "Percival", "Porter", "Parker", "Peregrine", "Price", "Phineas",
   
   // R
-  "Richard", "Robert", "Ronald", "Ryan", "Russell", "Ralph", "Reed", "Riley", "Reuben", "Randall",
+  "Ragnar", "Ronan", "Remy", "Randall", "Raymond", "Rex", "Ryder", "Ralph", "Roland", "Roman",
   
   // S
-  "Samuel", "Simon", "Stephen", "Sean", "Scott", "Stanley", "Spencer", "Sterling", "Silas", "Seth",
+  "Silas", "Stefan", "Seth", "Storm", "Spencer", "Samson", "Soren", "Slade", "Sebastian",
   
   // T
-  "Thomas", "Timothy", "Travis", "Troy", "Tyler", "Tobias", "Theodore", "Terrence", "Tanner", "Trent",
+  "Talon", "Thane", "Titus", "Tobias", "Tristan", "Troy", "Theon", "Thor", "Tiberius", "Tanner",
   
   // V
-  "Victor", "Vincent", "Vernon", "Vaughn", "Valentin", "Virgil", "Vance", "Van", "Vito", "Vidal"
+  "Vlad", "Viktor", "Vance",  "Valerian", "Virgil", "Viggo", "Vincent", "Victor"
 ];

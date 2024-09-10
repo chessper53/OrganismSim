@@ -1,5 +1,5 @@
 import { getDistance, findClosestTeammate, moveTowardOpponent, healTeammate } from "./abilities";
-import { logKillEvent } from "./KillFeed";
+import { logKillEvent, generateUserName } from "./KillFeed";
 
 export const roles = {
   civilian: {
@@ -29,7 +29,7 @@ export const roles = {
           opponent.health -= 0.5;
           if (opponent.health <= 0) {
             opponent.isAlive = false;
-            logKillEvent(organism, opponent); // Log the kill event
+            logKillEvent(organism, opponent); 
           }
         }
       } else if (opponent) {
@@ -50,7 +50,7 @@ export const roles = {
           opponent.health -= 1;
           if (opponent.health <= 0) {
             opponent.isAlive = false;
-            logKillEvent(organism, opponent); // Log the kill event
+            logKillEvent(organism, opponent); 
           }
         }
       } else if (opponent) {
@@ -71,7 +71,7 @@ export const roles = {
           opponent.health -= 3;
           if (opponent.health <= 0) {
             opponent.isAlive = false;
-            logKillEvent(organism, opponent); // Log the kill event
+            logKillEvent(organism, opponent); 
           }
         }
       } else if (opponent) {
@@ -92,7 +92,7 @@ export const roles = {
           opponent.health -= 10;
           if (opponent.health <= 0) {
             opponent.isAlive = false;
-            logKillEvent(organism, opponent); // Log the kill event
+            logKillEvent(organism, opponent); 
           }
         }
       } else if (opponent) {
@@ -185,7 +185,7 @@ export const roles = {
             opponent.health -= 0.5;
             if (opponent.health <= 0) {
               opponent.isAlive = false;
-              logKillEvent(organism, opponent); // Log the kill event
+              logKillEvent(organism, opponent); 
             }
           }
         } else {
@@ -217,7 +217,7 @@ export const roles = {
             opponent.health -= 5;
             if (opponent.health <= 0) {
               opponent.isAlive = false;
-              logKillEvent(organism, opponent); // Log the kill event
+              logKillEvent(organism, opponent);
             }
           }
         } else {
@@ -249,7 +249,7 @@ export const roles = {
             opponent.health -= 1;
             if (opponent.health <= 0) {
               opponent.isAlive = false;
-              logKillEvent(organism, opponent); // Log the kill event
+              logKillEvent(organism, opponent);
             }
           }
         } else {
@@ -277,7 +277,9 @@ export const roles = {
       if (Math.random() < 0.01) {
         const newLegionnaire = {
           id: `legionnaire-${Date.now()}`,
+          username: generateUserName(),
           type: organism.type,
+          desc: organism.description,
           role: 'legionnaire',
           position: {
             x: organism.position.x + Math.random() * 20 - 10,
@@ -303,6 +305,7 @@ export const roles = {
       if (Math.random() < 0.01) {
         const newMedic = {
           id: `medic-${Date.now()}`,
+          username: generateUserName(),
           type: organism.type,
           role: 'medic',
           position: {

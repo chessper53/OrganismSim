@@ -38,6 +38,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
       username: generateUserName(),
       type: 'red',
       speed: roles.civilian.speed,
+      desc: roles.civilian.description,
       health: roles.civilian.health,
       position: generateValidPosition(), // Generate valid position
       isAlive: true,
@@ -48,6 +49,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
       id: `blue-civilian-${i}`,
       username: generateUserName(),
       type: 'blue',
+      desc: roles.civilian.description,
       speed: roles.civilian.speed,
       health: roles.civilian.health,
       position: generateValidPosition(), // Generate valid position
@@ -71,10 +73,11 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
       organisms.push({
         id: `red-${unitType}-${i}`,
         username: generateUserName(),
+        desc: roleData.description,
         type: 'red',
         speed: roleData.speed,
         health: roleData.health,
-        position: isRomanShip ? generateValidPositionInLake() : generateValidPosition(), // Ships spawn in lake, others avoid obstacles
+        position: isRomanShip ? generateValidPositionInLake() : generateValidPosition(), 
         isAlive: true,
         role: unitType,
       });
@@ -82,10 +85,11 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
       organisms.push({
         id: `blue-${unitType}-${i}`,
         username: generateUserName(),
+        desc: roleData.description,
         type: 'blue',
         speed: roleData.speed,
         health: roleData.health,
-        position: isRomanShip ? generateValidPositionInLake() : generateValidPosition(), // Ships spawn in lake, others avoid obstacles
+        position: isRomanShip ? generateValidPositionInLake() : generateValidPosition(), 
         isAlive: true,
         role: unitType,
       });
