@@ -25,6 +25,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
       ballista: ballistaCount,
       banner: 1,
       barrack: 1,
+      medicTent: 1,
     };
     onStartSimulation(unitCounts);
   };

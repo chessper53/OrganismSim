@@ -270,4 +270,30 @@ export const roles = {
       return { updatedOrganism: organism, newUnits };
     },
   },
+  medicTent: {
+    speed: 0,
+    health: 10,
+    cost: 0,
+    behaviorType: 'spawner',
+    description: "Static building that spawns medics over time.",
+    behavior: (organism, organisms) => {
+      const newUnits = [];
+      if (Math.random() < 0.01) {
+        const newLegionnaire = {
+          id: `medic-${Date.now()}`,
+          type: organism.type,
+          role: 'medic',
+          position: {
+            x: organism.position.x + Math.random() * 20 - 10,
+            y: organism.position.y + Math.random() * 20 - 10,
+          },
+          isAlive: true,
+          health: roles.medic.health,
+          speed: roles.medic.speed,
+        };
+        newUnits.push(newLegionnaire);
+      }
+      return { updatedOrganism: organism, newUnits };
+    },
+  },
 };

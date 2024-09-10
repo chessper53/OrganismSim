@@ -31,9 +31,14 @@ import bannerDead from '../assets/DeadState/bannerDead.png';
 import ballistaBlue from "../assets/BlueTeam/ballistaBlue.png";
 import ballistaRed from '../assets/RedTeam/ballistaRed.png';
 import ballistaDead from '../assets/DeadState/ballistaDead.png';
+
+// Structures
 import barracksBlue from "../assets/Structures/barrackBlue.png";
 import barracksRed from '../assets/Structures/barrackRed.png';
 import barracksDead from '../assets/Structures/barrackDead.png';
+import medicTentBlue from "../assets/Structures/MedicTentBlue.png";
+import medicTentRed from '../assets/Structures/MedicTentRed.png';
+import medicTentDead from '../assets/Structures/MedicTentDead.png';
 
 export const roleIcons = {
   legionnaire: {
@@ -119,6 +124,13 @@ export const roleIcons = {
       red: barracksRed,
     },
     dead: barracksDead,
+  },
+  medicTent: {
+    alive: {
+      blue: medicTentBlue,
+      red: medicTentRed,
+    },
+    dead: medicTentDead,
   }
 };
 
