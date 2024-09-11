@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Dashboard.css';
+import Feed from '../Feed/Feed';
 import { generateOrganisms, shuffleArray, countAlive } from '../../Utilis/OrganismHandler';
 import Organism from '../Organism/Organism';
 import { roles } from '../../Utilis/roles';
@@ -112,6 +113,7 @@ const Dashboard = () => {
           ))}
         </div>
       )}
+    <Feed></Feed>
     </div>
   );
 };
