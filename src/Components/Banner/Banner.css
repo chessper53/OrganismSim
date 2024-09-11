@@ -68,7 +68,7 @@ body {
   }
   
   .start-button {
-    background-color: #007bff;
+    background-color: #00f;
     color: white;
     border: none;
     padding: 8px 16px; /* Reduced button size */
@@ -79,6 +79,6 @@ body {
   }
   
   .start-button:hover {
-    background-color: #0056b3;
+    background-color: darkblue;
   }
   

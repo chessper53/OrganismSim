@@ -84,10 +84,20 @@ const Dashboard = () => {
       {editMode ? (
         <Banner aliveRed={aliveRed} aliveBlue={aliveBlue} onStartSimulation={handleStartSimulation} />
       ) : (
-        <div className="simulation-header">
-          <p>Blue: {aliveBlue} | Red: {aliveRed}</p>
-          <button onClick={handleEditSimulation}>Edit Simulation</button>
-        </div>
+<div className="simulation-header">
+  <div className="faction-info">
+    <img src="src/assets/LogoBlue.png" alt="Faction 1" />
+    <p>{aliveBlue}</p>
+  </div>
+
+  <button className="edit-button" onClick={handleEditSimulation}>Exit</button>
+
+  <div className="faction-info">
+    <p>{aliveRed}</p>
+    <img src="src/assets/LogoRed.png" alt="Faction 2" />
+  </div>
+</div>
+
       )}
       {simulationStarted && !editMode && (
         <div className="simulation-box">

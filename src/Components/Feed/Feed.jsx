@@ -13,7 +13,7 @@ const Feed = () => {
         setLeftMessage(left);
         setRightMessage(right);
       }
-    }, 1000); // Poll for updates every second
+    }, 50); // Poll for updates every second
 
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);

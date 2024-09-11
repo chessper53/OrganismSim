@@ -1,9 +1,9 @@
 /* Container styling */
+
 .feed-container {
     padding: 12px;
-    background-color: #1a1a1a; /* Darker background */
+    background-color: #1e1e1e; /* Darker background */
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
     max-height: 220px;
     overflow-y: hidden; /* Ensure no vertical scrolling */
     color: #f5f5f5; /* Light font color */

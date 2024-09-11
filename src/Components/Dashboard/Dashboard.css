@@ -15,26 +15,16 @@ html, body {
   padding: 0;
 }
 
-.simulation-header {
-  width: 100%;
-  height: 50px; /* Fixed height for the header */
-  background-color: #1e1e1e;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
+
 
 .simulation-box {
   position: relative;
   width: 100vw;
-  height: calc(100vh - 50px); /* Remaining height after the header */
+  height: calc(100vh - 50px); 
   background-color: white;
   overflow: hidden;
-  background-image: linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px),
-                    linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px);
-  background-size: 20px 20px; /* Adjust to set grid size */
+  background-image: linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px);
+  background-size: 20px 20px; 
 }
 
 
@@ -44,3 +34,69 @@ html, body {
   height: 20px;
   border-radius: 50%;
 }
+
+
+.faction-info img {
+  width: 50px;
+  height: 50px;
+  filter: drop-shadow(0px 0px 10px rgb(255, 255, 255, 10));
+}
+
+
+.simulation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  background-color:  #1e1e1e; /* Ensure the background covers the full width */
+}
+
+.faction-info {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adds space between the image and the text */
+  padding: 10px;
+}
+
+.faction-info img {
+  width: 40px;
+  height: 40px;
+}
+
+.faction-info p {
+  font-size: 20px;
+  color: white;
+  margin: 0;
+  margin-top: 5px;
+}
+
+.faction-info:first-child {
+  color: #00f; /* Blue text */
+  padding: 10px;
+}
+
+.edit-button {
+  background-color: #0000ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+  background-color: darkblue;
+}
+
+.simulation-header {
+  position: relative;
+}
+
+.edit-button {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
