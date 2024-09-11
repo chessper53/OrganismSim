@@ -84,23 +84,26 @@ const Dashboard = () => {
       {editMode ? (
         <Banner aliveRed={aliveRed} aliveBlue={aliveBlue} onStartSimulation={handleStartSimulation} />
       ) : (
-<div className="simulation-header">
-  <div className="faction-info">
-    <img src="src/assets/LogoBlue.png" alt="Faction 1" />
-    <p>{aliveBlue}</p>
+  <div className="simulation-header">
+    <Feed></Feed>
   </div>
-
-  <button className="edit-button" onClick={handleEditSimulation}>Exit</button>
-
-  <div className="faction-info">
-    <p>{aliveRed}</p>
-    <img src="src/assets/LogoRed.png" alt="Faction 2" />
-  </div>
-</div>
 
       )}
       {simulationStarted && !editMode && (
         <div className="simulation-box">
+
+          {/* Render Counter */}
+        <div className="counter-Div">
+            <div className="faction-info">
+              <img src="src/assets/castleBlue.png" alt="Faction 1" />
+              <p>{aliveBlue}</p>
+            </div>
+            <img src="src/assets/exit.png" className="edit-button" onClick={handleEditSimulation} />
+            <div className="faction-info">
+              <img src="src/assets/castleRed.png" alt="Faction 2" />
+              <p>{aliveRed}</p>
+            </div>
+        </div>
           {/* Render organisms */}
           {organisms.map((organism) => (
             <Organism key={organism.id} organism={organism} />
@@ -123,7 +126,6 @@ const Dashboard = () => {
           ))}
         </div>
       )}
-    <Feed></Feed>
     </div>
   );
 };

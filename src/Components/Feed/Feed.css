@@ -1,68 +1,63 @@
-/* Container styling */
-
 .feed-container {
-    padding: 12px;
-    background-color: #1e1e1e; /* Darker background */
-    border-radius: 10px;
-    max-height: 220px;
-    overflow-y: hidden; /* Ensure no vertical scrolling */
-    color: #f5f5f5; /* Light font color */
-    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 75px; 
     position: relative;
-    width: 100%;
+    background-color: transparent;
+    font-size: 16px;
+    white-space: nowrap;
   }
   
-  /* Flexbox container to hold left, middle, and right */
   .feed-message {
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    font-size: 16px;
-    line-height: 1.6;
     width: 100%;
-    position: relative;
-    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    font-size: 16px; 
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    color: #ffffff;
   }
   
-  /* Left and right parts of the message */
   .message-part {
-    flex-grow: 1;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .left-message {
     text-align: center;
-    white-space: nowrap; /* Prevent wrapping inside message parts */
-    overflow: hidden;
+    margin-left: 5%; 
+    margin-right: 5%;
+  }
+  
+  .right-message {
+    text-align: center;
+    margin-left: 5%; 
+    margin-right: 5%;
+  }
+  
+  .middle-message-container {
+    font-size: 16px; 
+    position: absolute;
+    left: 50%; 
+    transform: translateX(-50%); 
+    display: flex;
+    align-items: center;
     padding: 0 20px;
   }
   
-  /* Middle "killed" word container is absolutely centered */
-  .middle-message-container {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-    white-space: nowrap;
-  }
-  
-  /* Middle "killed" word styling */
   .middle-message {
-    font-weight: bold;
-    font-size: 18px;
-    color: red; /* Highlight the "killed" word */
-    padding: 0 10px;
-    white-space: nowrap;
+    color: #ff0000; 
+    text-align: center;
   }
   
-  /* Image styling for the role icons */
   .role-image {
-    width: 28px;
-    height: 28px;
-    vertical-align: middle; /* Align images with text */
-    margin-left: 6px;
-    margin-right: 6px;
-    border-radius: 50%; /* Optional: make icons circular */
-    transition: transform 0.3s; /* Smooth hover effect */
-  }
-  
-  .role-image:hover {
-    transform: scale(1.2); /* Slight zoom on hover */
+    width: 24px; 
+    height: 24px;
+    margin-left: 2%;
+    margin-right: 2%;
+    vertical-align: middle;
   }
   
