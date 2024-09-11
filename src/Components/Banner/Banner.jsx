@@ -58,7 +58,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
           </div>
         </div>
         <div className='UnitSelector'>
-          <img src="src/assets/DeadState/kingDead.png" alt="King" />
+          <img src="src/assets/DeadState/EmperorDead.png" alt="King" />
           <label>{kingCount}</label>
           <div className="controls">
             <button onClick={() => setKingCount(Math.max(kingCount + 5, 0))}>+</button>
