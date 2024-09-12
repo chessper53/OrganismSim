@@ -78,6 +78,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
       const roleData = roles[unitType];
       organisms.push({
         id: `blue-${unitType}-${i}`,
+        killCount: 0,
         username: generateUserName(),
         desc: roleData.description,
         type: 'blue',
@@ -90,6 +91,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
 
       organisms.push({
         id: `red-${unitType}-${i}`,
+        killCount: 0,
         username: generateUserName(),
         desc: roleData.description,
         type: 'red',
@@ -117,6 +119,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
         const isRomanShip = unitType === 'romanShip';
         organisms.push({
           id: `red-${unitType}-${i}`,
+          killCount: 0,
           username: generateUserName(),
           desc: roleData.description,
           type: 'red',
@@ -129,6 +132,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
 
         organisms.push({
           id: `blue-${unitType}-${i}`,
+          killCount: 0,
           username: generateUserName(),
           desc: roleData.description,
           type: 'blue',

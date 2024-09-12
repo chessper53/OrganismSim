@@ -102,7 +102,7 @@ export const roles = {
     },
   },
   wolf: {
-    speed: 7,
+    speed: 10,
     health: 0.1,
     cost: 7,
     behaviorType: 'seeker',
@@ -113,6 +113,7 @@ export const roles = {
           opponent.health -= 0.35;
           if (opponent.health <= 0) {
             opponent.isAlive = false;
+            organism.killCount += 1;
             logKillEvent(organism, opponent); 
           }
         }

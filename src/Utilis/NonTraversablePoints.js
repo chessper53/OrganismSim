@@ -66,6 +66,7 @@ export const battlefieldDimensions = {
           "/src/assets/Obstacles/ObstacleForrest.png",
           "/src/assets/Obstacles/ObstacleMountain.png",
           "/src/assets/Obstacles/ObstacleVines.png",
+          "/src/assets/Obstacles/ObstacleRubble.png",
         ];
         
         const randomIndex = Math.floor(Math.random() * obstacleImages.length);
