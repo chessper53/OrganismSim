@@ -49,8 +49,8 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
     const style = {
       transform: `translate3d(${transform?.x}px, ${transform?.y}px, 0)`,
       zIndex: 1000, 
-      width: '50px', 
-      height: '50px',
+      width: '40px', 
+      height: '40px',
       position: 'relative',
     };
 
@@ -180,9 +180,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
             <button className='start-button' onClick={handleStart}>
               Start Simulation
             </button>
-            <button onClick={toggleMode} className='toggle-mode-button'>
-              Switch Mode
-            </button>
+            <img src="src/assets/DesignIcons/switchModeIcon.png" onClick={toggleMode} className='toggle-mode-button'/>
           </div>
           <div className='simulation-box'></div>
         </>
@@ -193,20 +191,22 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
         <DndContext onDragEnd={handleDragEnd}>
           <div className='DragableMode'>
             <Draggable id='legionnaire' type='legionnaire' image='src/assets/DeadState/legionnaireDead.png' />
-            <Draggable id='centurion' type='centurion' image='src/assets/DeadState/centurionDead.png' />
-            <Draggable id='emperor' type='emperor' image='src/assets/DeadState/EmperorDead.png' />
-            <Draggable id='shieldBearer' type='shieldBearer' image='src/assets/DeadState/shieldBearerDead.png' />
-            <Draggable id='archer' type='archer' image='src/assets/DeadState/archerDead.png' />
-            <Draggable id='romanShip' type='romanShip' image='src/assets/DeadState/romanShipDead.png' />
             <Draggable id='medic' type='medic' image='src/assets/DeadState/medicDead.png' />
+            <Draggable id='centurion' type='centurion' image='src/assets/DeadState/centurionDead.png' />
+            <Draggable id='Emperor' type='Emperor' image='src/assets/DeadState/EmperorDead.png' />
+            <Draggable id='archer' type='archer' image='src/assets/DeadState/archerDead.png' />
+            <Draggable id='ballista' type='ballista' image='src/assets/DeadState/ballistaDead.png' />
+            <Draggable id='romanShip' type='romanShip' image='src/assets/DeadState/romanShipDead.png' />
+            <Draggable id='elephant' type='elephant' image='src/assets/DeadState/elephantDead.png' />
+            <Draggable id='shieldBearer' type='shieldBearer' image='src/assets/DeadState/shieldBearerDead.png' />
+
           </div>
           <div className='StartDiv'>
         <button className='start-button' onClick={handleStart}>
           Start Simulation
         </button>
-        <button onClick={toggleMode} className='toggle-mode-button'>
-          Switch Mode
-        </button>
+        <img src="src/assets/DesignIcons/switchModeIcon.png" onClick={toggleMode} className='toggle-mode-button'/>
+
       </div>
           <Droppable id='simulationBox'>
             <div className='simulation-box'>

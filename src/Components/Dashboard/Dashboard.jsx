@@ -39,11 +39,11 @@ const Dashboard = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentTime = Date.now(); // Capture the current time for spawning logic
+      const currentTime = Date.now(); 
   
       setOrganisms((prevOrganisms) => {
         const shuffledOrganisms = shuffleArray([...prevOrganisms]);
-        const newOrganisms = []; // Collect new units to add
+        const newOrganisms = []; 
   
         const updatedOrganisms = shuffledOrganisms.map((organism) => {
           if (!organism.isAlive) return organism;
@@ -84,9 +84,10 @@ const Dashboard = () => {
       {editMode ? (
         <Banner aliveRed={aliveRed} aliveBlue={aliveBlue} onStartSimulation={handleStartSimulation} />
       ) : (
-  <div className="simulation-header">
-    <Feed></Feed>
-  </div>
+      <div className="simulation-header">
+        <Feed></Feed>
+        <input type="checkbox" id="scales" name="scales" />
+      </div>
 
       )}
       {simulationStarted && !editMode && (
