@@ -17,6 +17,12 @@ body {
     justify-content: space-around;
     padding: 10px 0;
   }
+
+  .DragableMode {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+  }
   
   .UnitSelector {
     text-align: center;

@@ -124,28 +124,28 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
  </div>
 </div>
       ) : (
-        <div className='SelectorDiv'>
-        <div className='UnitSelector'>
-          <img src="src/assets/DeadState/legionnaireDead.png" alt="Legionnaire" />
-        </div>
-        <div className='UnitSelector'>
-          <img src="src/assets/DeadState/centurionDead.png" alt="Centurion" />
-        </div>
-        <div className='UnitSelector'>
-          <img src="src/assets/DeadState/EmperorDead.png" alt="Emperor" />
-        </div>
-        <div className='UnitSelector'>
-          <img src="src/assets/DeadState/shieldBearerDead.png" alt="Shield Bearer" />
-        </div>
-        <div className='UnitSelector'>
-          <img src="src/assets/DeadState/archerDead.png" alt="Archer" />
-        </div>
-        <div className='UnitSelector'>
-          <img src="src/assets/DeadState/romanShipDead.png" alt="Roman Ship" />
-        </div>
-        <div className='UnitSelector'>
-          <img src="src/assets/DeadState/medicDead.png" alt="Medic" />
-        </div>
+        <div className='DragableMode'>
+          <div className='UnitSelector'>
+            <img src="src/assets/DeadState/legionnaireDead.png" alt="Legionnaire" />
+          </div>
+          <div className='UnitSelector'>
+            <img src="src/assets/DeadState/centurionDead.png" alt="Centurion" />
+          </div>
+          <div className='UnitSelector'>
+            <img src="src/assets/DeadState/EmperorDead.png" alt="Emperor" />
+          </div>
+          <div className='UnitSelector'>
+            <img src="src/assets/DeadState/shieldBearerDead.png" alt="Shield Bearer" />
+          </div>
+          <div className='UnitSelector'>
+            <img src="src/assets/DeadState/archerDead.png" alt="Archer" />
+          </div>
+          <div className='UnitSelector'>
+            <img src="src/assets/DeadState/romanShipDead.png" alt="Roman Ship" />
+          </div>
+          <div className='UnitSelector'>
+            <img src="src/assets/DeadState/medicDead.png" alt="Medic" />
+          </div>
       </div>
 
       )}
