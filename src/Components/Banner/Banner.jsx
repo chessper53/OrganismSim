@@ -178,7 +178,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
        
                   <div className='StartDiv'>
             <button className='start-button' onClick={handleStart}>
-              Start Simulation
+              Run Simulation
             </button>
             <img src="src/assets/DesignIcons/switchModeIcon.png" onClick={toggleMode} className='toggle-mode-button'/>
           </div>
@@ -203,10 +203,9 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
           </div>
           <div className='StartDiv'>
         <button className='start-button' onClick={handleStart}>
-          Start Simulation
+          Run Simulation
         </button>
         <img src="src/assets/DesignIcons/switchModeIcon.png" onClick={toggleMode} className='toggle-mode-button'/>
-
       </div>
           <Droppable id='simulationBox'>
             <div className='simulation-box'>
@@ -232,6 +231,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
           </Droppable>
         </DndContext>
       )}
+
     </div>
   );
 };

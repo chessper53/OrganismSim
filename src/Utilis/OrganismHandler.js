@@ -18,7 +18,17 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
   };
 
   const generateValidPositionInLake = () => {
-    const lake = lakeArray[0];
+    if (lakeArray.length === 0) {
+      console.error('Lake array is empty or undefined');
+      return generateValidPosition(); // Fallback to generating a normal position if no lake exists
+    }
+    
+    const lake = lakeArray[0]; 
+    if (!lake || !lake.x || !lake.y || !lake.width || !lake.height) {
+      console.error('Invalid lake data', lake);
+      return generateValidPosition(); // Fallback to a valid position if lake data is missing
+    }
+  
     let x, y;
     do {
       x = lake.x + Math.random() * lake.width;
@@ -26,6 +36,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
     } while (isPointOccupied(x, y)); // Regenerate if the position is occupied
     return { x, y };
   };
+  
 
   
   for (let i = 0; i < 30; i++) {

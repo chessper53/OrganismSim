@@ -86,7 +86,6 @@ const Dashboard = () => {
       ) : (
       <div className="simulation-header">
         <Feed></Feed>
-        <input type="checkbox" id="scales" name="scales" />
       </div>
 
       )}
