@@ -8,6 +8,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
 
   useEffect(() => {
     localStorage.setItem('PlaceMode', mode);
+    localStorage.removeItem("PlacedUnits");
   }, [mode]);
 
   const [legionnaireCount, setLegionnaireCount] = useState(0);
@@ -43,13 +44,12 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
     setMode(newMode);
   };
 
-  // Draggable component
   const Draggable = ({ id, type, image }) => {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({ id, data: { type } });
     const style = {
       transform: `translate3d(${transform?.x}px, ${transform?.y}px, 0)`,
-      zIndex: 1000, // Ensure it's above other elements
-      width: '50px', // Reduce the image size
+      zIndex: 1000, 
+      width: '50px', 
       height: '50px',
       position: 'relative',
     };
@@ -61,7 +61,6 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
     );
   };
 
-  // Droppable component
   const Droppable = ({ id, children }) => {
     const { isOver, setNodeRef } = useDroppable({ id });
     const style = {
@@ -78,26 +77,25 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
     );
   };
 
-  // Handle the onDragEnd event
   const handleDragEnd = (event) => {
     const { over, active } = event;
 
     if (over) {
-      const dropAreaRect = over.rect; // The rectangle of the drop area
-      const dragItemType = active.data.current.type; // Type of the dragged item
-      const dropX = event.delta.x; // Using the delta to calculate position change
+      const dropAreaRect = over.rect; 
+      const dragItemType = active.data.current.type; 
+      const dropX = event.delta.x; 
       const dropY = event.delta.y;
 
-      // Ensure the dropped position stays within bounds of the droppable area
-      const clampedX = Math.max(0, Math.min(dropX, dropAreaRect.width - 50)); // Subtract 50 to account for the element width
-      const clampedY = Math.max(0, Math.min(dropY, dropAreaRect.height - 50)); // Subtract 50 to account for the element height
+      const clampedX = Math.max(0, Math.min(dropX, dropAreaRect.width - 50)); 
+      const clampedY = Math.max(0, Math.min(dropY, dropAreaRect.height - 50)); 
 
-      // Add the unit's type and drop position to the unitPositions array
       setUnitPositions((prevPositions) => [
         ...prevPositions,
         { type: dragItemType, position: { x: clampedX, y: clampedY } },
       ]);
       console.log('Placed:', dragItemType, 'at X:', clampedX, 'Y:', clampedY);
+      console.log(unitPositions);
+      localStorage.setItem('PlacedUnits', JSON.stringify(unitPositions));
     }
   };
 
@@ -105,21 +103,82 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
     <div className='Banner'>
       {mode === 'selector' ? (
         <div className='SelectorDiv'>
-          {/* Render the static images for selection */}
-          <div className="static-images">
-            <img src='src/assets/DeadState/legionnaireDead.png' alt="Legionnaire" />
-            <img src='src/assets/DeadState/centurionDead.png' alt="Centurion" />
-            <img src='src/assets/DeadState/EmperorDead.png' alt="Emperor" />
-            <img src='src/assets/DeadState/shieldBearerDead.png' alt="Shield Bearer" />
-            <img src='src/assets/DeadState/archerDead.png' alt="Archer" />
-            <img src='src/assets/DeadState/romanShipDead.png' alt="Roman Ship" />
-            <img src='src/assets/DeadState/medicDead.png' alt="Medic" />
+        <div className='UnitSelector'>
+          <img src="src/assets/DeadState/legionnaireDead.png" alt="Legionnaire" />
+          <label>{legionnaireCount}</label>
+          <div className="controls">
+            <button onClick={() => setLegionnaireCount(Math.max(legionnaireCount + 5, 0))}>+</button>
+            <button onClick={() => setLegionnaireCount(Math.max(legionnaireCount - 5, 0))}>-</button>
           </div>
         </div>
+        <div className='UnitSelector'>
+          <img src="src/assets/DeadState/medicDead.png" alt="Medic" />
+          <label>{medicCount}</label>
+          <div className="controls">
+            <button onClick={() => setMedicCount(Math.max(medicCount + 5, 0))}>+</button>
+            <button onClick={() => setMedicCount(Math.max(medicCount - 5, 0))}>-</button>
+          </div>
+        </div>
+        <div className='UnitSelector'>
+          <img src="src/assets/DeadState/centurionDead.png" alt="Centurion" />
+          <label>{centurionCount}</label>
+          <div className="controls">
+            <button onClick={() => setCenturionCount(Math.max(centurionCount + 5, 0))}>+</button>
+            <button onClick={() => setCenturionCount(Math.max(centurionCount - 5, 0))}>-</button>
+          </div>
+        </div>
+        <div className='UnitSelector'>
+          <img src="src/assets/DeadState/EmperorDead.png" alt="King" />
+          <label>{kingCount}</label>
+          <div className="controls">
+            <button onClick={() => setKingCount(Math.max(kingCount + 5, 0))}>+</button>
+            <button onClick={() => setKingCount(Math.max(kingCount - 5, 0))}>-</button>
+          </div>
+        </div>
+        <div className='UnitSelector'>
+          <img src="src/assets/DeadState/archerDead.png" alt="Archer" />
+          <label>{archerCount}</label>
+          <div className="controls">
+            <button onClick={() => setArcherCount(Math.max(archerCount + 5, 0))}>+</button>
+            <button onClick={() => setArcherCount(Math.max(archerCount - 5, 0))}>-</button>
+          </div>
+        </div>
+        <div className='UnitSelector'>
+          <img src="src/assets/DeadState/BallistaDead.png" alt="Ballista" />
+          <label>{ballistaCount}</label>
+          <div className="controls">
+            <button onClick={() => setBallistaCount(Math.max(ballistaCount + 5, 0))}>+</button>
+            <button onClick={() => setBallistaCount(Math.max(ballistaCount - 5, 0))}>-</button>
+          </div>
+        </div>
+        <div className='UnitSelector'>
+          <img src="src/assets/DeadState/romanShipDead.png" alt="Ship" />
+          <label>{shiptCount}</label>
+          <div className="controls">
+            <button onClick={() => setShipCount(Math.max(shiptCount + 1, 0))}>+</button>
+            <button onClick={() => setShipCount(Math.max(shiptCount - 1, 0))}>-</button>
+          </div>
+        </div>
+        <div className='UnitSelector'>
+          <img src="src/assets/DeadState/elephantDead.png" alt="elephant" />
+          <label>{elephantCount}</label>
+          <div className="controls">
+            <button onClick={() => setElephantCount(Math.max(elephantCount + 5, 0))}>+</button>
+            <button onClick={() => setElephantCount(Math.max(elephantCount - 5, 0))}>-</button>
+          </div>
+        </div>
+        <div className='UnitSelector'>
+          <img src="src/assets/DeadState/shieldBearerDead.png" alt="Shield Bearer" />
+          <label>{shieldBearerCount}</label>
+          <div className="controls">
+            <button onClick={() => setShieldBearerCount(Math.max(shieldBearerCount + 5, 0))}>+</button>
+            <button onClick={() => setShieldBearerCount(Math.max(shieldBearerCount - 5, 0))}>-</button>
+          </div>
+        </div>
+       </div>
       ) : (
         <DndContext onDragEnd={handleDragEnd}>
           <div className='DragableMode'>
-            {/* Make these draggable */}
             <Draggable id='legionnaire' type='legionnaire' image='src/assets/DeadState/legionnaireDead.png' />
             <Draggable id='centurion' type='centurion' image='src/assets/DeadState/centurionDead.png' />
             <Draggable id='emperor' type='emperor' image='src/assets/DeadState/EmperorDead.png' />
@@ -128,10 +187,8 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
             <Draggable id='romanShip' type='romanShip' image='src/assets/DeadState/romanShipDead.png' />
             <Draggable id='medic' type='medic' image='src/assets/DeadState/medicDead.png' />
           </div>
-
           <Droppable id='simulationBox'>
             <div className='simulation-box'>
-              {/* Render dropped elements */}
               {unitPositions.map((unit, index) => (
                 <div
                   key={index}

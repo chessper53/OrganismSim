@@ -95,12 +95,12 @@ const Dashboard = () => {
           {/* Render Counter */}
         <div className="counter-Div">
             <div className="faction-info">
-              <img src="src/assets/castleBlue.png" alt="Faction 1" />
+              <img src="src/assets/DesignIcons/castleBlue.png" alt="Faction 1" />
               <p>{aliveBlue}</p>
             </div>
-            <img src="src/assets/exit.png" className="edit-button" onClick={handleEditSimulation} />
+            <img src="src/assets/DesignIcons/exit.png" className="edit-button" onClick={handleEditSimulation} />
             <div className="faction-info">
-              <img src="src/assets/castleRed.png" alt="Faction 2" />
+              <img src="src/assets/DesignIcons/castleRed.png" alt="Faction 2" />
               <p>{aliveRed}</p>
             </div>
         </div>

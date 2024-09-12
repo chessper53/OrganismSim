@@ -1,6 +1,5 @@
 export const logKillEvent = (attacker, defender) => {
     const killMessage = `(${attacker.role}) ${attacker.username} killed  (${defender.role}) ${defender.username}`;
-    console.log(killMessage);
     localStorage.setItem("KillFeed", killMessage);
     return killMessage;
 };
