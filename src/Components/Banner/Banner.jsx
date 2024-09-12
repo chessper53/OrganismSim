@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import './Banner.css'; 
+import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
+import './Banner.css';
 
 const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
-  // Get the mode from localStorage or default to 'selector'
-  const [mode, setMode] = useState(localStorage.getItem("PlaceMode") || 'selector');
+  const [mode, setMode] = useState(localStorage.getItem('PlaceMode') || 'selector');
+  const [unitPositions, setUnitPositions] = useState([]);
 
   useEffect(() => {
-    // Update localStorage whenever mode changes
-    localStorage.setItem("PlaceMode", mode);
+    localStorage.setItem('PlaceMode', mode);
   }, [mode]);
 
   const [legionnaireCount, setLegionnaireCount] = useState(0);
@@ -43,121 +43,124 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
     setMode(newMode);
   };
 
+  // Draggable component
+  const Draggable = ({ id, type, image }) => {
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({ id, data: { type } });
+    const style = {
+      transform: `translate3d(${transform?.x}px, ${transform?.y}px, 0)`,
+      zIndex: 1000, // Ensure it's above other elements
+      width: '50px', // Reduce the image size
+      height: '50px',
+      position: 'relative',
+    };
+
+    return (
+      <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+        <img src={image} alt={type} style={{ width: '100%', height: '100%' }} />
+      </div>
+    );
+  };
+
+  // Droppable component
+  const Droppable = ({ id, children }) => {
+    const { isOver, setNodeRef } = useDroppable({ id });
+    const style = {
+      border: isOver ? '2px solid green' : '2px dashed gray',
+      width: '100%',
+      height: '100%',
+      position: 'relative',
+    };
+
+    return (
+      <div ref={setNodeRef} style={style}>
+        {children}
+      </div>
+    );
+  };
+
+  // Handle the onDragEnd event
+  const handleDragEnd = (event) => {
+    const { over, active } = event;
+
+    if (over) {
+      const dropAreaRect = over.rect; // The rectangle of the drop area
+      const dragItemType = active.data.current.type; // Type of the dragged item
+      const dropX = event.delta.x; // Using the delta to calculate position change
+      const dropY = event.delta.y;
+
+      // Ensure the dropped position stays within bounds of the droppable area
+      const clampedX = Math.max(0, Math.min(dropX, dropAreaRect.width - 50)); // Subtract 50 to account for the element width
+      const clampedY = Math.max(0, Math.min(dropY, dropAreaRect.height - 50)); // Subtract 50 to account for the element height
+
+      // Add the unit's type and drop position to the unitPositions array
+      setUnitPositions((prevPositions) => [
+        ...prevPositions,
+        { type: dragItemType, position: { x: clampedX, y: clampedY } },
+      ]);
+      console.log('Placed:', dragItemType, 'at X:', clampedX, 'Y:', clampedY);
+    }
+  };
+
   return (
     <div className='Banner'>
-
-
-      {/* Conditional rendering based on the current mode */}
       {mode === 'selector' ? (
- <div className='SelectorDiv'>
- <div className='UnitSelector'>
-   <img src="src/assets/DeadState/legionnaireDead.png" alt="Legionnaire" />
-   <label>{legionnaireCount}</label>
-   <div className="controls">
-     <button onClick={() => setLegionnaireCount(Math.max(legionnaireCount + 5, 0))}>+</button>
-     <button onClick={() => setLegionnaireCount(Math.max(legionnaireCount - 5, 0))}>-</button>
-   </div>
- </div>
- <div className='UnitSelector'>
-   <img src="src/assets/DeadState/medicDead.png" alt="Medic" />
-   <label>{medicCount}</label>
-   <div className="controls">
-     <button onClick={() => setMedicCount(Math.max(medicCount + 5, 0))}>+</button>
-     <button onClick={() => setMedicCount(Math.max(medicCount - 5, 0))}>-</button>
-   </div>
- </div>
- <div className='UnitSelector'>
-   <img src="src/assets/DeadState/centurionDead.png" alt="Centurion" />
-   <label>{centurionCount}</label>
-   <div className="controls">
-     <button onClick={() => setCenturionCount(Math.max(centurionCount + 5, 0))}>+</button>
-     <button onClick={() => setCenturionCount(Math.max(centurionCount - 5, 0))}>-</button>
-   </div>
- </div>
- <div className='UnitSelector'>
-   <img src="src/assets/DeadState/EmperorDead.png" alt="King" />
-   <label>{kingCount}</label>
-   <div className="controls">
-     <button onClick={() => setKingCount(Math.max(kingCount + 5, 0))}>+</button>
-     <button onClick={() => setKingCount(Math.max(kingCount - 5, 0))}>-</button>
-   </div>
- </div>
- <div className='UnitSelector'>
-   <img src="src/assets/DeadState/archerDead.png" alt="Archer" />
-   <label>{archerCount}</label>
-   <div className="controls">
-     <button onClick={() => setArcherCount(Math.max(archerCount + 5, 0))}>+</button>
-     <button onClick={() => setArcherCount(Math.max(archerCount - 5, 0))}>-</button>
-   </div>
- </div>
- <div className='UnitSelector'>
-   <img src="src/assets/DeadState/BallistaDead.png" alt="Ballista" />
-   <label>{ballistaCount}</label>
-   <div className="controls">
-     <button onClick={() => setBallistaCount(Math.max(ballistaCount + 5, 0))}>+</button>
-     <button onClick={() => setBallistaCount(Math.max(ballistaCount - 5, 0))}>-</button>
-   </div>
- </div>
- <div className='UnitSelector'>
-   <img src="src/assets/DeadState/romanShipDead.png" alt="Ship" />
-   <label>{shiptCount}</label>
-   <div className="controls">
-     <button onClick={() => setShipCount(Math.max(shiptCount + 1, 0))}>+</button>
-     <button onClick={() => setShipCount(Math.max(shiptCount - 1, 0))}>-</button>
-   </div>
- </div>
- <div className='UnitSelector'>
-   <img src="src/assets/DeadState/elephantDead.png" alt="elephant" />
-   <label>{elephantCount}</label>
-   <div className="controls">
-     <button onClick={() => setElephantCount(Math.max(elephantCount + 5, 0))}>+</button>
-     <button onClick={() => setElephantCount(Math.max(elephantCount - 5, 0))}>-</button>
-   </div>
- </div>
- <div className='UnitSelector'>
-   <img src="src/assets/DeadState/shieldBearerDead.png" alt="Shield Bearer" />
-   <label>{shieldBearerCount}</label>
-   <div className="controls">
-     <button onClick={() => setShieldBearerCount(Math.max(shieldBearerCount + 5, 0))}>+</button>
-     <button onClick={() => setShieldBearerCount(Math.max(shieldBearerCount - 5, 0))}>-</button>
-   </div>
- </div>
-</div>
+        <div className='SelectorDiv'>
+          {/* Render the static images for selection */}
+          <div className="static-images">
+            <img src='src/assets/DeadState/legionnaireDead.png' alt="Legionnaire" />
+            <img src='src/assets/DeadState/centurionDead.png' alt="Centurion" />
+            <img src='src/assets/DeadState/EmperorDead.png' alt="Emperor" />
+            <img src='src/assets/DeadState/shieldBearerDead.png' alt="Shield Bearer" />
+            <img src='src/assets/DeadState/archerDead.png' alt="Archer" />
+            <img src='src/assets/DeadState/romanShipDead.png' alt="Roman Ship" />
+            <img src='src/assets/DeadState/medicDead.png' alt="Medic" />
+          </div>
+        </div>
       ) : (
-        <div className='DragableMode'>
-          <div className='UnitSelector'>
-            <img src="src/assets/DeadState/legionnaireDead.png" alt="Legionnaire" />
+        <DndContext onDragEnd={handleDragEnd}>
+          <div className='DragableMode'>
+            {/* Make these draggable */}
+            <Draggable id='legionnaire' type='legionnaire' image='src/assets/DeadState/legionnaireDead.png' />
+            <Draggable id='centurion' type='centurion' image='src/assets/DeadState/centurionDead.png' />
+            <Draggable id='emperor' type='emperor' image='src/assets/DeadState/EmperorDead.png' />
+            <Draggable id='shieldBearer' type='shieldBearer' image='src/assets/DeadState/shieldBearerDead.png' />
+            <Draggable id='archer' type='archer' image='src/assets/DeadState/archerDead.png' />
+            <Draggable id='romanShip' type='romanShip' image='src/assets/DeadState/romanShipDead.png' />
+            <Draggable id='medic' type='medic' image='src/assets/DeadState/medicDead.png' />
           </div>
-          <div className='UnitSelector'>
-            <img src="src/assets/DeadState/centurionDead.png" alt="Centurion" />
-          </div>
-          <div className='UnitSelector'>
-            <img src="src/assets/DeadState/EmperorDead.png" alt="Emperor" />
-          </div>
-          <div className='UnitSelector'>
-            <img src="src/assets/DeadState/shieldBearerDead.png" alt="Shield Bearer" />
-          </div>
-          <div className='UnitSelector'>
-            <img src="src/assets/DeadState/archerDead.png" alt="Archer" />
-          </div>
-          <div className='UnitSelector'>
-            <img src="src/assets/DeadState/romanShipDead.png" alt="Roman Ship" />
-          </div>
-          <div className='UnitSelector'>
-            <img src="src/assets/DeadState/medicDead.png" alt="Medic" />
-          </div>
-      </div>
 
+          <Droppable id='simulationBox'>
+            <div className='simulation-box'>
+              {/* Render dropped elements */}
+              {unitPositions.map((unit, index) => (
+                <div
+                  key={index}
+                  style={{
+                    position: 'absolute',
+                    left: `${unit.position.x}px`,
+                    top: `${unit.position.y}px`,
+                    width: '50px',
+                    height: '50px',
+                  }}
+                >
+                  <img
+                    src={`src/assets/DeadState/${unit.type}Dead.png`}
+                    alt={unit.type}
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                </div>
+              ))}
+            </div>
+          </Droppable>
+        </DndContext>
       )}
       <div className='StartDiv'>
-        <button className="start-button" onClick={handleStart}>
+        <button className='start-button' onClick={handleStart}>
           Start Simulation
         </button>
-      <button onClick={toggleMode} className="toggle-mode-button">switch
-      </button>
-      </div>
-      <div className="simulation-box">
-        p
+        <button onClick={toggleMode} className='toggle-mode-button'>
+          Switch Mode
+        </button>
       </div>
     </div>
   );
