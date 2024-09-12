@@ -20,6 +20,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
   const [shiptCount, setShipCount] = useState(0);
   const [elephantCount, setElephantCount] = useState(0);
   const [ballistaCount, setBallistaCount] = useState(0);
+  const [WolfCount, setWolfCount] = useState(0);
 
   const handleStart = () => {
     const unitCounts = {
@@ -32,9 +33,14 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
       romanShip: shiptCount,
       elephant: elephantCount,
       ballista: ballistaCount,
+      wolf: WolfCount,
+      
+      //Static Buildings
       banner: 1,
       barrack: 1,
       medicTent: 1,
+      barn: 2,
+      cave: 1,
     };
     onStartSimulation(unitCounts);
   };
@@ -167,6 +173,14 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
           </div>
         </div>
         <div className='UnitSelector'>
+          <img src="src/assets/DeadState/WolfDead.png" alt="Wolf" />
+          <label>{WolfCount}</label>
+          <div className="controls">
+            <button onClick={() => setWolfCount(Math.max(WolfCount + 5, 0))}>+</button>
+            <button onClick={() => setWolfCount(Math.max(WolfCount - 5, 0))}>-</button>
+          </div>
+        </div>
+        <div className='UnitSelector'>
           <img src="src/assets/DeadState/shieldBearerDead.png" alt="Shield Bearer" />
           <label>{shieldBearerCount}</label>
           <div className="controls">
@@ -198,6 +212,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
             <Draggable id='ballista' type='ballista' image='src/assets/DeadState/ballistaDead.png' />
             <Draggable id='romanShip' type='romanShip' image='src/assets/DeadState/romanShipDead.png' />
             <Draggable id='elephant' type='elephant' image='src/assets/DeadState/elephantDead.png' />
+            <Draggable id='wolf' type='wolf' image='src/assets/DeadState/WolfDead.png' />
             <Draggable id='shieldBearer' type='shieldBearer' image='src/assets/DeadState/shieldBearerDead.png' />
 
           </div>

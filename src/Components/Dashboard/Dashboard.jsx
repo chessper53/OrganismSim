@@ -5,10 +5,12 @@ import { generateOrganisms, shuffleArray, countAlive } from '../../Utilis/Organi
 import Organism from '../Organism/Organism';
 import { roles } from '../../Utilis/roles';
 import { findClosestOpponent, findClosestTeammate, initializeGrid } from '../../Utilis/abilities';
+import VictoryScreen from '../Victory/VictoryScreen';
 import Banner from '../Banner/Banner';
 import { generateObstacles } from '../../Utilis/NonTraversablePoints';
 
 const Dashboard = () => {
+  const [winner, setWinner] = useState();
   const [organisms, setOrganisms] = useState(generateOrganisms());
   const [obstacles, setObstacles] = useState([]);
   const [nonTraversablePoints, setNonTraversablePoints] = useState([]);  
@@ -16,6 +18,16 @@ const Dashboard = () => {
   const [simulationStarted, setSimulationStarted] = useState(false);
   const [editMode, setEditMode] = useState(true); 
 
+  const { aliveRed, aliveBlue } = countAlive(organisms);
+
+  useEffect(() => {
+    // Check if the game has a winner
+    if (aliveRed === 0) {
+      setWinner('Blue');
+    } else if (aliveBlue === 0) {
+      setWinner('Red');
+    }
+  }, [aliveRed, aliveBlue]);
 
   useEffect(() => {
     const { obstacles: generatedObstacles, nonTraversablePoints: generatedNonTraversablePoints, lake } = generateObstacles(20);
@@ -26,7 +38,6 @@ const Dashboard = () => {
   }, []);
 
   const handleStartSimulation = (unitCounts) => {
-    // Pass the lakeArray and nonTraversablePoints to the generateOrganisms function
     setOrganisms(generateOrganisms(unitCounts, window.innerWidth, window.innerHeight, lakeArray, nonTraversablePoints));  
     setSimulationStarted(true);
     setEditMode(false);
@@ -37,7 +48,26 @@ const Dashboard = () => {
     setSimulationStarted(false);  
   };
 
+  const handleSpeedChange = (x) => {
+    let tickspeed = parseInt(localStorage.getItem("TickSpeed"), 10);
+    if (isNaN(tickspeed)) {
+      tickspeed = 50;
+    }
+    if (x === "forward") {
+      tickspeed -= 50;
+    } else {
+      tickspeed = Math.max(0, tickspeed + 50); 
+    }
+    localStorage.setItem("TickSpeed", tickspeed);
+  };
+
   useEffect(() => {
+    const getTickSpeed = () => {
+      // Get the tick speed from localStorage or use default of 50
+      return parseInt(localStorage.getItem("TickSpeed"), 10) || 50;
+    };
+  
+    // Set the interval using the value from localStorage
     const interval = setInterval(() => {
       const currentTime = Date.now(); 
   
@@ -72,12 +102,10 @@ const Dashboard = () => {
   
         return [...updatedOrganisms, ...newOrganisms];
       });
-    }, 50);
-  
+    }, getTickSpeed());
     return () => clearInterval(interval);
   }, [organisms, obstacles]);
-
-  const { aliveRed, aliveBlue } = countAlive(organisms);
+  
 
   return (
     <div className="dashboard-container">
@@ -98,7 +126,9 @@ const Dashboard = () => {
               <img src="src/assets/DesignIcons/castleBlue.png" alt="Faction 1" />
               <p>{aliveBlue}</p>
             </div>
+            <img src="src/assets/DesignIcons/back.png" className="speed-button" onClick={() => handleSpeedChange("backward")}/>
             <img src="src/assets/DesignIcons/exit.png" className="edit-button" onClick={handleEditSimulation} />
+            <img src="src/assets/DesignIcons/forward.png" className="speed-button" onClick={() => handleSpeedChange("forward")}/>
             <div className="faction-info">
               <img src="src/assets/DesignIcons/castleRed.png" alt="Faction 2" />
               <p>{aliveRed}</p>
@@ -126,6 +156,7 @@ const Dashboard = () => {
           ))}
         </div>
       )}
+        {winner && <VictoryScreen winner={winner} />}
     </div>
   );
 };

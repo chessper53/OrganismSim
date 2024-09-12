@@ -1,0 +1,45 @@
+.victory-container {
+    position: fixed;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    animation: slideUp 1s forwards ease-out;
+    z-index: 1000; /* To ensure it's above other elements */
+  }
+  
+  .victory-banner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Optional: Background with transparency */
+    padding: 20px;
+    border-radius: 10px;
+    color: white; /* Text color */
+    text-align: center;
+    z-index: 999; /* Ensure it's on top of everything */
+  }
+  
+  
+  @keyframes slideUp {
+    0% {
+      bottom: -100%;
+    }
+    100% {
+      bottom: 50%;
+    }
+  }
+  
+  /* Placeholder for confetti effect */
+  .confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  

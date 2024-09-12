@@ -31,6 +31,9 @@ import bannerDead from '../assets/DeadState/bannerDead.png';
 import ballistaBlue from "../assets/BlueTeam/ballistaBlue.png";
 import ballistaRed from '../assets/RedTeam/ballistaRed.png';
 import ballistaDead from '../assets/DeadState/ballistaDead.png';
+import wolfBlue from "../assets/BlueTeam/wolfBlue.png";
+import wolfRed from '../assets/RedTeam/wolfRed.png';
+import wolfDead from '../assets/DeadState/wolfDead.png';
 
 // Structures
 import barracksBlue from "../assets/Structures/barrackBlue.png";
@@ -39,6 +42,12 @@ import barracksDead from '../assets/Structures/barrackDead.png';
 import medicTentBlue from "../assets/Structures/MedicTentBlue.png";
 import medicTentRed from '../assets/Structures/MedicTentRed.png';
 import medicTentDead from '../assets/Structures/MedicTentDead.png';
+import barnBlue from "../assets/Structures/barnBlue.png";
+import barnRed from '../assets/Structures/barnRed.png';
+import barnDead from '../assets/Structures/barnDead.png';
+import caveBlue from "../assets/Structures/caveBlue.png";
+import  caveRed from '../assets/Structures/caveRed.png';
+import  caveDead from '../assets/Structures/caveDead.png';
 
 export const roleIcons = {
   legionnaire: {
@@ -131,6 +140,27 @@ export const roleIcons = {
       red: medicTentRed,
     },
     dead: medicTentDead,
+  },
+  wolf: {
+    alive: {
+      blue: wolfBlue,
+      red: wolfRed,
+    },
+    dead: wolfDead,
+  },
+  barn: {
+    alive: {
+      blue: barnBlue,
+      red: barnRed,
+    },
+    dead: barnDead,
+  },
+  cave: {
+    alive: {
+      blue: caveBlue,
+      red: caveRed,
+    },
+    dead: caveDead,
   }
 };
 

@@ -101,6 +101,27 @@ export const roles = {
       return organism;
     },
   },
+  wolf: {
+    speed: 7,
+    health: 0.1,
+    cost: 7,
+    behaviorType: 'seeker',
+    description: "Fast but weak Unit",
+    behavior: (organism, organisms, opponent, obstacles) => {
+      if (opponent && getDistance(organism, opponent) < 15) {
+        if (Math.random() < 0.5) {
+          opponent.health -= 0.35;
+          if (opponent.health <= 0) {
+            opponent.isAlive = false;
+            logKillEvent(organism, opponent); 
+          }
+        }
+      } else if (opponent) {
+        organism = moveTowardOpponent(organism, opponent, obstacles);
+      }
+      return organism;
+    },
+  },
   medic: {
     speed: 3,
     health: 3,
@@ -317,6 +338,60 @@ export const roles = {
           speed: roles.medic.speed,
         };
         newUnits.push(newMedic);
+      }
+      return { updatedOrganism: organism, newUnits };
+    },
+  },
+  barn: {
+    speed: 0,
+    health: 10,
+    cost: 0,
+    behaviorType: 'spawner',
+    description: "Static building that spawns Civilians over time.",
+    behavior: (organism, organisms) => {
+      const newUnits = [];
+      if (Math.random() < 0.01) {
+        const newCivilian = {
+          id: `Civi-${Date.now()}`,
+          username: generateUserName(),
+          type: organism.type,
+          role: 'civilian',
+          position: {
+            x: organism.position.x + Math.random() * 20 - 10,
+            y: organism.position.y + Math.random() * 20 - 10,
+          },
+          isAlive: true,
+          health: roles.civilian.health,
+          speed: roles.civilian.speed,
+        };
+        newUnits.push(newCivilian);
+      }
+      return { updatedOrganism: organism, newUnits };
+    },
+  },
+  cave: {
+    speed: 0,
+    health: 10,
+    cost: 0,
+    behaviorType: 'spawner',
+    description: "Static building that spawns Wolves over time.",
+    behavior: (organism, organisms) => {
+      const newUnits = [];
+      if (Math.random() < 0.01) {
+        const newWolf = {
+          id: `wolf-${Date.now()}`,
+          username: generateUserName(),
+          type: organism.type,
+          role: 'wolf',
+          position: {
+            x: organism.position.x + Math.random() * 20 - 10,
+            y: organism.position.y + Math.random() * 20 - 10,
+          },
+          isAlive: true,
+          health: roles.wolf.health,
+          speed: roles.wolf.speed,
+        };
+        newUnits.push(newWolf);
       }
       return { updatedOrganism: organism, newUnits };
     },

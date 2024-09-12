@@ -56,6 +56,7 @@ html, body {
   width: 100%;
 }
 
+
 .counter-Div {
   display: flex;
   justify-content: center; /* Center the whole counter block */
@@ -80,6 +81,8 @@ html, body {
   margin: 0 20px; /* Smaller space between button and factions */
 }
 
+
+
 .counter-Div img {
   width: 40px;
   height: 40px;
@@ -87,4 +90,9 @@ html, body {
 
 .counter-Div * {
   text-align: center;
+}
+
+.speed-button{
+  height: 10px;
+  width: 0px;
 }
