@@ -93,8 +93,6 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
         ...prevPositions,
         { type: dragItemType, position: { x: clampedX, y: clampedY } },
       ]);
-      console.log('Placed:', dragItemType, 'at X:', clampedX, 'Y:', clampedY);
-      console.log(unitPositions);
       localStorage.setItem('PlacedUnits', JSON.stringify(unitPositions));
     }
   };
@@ -102,6 +100,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
   return (
     <div className='Banner'>
       {mode === 'selector' ? (
+        <>
         <div className='SelectorDiv'>
         <div className='UnitSelector'>
           <img src="src/assets/DeadState/legionnaireDead.png" alt="Legionnaire" />
@@ -176,6 +175,20 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
           </div>
         </div>
        </div>
+       
+                  <div className='StartDiv'>
+            <button className='start-button' onClick={handleStart}>
+              Start Simulation
+            </button>
+            <button onClick={toggleMode} className='toggle-mode-button'>
+              Switch Mode
+            </button>
+          </div>
+          <div className='simulation-box'></div>
+        </>
+        
+       
+       
       ) : (
         <DndContext onDragEnd={handleDragEnd}>
           <div className='DragableMode'>
@@ -187,6 +200,14 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
             <Draggable id='romanShip' type='romanShip' image='src/assets/DeadState/romanShipDead.png' />
             <Draggable id='medic' type='medic' image='src/assets/DeadState/medicDead.png' />
           </div>
+          <div className='StartDiv'>
+        <button className='start-button' onClick={handleStart}>
+          Start Simulation
+        </button>
+        <button onClick={toggleMode} className='toggle-mode-button'>
+          Switch Mode
+        </button>
+      </div>
           <Droppable id='simulationBox'>
             <div className='simulation-box'>
               {unitPositions.map((unit, index) => (
@@ -211,14 +232,6 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
           </Droppable>
         </DndContext>
       )}
-      <div className='StartDiv'>
-        <button className='start-button' onClick={handleStart}>
-          Start Simulation
-        </button>
-        <button onClick={toggleMode} className='toggle-mode-button'>
-          Switch Mode
-        </button>
-      </div>
     </div>
   );
 };

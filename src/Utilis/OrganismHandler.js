@@ -56,38 +56,43 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
 
   let unitArray = JSON.parse(localStorage.getItem('PlacedUnits')); 
   if (unitArray && Array.isArray(unitArray)) {
-    unitArray.forEach((unit) => {
+    // Selfplaced Organisms
+    const count = unitArray.length;
+
+    for (let i = 0; i < count; i++) {
+      const unit = unitArray[i]; 
       const unitType = unit.type; 
       const posX = unit.position.x; 
       const posY = unit.position.y;
       const roleData = roles[unitType];
       organisms.push({
-        id: `blue-${unitType}`,
+        id: `blue-${unitType}-${i}`,
         username: generateUserName(),
         desc: roleData.description,
         type: 'blue',
         speed: roleData.speed,
         health: roleData.health,
-        position: posX, posY, 
+        position: { x: posX, y: posY }, 
         isAlive: true,
         role: unitType,
       });
 
       organisms.push({
-        id: `red-${unitType}`,
+        id: `red-${unitType}-${i}`,
         username: generateUserName(),
         desc: roleData.description,
         type: 'red',
         speed: roleData.speed,
         health: roleData.health,
-        position: posX, posY, 
+        position: generateValidPosition(),
         isAlive: true,
         role: unitType,
       });
-    });
-
+    }
     return organisms;
   }else{
+    // Autoplaced Organisms
+
     Object.keys(unitCounts).forEach((unitType) => {
       const count = unitCounts[unitType] || 0; 
       const roleData = roles[unitType];
