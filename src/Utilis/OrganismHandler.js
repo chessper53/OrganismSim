@@ -37,7 +37,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
     return { x, y };
   };
   
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 5; i++) {
     organisms.push({
       id: `red-civilian-${i}`,
       username: generateUserName(),

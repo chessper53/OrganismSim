@@ -42,82 +42,6 @@ export const findClosestTeammate = (organism, organisms) => {
 export const healTeammate = (organism, organisms) => {
   return organisms.find((teammate) => teammate.isAlive && teammate.type === organism.type && teammate.health < 3);
 };
-
-
-export const moveTowardOpponent3 = (organism, opponent) => {
-  var nonTraversablePoints = JSON.parse(localStorage.getItem("NonTraversablePoints"));
-  const speed = organism.speed || 3;
-  const gridWidth = battlefieldDimensions.width;
-  const gridHeight = battlefieldDimensions.height;
-
-  // Threshold to determine if we need to recalculate path
-  const attackRange = 10;  // The range within which the organism can attack
-  const pathRecalculationThreshold = 10;  // Minimum distance before recalculating path
-
-  // Ensure the opponent is alive before moving towards them
-  if (opponent && opponent.isAlive) {
-    const distanceToOpponent = getDistance(organism, opponent);
-
-    // Only move if the opponent is outside the attack range
-    if (distanceToOpponent > attackRange) {
-      const finder = new PF.AStarFinder();
-      const grid = new PF.Grid(gridWidth, gridHeight);
-
-      // Mark non-traversable points in the 5-pixel grid
-      nonTraversablePoints.forEach((point) => {
-        if (point.x >= 0 && point.x < gridWidth && point.y >= 0 && point.y < gridHeight) {
-          grid.setWalkableAt(point.x, point.y, false); // Set non-traversable points
-        }
-      });
-
-      // Scale down organism and opponent positions to fit the 5-pixel grid
-      const clampToGrid = (value, max) => Math.max(0, Math.min(value, max - 1));
-
-      const startX = clampToGrid(Math.floor(organism.position.x / 5), gridWidth);
-      const startY = clampToGrid(Math.floor(organism.position.y / 5), gridHeight);
-      const endX = clampToGrid(Math.floor(opponent.position.x / 5), gridWidth);
-      const endY = clampToGrid(Math.floor(opponent.position.y / 5), gridHeight);
-
-      // Find the path from the organism to the opponent only if the distance is above a threshold
-      if (distanceToOpponent > pathRecalculationThreshold) {
-        const path = finder.findPath(startX, startY, endX, endY, grid);
-
-        if (path.length > 1) {
-          const nextStep = path[1]; // Get the next step in the path
-          const dx = (nextStep[0] * 5) - organism.position.x; // Scale back to pixel space
-          const dy = (nextStep[1] * 5) - organism.position.y; // Scale back to pixel space
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance > 0) {
-            organism.position.x += (dx / distance) * speed;
-            organism.position.y += (dy / distance) * speed;
-          }
-        }
-      }
-    }
-  }
-
-  return organism;
-};
-
-export const moveTowardOpponent2 = (organism, opponent) => {
-  const speed = organism.speed || 3;
-
-  if (opponent) {
-    const dx = opponent.position.x - organism.position.x;
-    const dy = opponent.position.y - organism.position.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    if (distance > 0) {
-      organism.position.x += (dx / distance) * speed;
-      organism.position.y += (dy / distance) * speed;
-    }
-  }
-
-  return organism;
-};
-
-
 let grid;
 
 export const initializeGrid = (obstacles) => {
@@ -145,19 +69,71 @@ export const getGridClone = () => {
   if (!grid) {
     throw new Error('Grid not initialized. Call initializeGrid first.');
   }
-  return grid.clone(); // Returning a clone each time to ensure no mutation of the original grid
+  return grid.clone();  
 };
 
 export const moveTowardOpponent = (organism, opponent) => {
+  if (!moveTowardOpponent.finder) {
+    moveTowardOpponent.finder = new PF.JumpPointFinder();
+  }
+  const finder = moveTowardOpponent.finder;
+
   const speed = organism.speed || 3;
   const stoppingDistance = 10;
+  const maxTimeWithoutMovement = 10; 
+  const wanderingCycles = 5; 
+  if (typeof organism.targetCounter !== 'number') {
+    organism.targetCounter = 0;
+  }
+  if (typeof organism.wanderingCounter !== 'number') {
+    organism.wanderingCounter = 0; 
+  }
+  if (!organism.isWandering) {
+    organism.isWandering = false; 
+  }
 
-  if (!grid) {
-    console.error('Grid not initialized. Call initializeGrid first.');
+  if (!grid || !opponent) {
     return organism;
   }
 
-  if (opponent) {
+  const positionChanged = (pos1, pos2) => {
+    const threshold = 1; 
+    return (
+      Math.abs(pos1.x - pos2.x) > threshold || Math.abs(pos1.y - pos2.y) > threshold
+    );
+  };
+
+  if (organism.isWandering) {
+    organism.wanderingCounter++;
+
+    const randomDirection = Math.random() * 2 * Math.PI; 
+    const dx = Math.cos(randomDirection) * speed;
+    const dy = Math.sin(randomDirection) * speed;
+
+    organism.position.x += dx;
+    organism.position.y += dy;
+
+    if (organism.wanderingCounter >= wanderingCycles) {
+      organism.isWandering = false;
+      organism.wanderingCounter = 0;
+      organism.targetCounter = 0; 
+    }
+    return organism;
+  }
+
+  const organismPosChanged =
+    !organism.previousPosition ||
+    positionChanged(organism.position, organism.previousPosition);
+  const opponentPosChanged =
+    !organism.previousOpponentPosition ||
+    positionChanged(opponent.position, organism.previousOpponentPosition);
+
+  if (
+    !organism.path ||
+    organismPosChanged ||
+    opponentPosChanged ||
+    organism.pathIndex >= organism.path.length - 1
+  ) {
     const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
     const startX = clamp(Math.floor(organism.position.x / 5), 0, grid.width - 1);
@@ -165,25 +141,64 @@ export const moveTowardOpponent = (organism, opponent) => {
     const endX = clamp(Math.floor(opponent.position.x / 5), 0, grid.width - 1);
     const endY = clamp(Math.floor(opponent.position.y / 5), 0, grid.height - 1);
 
-    const finder = new PF.JumpPointFinder();
-    const path = finder.findPath(startX, startY, endX, endY, getGridClone()); // Clone the grid on each call
+    const gridClone = getGridClone(); 
+    const newPath = finder.findPath(startX, startY, endX, endY, gridClone);
 
-    if (path.length > 1) {
-      const [nextX, nextY] = path[1];
-      const dx = nextX * 5 - organism.position.x;
-      const dy = nextY * 5 - organism.position.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      const distanceToOpponent = Math.sqrt(
-        (opponent.position.x - organism.position.x) ** 2 + 
-        (opponent.position.y - organism.position.y) ** 2
-      );
-
-      if (distanceToOpponent > stoppingDistance && distance > 0) {
-        organism.position.x += (dx / distance) * speed;
-        organism.position.y += (dy / distance) * speed;
-      }
+    if (newPath && newPath.length > 1) {
+      organism.path = newPath;
+      organism.pathIndex = 0;
+    } else {
+      organism.path = null;
+      organism.pathIndex = null;
+      organism.targetCounter++;
+      return organism;
     }
+
+    organism.previousPosition = { x: organism.position.x, y: organism.position.y };
+    organism.previousOpponentPosition = { x: opponent.position.x, y: opponent.position.y };
+  }
+
+  if (organism.path && organism.pathIndex < organism.path.length - 1) {
+    const [nextX, nextY] = organism.path[organism.pathIndex + 1];
+    const targetX = nextX * 5;
+    const targetY = nextY * 5;
+
+    let dx = targetX - organism.position.x;
+    let dy = targetY - organism.position.y;
+    let distanceToNextPoint = Math.hypot(dx, dy);
+
+    if (distanceToNextPoint <= speed) {
+      organism.position.x = targetX;
+      organism.position.y = targetY;
+      organism.pathIndex++;
+    } else {
+      organism.position.x += (dx / distanceToNextPoint) * speed;
+      organism.position.y += (dy / distanceToNextPoint) * speed;
+    }
+
+    const distanceToOpponent = Math.hypot(
+      opponent.position.x - organism.position.x,
+      opponent.position.y - organism.position.y
+    );
+
+    if (distanceToOpponent > stoppingDistance) {
+      organism.targetCounter = 0;
+    } else {
+      organism.targetCounter++;
+    }
+  } else {
+    organism.targetCounter++;
+  }
+
+  if (organism.targetCounter > maxTimeWithoutMovement) {
+    console.log("Switching to wandering mode due to inactivity.");
+    organism.isWandering = true; 
+    organism.targetCounter = 0;
+    organism.target = null;
+    organism.path = null;
+    organism.pathIndex = null;
+    organism.previousPosition = null;
+    organism.previousOpponentPosition = null;
   }
 
   return organism;

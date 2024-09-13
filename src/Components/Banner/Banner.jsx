@@ -36,11 +36,11 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
       wolf: WolfCount,
 
       //Static Buildings
-      // banner: 1,
-      // barrack: 1,
-      // medicTent: 1,
-      // barn: 2,
-      // cave: 1,
+      banner: 1,
+      barrack: 1,
+      medicTent: 1,
+      barn: 1,
+      cave: 1,
     };
     onStartSimulation(unitCounts);
   };

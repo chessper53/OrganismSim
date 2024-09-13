@@ -20,15 +20,12 @@ const StatsAnalysis = ({ organisms, onBackToDashboard }) => {
   const [deathStats, setDeathStats] = useState({ redDeaths: 0, blueDeaths: 0 });
 
   useEffect(() => {
-    // Sort organisms by killCount and get the top 5
     const sortedByKills = [...organisms].sort((a, b) => (b.killCount || 0) - (a.killCount || 0)).slice(0, 3);
     setTopKills(sortedByKills);
 
-    // Sort organisms by distanceTraveled and get the top 5
     const sortedByDistance = [...organisms].sort((a, b) => (b.distanceTraveled || 0) - (a.distanceTraveled || 0)).slice(0, 3);
     setTopDistance(sortedByDistance);
 
-    // Count deaths for both teams
     const redDeaths = organisms.filter((org) => org.type === 'red' && !org.isAlive).length;
     const blueDeaths = organisms.filter((org) => org.type === 'blue' && !org.isAlive).length;
     setDeathStats({ redDeaths, blueDeaths });
@@ -55,13 +52,11 @@ const StatsAnalysis = ({ organisms, onBackToDashboard }) => {
 
   return (
     <div className="stats-analysis">
-      <h1>Stats Analysis</h1>
-
       <div className="content">
         <div className="leaderboards">
           {/* Top Killers */}
           <div className="leaderboard">
-            <h2>Top 5 Killers</h2>
+            <h2>Top 3 Units</h2>
             <ul>
               {topKills.map((organism, index) => (
                 <li key={organism.id}>
@@ -73,7 +68,7 @@ const StatsAnalysis = ({ organisms, onBackToDashboard }) => {
 
           {/* Top Distance Traveled */}
           <div className="leaderboard">
-            <h2>Top 5 Distance Traveled</h2>
+            <h2>Top 3 Travelers</h2>
             <ul>
               {topDistance.map((organism, index) => (
                 <li key={organism.id}>
@@ -90,7 +85,6 @@ const StatsAnalysis = ({ organisms, onBackToDashboard }) => {
           <Bar data={data} options={options} />
         </div>
       </div>
-
       <button onClick={onBackToDashboard} className='backButton'>Back to Dashboard</button>
 
     </div>

@@ -376,7 +376,7 @@ export const roles = {
     description: "Static building that spawns medics over time.",
     behavior: (organism, organisms) => {
       const newUnits = [];
-      if (Math.random() < 0.01) {
+      if (Math.random() < 0.003) {
         const newMedic = {
           id: `medic-${Date.now()}`,
           username: generateUserName(),
@@ -387,7 +387,7 @@ export const roles = {
             y: organism.position.y + Math.random() * 20 - 10,
           },
           isAlive: true,
-          health: roles.medic.health,
+          health: 0.1,
           speed: roles.medic.speed,
         };
         newUnits.push(newMedic);
