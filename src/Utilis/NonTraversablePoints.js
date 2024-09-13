@@ -22,6 +22,24 @@ export const battlefieldDimensions = {
     const centerX = window.innerWidth / 2 - lakeWidth / 2;
     const centerY = window.innerHeight / 2 - lakeHeight / 2;
   
+    obstacles.push({
+      id: `Lake`,
+      x: centerX,
+      y: centerY,
+      width: lakeWidth,
+      height: lakeHeight,
+      imageSrc: "/src/assets/Obstacles/ObstacleLake.png",
+    });
+  
+    lakeArray.push({
+      id: `Lake`,
+      x: centerX,
+      y: centerY,
+      width: lakeWidth,
+      height: lakeHeight,
+      imageSrc: "/src/assets/Obstacles/ObstacleLake.png",
+    });
+    
     const lakeStartX = Math.floor((centerX - 5) / 5);
     const lakeEndX = Math.floor((centerX + lakeWidth + 5) / 5);
     const lakeStartY = Math.floor((centerY - 5) / 5);
@@ -82,11 +100,6 @@ export const battlefieldDimensions = {
         }
       }
     }
-  
-    console.log("Generated Obstacles:", obstacles);
-    console.log("Generated Non-Traversable Points:", nonTraversablePoints);
-    console.log("Lake:", lakeArray);
-  
     return { obstacles, nonTraversablePoints, lakeArray };
   };
   

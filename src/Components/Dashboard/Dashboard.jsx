@@ -65,7 +65,6 @@ const Dashboard = () => {
     localStorage.setItem("TickSpeed", tickspeed);
   };
 
-  // Interval for updating organism movements based on tick speed
   useEffect(() => {
     const getTickSpeed = () => {
       return parseInt(localStorage.getItem("TickSpeed"), 10) || 50;
@@ -113,7 +112,6 @@ const Dashboard = () => {
     setShowStats(true);
   };
 
-  // Render Dashboard or StatsAnalysis based on showStats state
   return (
     <div className="dashboard-container">
       {showStats ? (
