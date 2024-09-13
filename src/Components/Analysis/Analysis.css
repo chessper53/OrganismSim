@@ -1,76 +1,79 @@
 .stats-analysis {
-    padding: 20px;
-    background-color: rgba(25, 25, 25, 0.9); /* Dark background with transparency */
-    color: #f0f0f0; /* Light text color for contrast */
-    height: 100vh; /* Full height */
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .content {
-    display: flex;
-    height: 100%;
-  }
-  
-  .leaderboards {
-    width: 20%; /* Fixed width for leaderboards */
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-height: 100%; /* Ensures leaderboards fit vertically */
-    overflow-y: auto; /* Add scroll if content overflows */
-  }
-  
-  .leaderboard {
-    background-color: #333333; /* Darker background for cards */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    flex-shrink: 0; /* Prevent shrinking */
-  }
-  
-  .leaderboard h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #f0f0f0; /* Light color for text */
-  }
-  
-  .leaderboard ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .leaderboard li {
-    font-size: 1.2rem;
-    margin-bottom: 8px;
-    color: #e0e0e0; /* Lighter text for list items */
-  }
-  
-  .deaths-graph {
-    flex-grow: 1; /* Make the graph take up the remaining space */
-    background-color: #444444; /* Darker background for the graph */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-  }
-  
-  .deaths-graph h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: #f0f0f0; /* Light color for text */
-  }
-  
-  button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #1a73e8; /* Bright button color */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #145dbf; /* Darker hover state */
-  }
-  
+  padding: 20px;
+  background: linear-gradient(135deg, #1b1b1b, #2d2d2d); /* Subtle gradient background */
+  color: #f0f0f0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+}
+
+.content {
+  display: flex;
+  gap: 40px; /* Add spacing between leaderboards and graph */
+}
+
+.leaderboards {
+  width: 25%; /* Slightly wider */
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: 10px;
+}
+
+.leaderboard {
+  background-color: #2f2f2f;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+  color: #e0e0e0;
+}
+
+.leaderboard h2 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #ffcc00; /* Accent color for titles */
+}
+
+.leaderboard ul {
+  list-style: none;
+  padding: 0;
+}
+
+.leaderboard li {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  color: #ddd; /* Softer text color */
+}
+
+.deaths-graph {
+  flex-grow: 1;
+  background-color: #3d3d3d;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.deaths-graph h2 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #ffcc00; /* Accent color */
+}
+
+
+
+.backButton {
+  background-color: #00f;
+  color: white;
+  border: none;
+  padding: 8px 16px; /* Reduced button size */
+  font-size: 14px; /* Smaller font */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.backButton:hover {
+  background-color: darkblue;
+}

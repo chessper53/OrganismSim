@@ -61,7 +61,7 @@ const StatsAnalysis = ({ organisms, onBackToDashboard }) => {
         <div className="leaderboards">
           {/* Top Killers */}
           <div className="leaderboard">
-            <h2>Top 3 Killers</h2>
+            <h2>Top 5 Killers</h2>
             <ul>
               {topKills.map((organism, index) => (
                 <li key={organism.id}>
@@ -73,7 +73,7 @@ const StatsAnalysis = ({ organisms, onBackToDashboard }) => {
 
           {/* Top Distance Traveled */}
           <div className="leaderboard">
-            <h2>Top 3 Distance Traveled</h2>
+            <h2>Top 5 Distance Traveled</h2>
             <ul>
               {topDistance.map((organism, index) => (
                 <li key={organism.id}>
@@ -91,7 +91,7 @@ const StatsAnalysis = ({ organisms, onBackToDashboard }) => {
         </div>
       </div>
 
-      <button onClick={onBackToDashboard}>Back to Dashboard</button>
+      <button onClick={onBackToDashboard} className='backButton'>Back to Dashboard</button>
 
     </div>
   );

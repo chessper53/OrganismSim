@@ -18,12 +18,11 @@ const Dashboard = () => {
   const [lakeArray, setLakeArray] = useState([]); 
   const [simulationStarted, setSimulationStarted] = useState(false);
   const [editMode, setEditMode] = useState(true); 
-  const [showStats, setShowStats] = useState(false);  // New state to toggle between Dashboard and StatsAnalysis
+  const [showStats, setShowStats] = useState(false); 
 
   const { aliveRed, aliveBlue } = countAlive(organisms);
 
   useEffect(() => {
-    // Check if the game has a winner
     if (aliveRed === 0) {
       localStorage.setItem("TickSpeed", 1000000000);
       setWinner('Blue');
@@ -110,7 +109,6 @@ const Dashboard = () => {
     return () => clearInterval(interval);
   }, [organisms, obstacles]);
 
-  // Function to toggle to StatsAnalysis
   const handleShowStats = () => {
     setShowStats(true);
   };
@@ -127,6 +125,7 @@ const Dashboard = () => {
           ) : (
             <div className="simulation-header">
               <Feed />
+            <img src="src/assets/DesignIcons/analytics.png" className='analytics-Button' onClick={handleShowStats}/>
             </div>
           )}
           {simulationStarted && !editMode && (
@@ -166,9 +165,6 @@ const Dashboard = () => {
               ))}
             </div>
           )}
-          {winner && <VictoryScreen winner={winner} />}
-          {/* Add a button to switch to StatsAnalysis */}
-          <button onClick={handleShowStats}>Analyze Stats</button>
         </>
       )}
     </div>

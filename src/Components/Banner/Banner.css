@@ -24,6 +24,7 @@ body {
     right: 0;
     top: 0;
     margin: 10px; /* optional: to add some spacing from the edges */
+    cursor: pointer;
   }
   
 

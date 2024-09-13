@@ -95,4 +95,17 @@ html, body {
 .speed-button{
   height: 10px;
   width: 0px;
+  cursor: pointer;
+
 }
+
+.analytics-Button {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 1%;
+  cursor: pointer;
+}
+
