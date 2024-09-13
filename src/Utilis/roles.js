@@ -1,5 +1,6 @@
 import { getDistance, findClosestTeammate, moveTowardOpponent, healTeammate } from "./abilities";
 import { logKillEvent, generateUserName } from "./KillFeed";
+import { handleKill } from "./OrganismHandler";
 
 const calculateDistance = (x1, y1, x2, y2) => {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
@@ -34,7 +35,7 @@ export const roles = {
         if (Math.random() < 0.3) {
           opponent.health -= 0.5;
           if (opponent.health <= 0) {
-            opponent.isAlive = false;
+            handleKill(opponent);
             organism.killCount += 1; // Increment kill count
             logKillEvent(organism, opponent); // Log the kill event
           }
@@ -59,7 +60,7 @@ export const roles = {
         if (Math.random() < 0.3) {
           opponent.health -= 1;
           if (opponent.health <= 0) {
-            opponent.isAlive = false;
+            handleKill(opponent);
             organism.killCount += 1;
             logKillEvent(organism, opponent);
           }
@@ -84,7 +85,7 @@ export const roles = {
         if (Math.random() < 0.5) {
           opponent.health -= 3;
           if (opponent.health <= 0) {
-            opponent.isAlive = false;
+            handleKill(opponent);
             organism.killCount += 1;
             logKillEvent(organism, opponent);
           }
@@ -100,7 +101,7 @@ export const roles = {
   },
   elephant: {
     speed: 0.5,
-    health: 10,
+    health: 20,
     cost: 3000,
     behaviorType: 'seeker',
     description: "Heavy unit with enormous health that slowly crushes enemies in close combat.",
@@ -109,7 +110,7 @@ export const roles = {
         if (Math.random() < 0.5) {
           opponent.health -= 10;
           if (opponent.health <= 0) {
-            opponent.isAlive = false;
+            handleKill(opponent);
             organism.killCount += 1;
             logKillEvent(organism, opponent);
           }
@@ -134,7 +135,7 @@ export const roles = {
         if (Math.random() < 0.5) {
           opponent.health -= 0.35;
           if (opponent.health <= 0) {
-            opponent.isAlive = false;
+            handleKill(opponent);
             organism.killCount += 1;
             logKillEvent(organism, opponent);
           }
@@ -246,7 +247,7 @@ export const roles = {
           if (Math.random() < 0.3) {
             opponent.health -= 0.5;
             if (opponent.health <= 0) {
-              opponent.isAlive = false;
+              handleKill(opponent);
               organism.killCount += 1;
               logKillEvent(organism, opponent);
             }
@@ -282,7 +283,7 @@ export const roles = {
           if (Math.random() < 0.1) {
             opponent.health -= 5;
             if (opponent.health <= 0) {
-              opponent.isAlive = false;
+              handleKill(opponent);
               organism.killCount += 1;
               logKillEvent(organism, opponent);
             }
@@ -318,7 +319,7 @@ export const roles = {
           if (Math.random() < 0.5) {
             opponent.health -= 1;
             if (opponent.health <= 0) {
-              opponent.isAlive = false;
+              handleKill(opponent);
               organism.killCount += 1;
               logKillEvent(organism, opponent);
             }

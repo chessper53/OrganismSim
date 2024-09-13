@@ -45,6 +45,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
       distanceTraveled: 0, // Add distanceTraveled
       type: 'red',
       speed: roles.civilian.speed,
+      killTime: null, // Initialize killTime as null (alive)
       desc: roles.civilian.description,
       health: roles.civilian.health,
       position: generateValidPosition(), 
@@ -56,6 +57,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
       id: `blue-civilian-${i}`,
       username: generateUserName(),
       killCount: 0, // Add killCount
+      killTime: null, // Initialize killTime as null (alive)
       distanceTraveled: 0, // Add distanceTraveled
       type: 'blue',
       desc: roles.civilian.description,
@@ -85,6 +87,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
         desc: roleData.description,
         type: 'blue',
         speed: roleData.speed,
+        killTime: null, // Initialize killTime as null (alive)
         health: roleData.health,
         position: { x: posX, y: posY }, 
         isAlive: true,
@@ -95,6 +98,7 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
         id: `red-${unitType}-${i}`,
         killCount: 0, // Add killCount
         distanceTraveled: 0, // Add distanceTraveled
+        killTime: null, // Initialize killTime as null (alive)
         username: generateUserName(),
         desc: roleData.description,
         type: 'red',
@@ -110,18 +114,21 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
     Object.keys(unitCounts).forEach((unitType) => {
       const count = unitCounts[unitType] || 0; 
       const roleData = roles[unitType];
-
+    
       if (!roleData) {
         console.error(`Unknown role: ${unitType}`);
         return;
       }
-
+    
       for (let i = 0; i < count; i++) {
         const isRomanShip = unitType === 'romanShip';
+        
+        // Red team
         organisms.push({
           id: `red-${unitType}-${i}`,
           killCount: 0, // Add killCount
           distanceTraveled: 0, // Add distanceTraveled
+          killTime: null, // Initialize killTime as null (alive)
           username: generateUserName(),
           desc: roleData.description,
           type: 'red',
@@ -131,11 +138,13 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
           isAlive: true,
           role: unitType,
         });
-
+    
+        // Blue team
         organisms.push({
           id: `blue-${unitType}-${i}`,
           killCount: 0, // Add killCount
           distanceTraveled: 0, // Add distanceTraveled
+          killTime: null, // Initialize killTime as null (alive)
           username: generateUserName(),
           desc: roleData.description,
           type: 'blue',
@@ -147,10 +156,17 @@ export const generateOrganisms = (unitCounts = {}, width = window.innerWidth, he
         });
       }
     });
+    
 
     return organisms;
   }
 };
+export function handleKill(organism) {
+  organism.isAlive = false;
+  organism.killTime = Date.now(); // Store the kill timestamp in milliseconds
+}
+
+
 
 export const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
