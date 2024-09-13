@@ -1,6 +1,10 @@
 import { getDistance, findClosestTeammate, moveTowardOpponent, healTeammate } from "./abilities";
 import { logKillEvent, generateUserName } from "./KillFeed";
 
+const calculateDistance = (x1, y1, x2, y2) => {
+  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+};
+
 export const roles = {
   civilian: {
     speed: 1,
@@ -11,6 +15,8 @@ export const roles = {
     behavior: (organism) => {
       const newPosX = organism.position.x + Math.random() * 5 - 2.5;
       const newPosY = organism.position.y + Math.random() * 5 - 2.5;
+      const distance = calculateDistance(organism.position.x, organism.position.y, newPosX, newPosY);
+      organism.distanceTraveled += distance; // Update distance traveled
       return {
         ...organism,
         position: { x: newPosX, y: newPosY },
@@ -29,11 +35,15 @@ export const roles = {
           opponent.health -= 0.5;
           if (opponent.health <= 0) {
             opponent.isAlive = false;
-            logKillEvent(organism, opponent); 
+            organism.killCount += 1; // Increment kill count
+            logKillEvent(organism, opponent); // Log the kill event
           }
         }
       } else if (opponent) {
+        const oldPosition = { ...organism.position };
         organism = moveTowardOpponent(organism, opponent, obstacles);
+        const distance = calculateDistance(oldPosition.x, oldPosition.y, organism.position.x, organism.position.y);
+        organism.distanceTraveled += distance; // Update distance traveled
       }
       return organism;
     },
@@ -50,11 +60,15 @@ export const roles = {
           opponent.health -= 1;
           if (opponent.health <= 0) {
             opponent.isAlive = false;
-            logKillEvent(organism, opponent); 
+            organism.killCount += 1;
+            logKillEvent(organism, opponent);
           }
         }
       } else if (opponent) {
+        const oldPosition = { ...organism.position };
         organism = moveTowardOpponent(organism, opponent, obstacles);
+        const distance = calculateDistance(oldPosition.x, oldPosition.y, organism.position.x, organism.position.y);
+        organism.distanceTraveled += distance;
       }
       return organism;
     },
@@ -71,11 +85,15 @@ export const roles = {
           opponent.health -= 3;
           if (opponent.health <= 0) {
             opponent.isAlive = false;
-            logKillEvent(organism, opponent); 
+            organism.killCount += 1;
+            logKillEvent(organism, opponent);
           }
         }
       } else if (opponent) {
+        const oldPosition = { ...organism.position };
         organism = moveTowardOpponent(organism, opponent, obstacles);
+        const distance = calculateDistance(oldPosition.x, oldPosition.y, organism.position.x, organism.position.y);
+        organism.distanceTraveled += distance;
       }
       return organism;
     },
@@ -92,11 +110,15 @@ export const roles = {
           opponent.health -= 10;
           if (opponent.health <= 0) {
             opponent.isAlive = false;
-            logKillEvent(organism, opponent); 
+            organism.killCount += 1;
+            logKillEvent(organism, opponent);
           }
         }
       } else if (opponent) {
+        const oldPosition = { ...organism.position };
         organism = moveTowardOpponent(organism, opponent, obstacles);
+        const distance = calculateDistance(oldPosition.x, oldPosition.y, organism.position.x, organism.position.y);
+        organism.distanceTraveled += distance;
       }
       return organism;
     },
@@ -114,11 +136,14 @@ export const roles = {
           if (opponent.health <= 0) {
             opponent.isAlive = false;
             organism.killCount += 1;
-            logKillEvent(organism, opponent); 
+            logKillEvent(organism, opponent);
           }
         }
       } else if (opponent) {
+        const oldPosition = { ...organism.position };
         organism = moveTowardOpponent(organism, opponent, obstacles);
+        const distance = calculateDistance(oldPosition.x, oldPosition.y, organism.position.x, organism.position.y);
+        organism.distanceTraveled += distance;
       }
       return organism;
     },
@@ -132,13 +157,18 @@ export const roles = {
     behavior: (organism, organisms, opponent, obstacles) => {
       const teammate = healTeammate(organism, organisms);
       if (teammate && teammate.health < 3) {
+        const oldPosition = { ...organism.position };
         organism = moveTowardOpponent(organism, teammate, obstacles);
+        const distance = calculateDistance(oldPosition.x, oldPosition.y, organism.position.x, organism.position.y);
+        organism.distanceTraveled += distance;
         if (Math.random() < 0.5 && getDistance(organism, teammate) < 10) {
           teammate.health += 1;
         }
       } else {
         const newPosX = organism.position.x + Math.random() * 5 - 2.5;
         const newPosY = organism.position.y + Math.random() * 5 - 2.5;
+        const distance = calculateDistance(organism.position.x, organism.position.y, newPosX, newPosY);
+        organism.distanceTraveled += distance;
         return {
           ...organism,
           position: { x: newPosX, y: newPosY },
@@ -156,10 +186,15 @@ export const roles = {
     behavior: (organism, organisms, opponent, obstacles) => {
       const teammate = findClosestTeammate(organism, organisms);
       if (teammate) {
+        const oldPosition = { ...organism.position };
         organism = moveTowardOpponent(organism, teammate, obstacles);
+        const distance = calculateDistance(oldPosition.x, oldPosition.y, organism.position.x, organism.position.y);
+        organism.distanceTraveled += distance;
       } else {
         const newPosX = organism.position.x + Math.random() * 5 - 2.5;
         const newPosY = organism.position.y + Math.random() * 5 - 2.5;
+        const distance = calculateDistance(organism.position.x, organism.position.y, newPosX, newPosY);
+        organism.distanceTraveled += distance;
         return {
           ...organism,
           position: { x: newPosX, y: newPosY },
@@ -177,13 +212,18 @@ export const roles = {
     behavior: (organism, organisms, opponent, obstacles) => {
       const teammate = healTeammate(organism, organisms);
       if (teammate) {
+        const oldPosition = { ...organism.position };
         organism = moveTowardOpponent(organism, teammate, obstacles);
+        const distance = calculateDistance(oldPosition.x, oldPosition.y, organism.position.x, organism.position.y);
+        organism.distanceTraveled += distance;
         if (Math.random() < 0.5 && getDistance(organism, teammate) < 10) {
           teammate.health += 5;
         }
       } else {
         const newPosX = organism.position.x + Math.random() * 5 - 2.5;
         const newPosY = organism.position.y + Math.random() * 5 - 2.5;
+        const distance = calculateDistance(organism.position.x, organism.position.y, newPosX, newPosY);
+        organism.distanceTraveled += distance;
         return {
           ...organism,
           position: { x: newPosX, y: newPosY },
@@ -207,10 +247,12 @@ export const roles = {
             opponent.health -= 0.5;
             if (opponent.health <= 0) {
               opponent.isAlive = false;
-              logKillEvent(organism, opponent); 
+              organism.killCount += 1;
+              logKillEvent(organism, opponent);
             }
           }
         } else {
+          const oldPosition = { ...organism.position };
           const adjustedOpponent = {
             ...opponent,
             position: {
@@ -219,6 +261,8 @@ export const roles = {
             },
           };
           organism = moveTowardOpponent(organism, adjustedOpponent, obstacles);
+          const distance = calculateDistance(oldPosition.x, oldPosition.y, organism.position.x, organism.position.y);
+          organism.distanceTraveled += distance;
         }
       }
       return organism;
@@ -239,10 +283,12 @@ export const roles = {
             opponent.health -= 5;
             if (opponent.health <= 0) {
               opponent.isAlive = false;
+              organism.killCount += 1;
               logKillEvent(organism, opponent);
             }
           }
         } else {
+          const oldPosition = { ...organism.position };
           const adjustedOpponent = {
             ...opponent,
             position: {
@@ -251,6 +297,8 @@ export const roles = {
             },
           };
           organism = moveTowardOpponent(organism, adjustedOpponent, obstacles);
+          const distance = calculateDistance(oldPosition.x, oldPosition.y, organism.position.x, organism.position.y);
+          organism.distanceTraveled += distance;
         }
       }
       return organism;
@@ -271,10 +319,12 @@ export const roles = {
             opponent.health -= 1;
             if (opponent.health <= 0) {
               opponent.isAlive = false;
+              organism.killCount += 1;
               logKillEvent(organism, opponent);
             }
           }
         } else {
+          const oldPosition = { ...organism.position };
           const adjustedOpponent = {
             ...opponent,
             position: {
@@ -283,6 +333,8 @@ export const roles = {
             },
           };
           organism = moveTowardOpponent(organism, adjustedOpponent, obstacles);
+          const distance = calculateDistance(oldPosition.x, oldPosition.y, organism.position.x, organism.position.y);
+          organism.distanceTraveled += distance;
         }
       }
       return organism;

@@ -11,21 +11,21 @@ const Organism = ({ organism }) => {
     return organism.type === 'red' ? type.red : type.blue;
   };
 
-  return (
-    <img
-      src={getOrganismIcon()}
-      alt={organism.type}
-      style={{
-        position: 'absolute',
-        left: organism.position.x,
-        top: organism.position.y,
-        width: '20px',
-        height: '20px',
-      }}
-      title={`Name: ${organism.username}\nTeam: ${organism.type}\nRole: ${organism.role}\nDescription: ${organism.desc}
-      ` }
-    />
-  );
-};
-
+    return (
+      <div>
+        <img
+          src={getOrganismIcon()}
+          alt={organism.type}
+          style={{
+            position: 'absolute',
+            left: organism.position.x,
+            top: organism.position.y,
+            width: '20px',
+            height: '20px',
+          }}
+          title={`Role: ${organism.role}\nTeam: ${organism.type}`}
+        />
+      </div>
+    );
+  };
 export default Organism;

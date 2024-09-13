@@ -34,13 +34,13 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
       elephant: elephantCount,
       ballista: ballistaCount,
       wolf: WolfCount,
-      
+
       //Static Buildings
-      banner: 1,
-      barrack: 1,
-      medicTent: 1,
-      barn: 2,
-      cave: 1,
+      // banner: 1,
+      // barrack: 1,
+      // medicTent: 1,
+      // barn: 2,
+      // cave: 1,
     };
     onStartSimulation(unitCounts);
   };
@@ -54,8 +54,8 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({ id, data: { type } });
     const style = {
       transform: `translate3d(${transform?.x}px, ${transform?.y}px, 0)`,
-      zIndex: 1000, 
-      width: '40px', 
+      zIndex: 1000,
+      width: '40px',
       height: '40px',
       position: 'relative',
     };
@@ -87,13 +87,13 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
     const { over, active } = event;
 
     if (over) {
-      const dropAreaRect = over.rect; 
-      const dragItemType = active.data.current.type; 
-      const dropX = event.delta.x; 
+      const dropAreaRect = over.rect;
+      const dragItemType = active.data.current.type;
+      const dropX = event.delta.x;
       const dropY = event.delta.y;
 
-      const clampedX = Math.max(0, Math.min(dropX, dropAreaRect.width - 50)); 
-      const clampedY = Math.max(0, Math.min(dropY, dropAreaRect.height - 50)); 
+      const clampedX = Math.max(0, Math.min(dropX, dropAreaRect.width - 50));
+      const clampedY = Math.max(0, Math.min(dropY, dropAreaRect.height - 50));
 
       setUnitPositions((prevPositions) => [
         ...prevPositions,
@@ -189,7 +189,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
           </div>
         </div>
        </div>
-       
+
                   <div className='StartDiv'>
             <button className='start-button' onClick={handleStart}>
               Run Simulation
@@ -198,9 +198,9 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
           </div>
           <div className='simulation-box'></div>
         </>
-        
-       
-       
+
+
+
       ) : (
         <DndContext onDragEnd={handleDragEnd}>
           <div className='DragableMode'>
