@@ -83,7 +83,7 @@ Allows you to view statistics about the simulation, such as kill counts and dist
 ### UI Screenshots
 
 #### Simulation in Action
-![SimulationScreenshot](https://github.com/chessper53/OrganismSim/tree/main/src/assets/WebpageImages/SimulationScreenshot.png)
+![SimulationScreenshot](src/assets/WebpageImages/SimulationScreenshot.png)
 
 This screenshot shows the battlefield during an ongoing simulation. You can see:
 
@@ -94,7 +94,7 @@ This screenshot shows the battlefield during an ongoing simulation. You can see:
 - **Obstacles**: The battlefield contains a large lake and other environmental obstacles, which units avoid as part of the pathfinding algorithm.
 
 #### Unit Selection and Placement
-![DashboardScreenshot](https://github.com/chessper53/OrganismSim/tree/main/src/assets/WebpageImages/DashboardScreenshot.png)
+![DashboardScreenshot](src/assets/WebpageImages/DashboardScreenshot.png)
 
 This is the main dashboard screen where you can select the units to be deployed for both Red and Blue teams:
 
@@ -102,7 +102,7 @@ This is the main dashboard screen where you can select the units to be deployed 
 - **Simulation Field**: The empty grid below is where the units will be placed. You can either manually drag units onto the field or let the system randomly assign their positions.
 
 #### Stats Analysis Page
-![GraphScreenshot](https://github.com/chessper53/OrganismSim/tree/main/src/assets/WebpageImages/GraphScreenshot.png)
+[GraphScreenshot](src/assets/WebpageImages/GraphScreenshot.png)
 
 This is the stats analysis screen, which provides real-time statistics about the simulation:
 
