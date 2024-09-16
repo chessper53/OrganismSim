@@ -102,7 +102,7 @@ This is the main dashboard screen where you can select the units to be deployed 
 - **Simulation Field**: The empty grid below is where the units will be placed. You can either manually drag units onto the field or let the system randomly assign their positions.
 
 #### Stats Analysis Page
-[GraphScreenshot](src/assets/WebpageImages/GraphScreenshot.png)
+![GraphScreenshot](src/assets/WebpageImages/GraphScreenshot.png)
 
 This is the stats analysis screen, which provides real-time statistics about the simulation:
 
