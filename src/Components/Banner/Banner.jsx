@@ -34,7 +34,7 @@ const Banner = ({ aliveRed, aliveBlue, onStartSimulation }) => {
       elephant: elephantCount,
       ballista: ballistaCount,  
       wolf: WolfCount,
-
+      
       //Static Buildings
       banner: 1,
       barrack: 1,
