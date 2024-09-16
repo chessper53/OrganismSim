@@ -11,7 +11,6 @@ This project is a simulation-based web application where various units (organism
 - **User Interface:** Control speed, start and stop the simulation, and visualize stats in real-time.
 - **Unit Placement Modes:** You can either manually drag and place units on the battlefield or specify the number of units for each type.
 
-
 ## Getting Started
 
 To get a local copy up and running, follow these steps:
@@ -66,7 +65,6 @@ The simulation uses an advanced pathfinding algorithm to control how organisms n
 
 This system enables complex interactions and strategic gameplay, ensuring units can find and engage their targets while avoiding hazards.
 
-
 ## Simulation UI
 
 The user interface contains the following features:
@@ -75,13 +73,42 @@ The user interface contains the following features:
 - **Counters**: Displays the number of organisms alive on each team.
 - **Speed Control**: Allows you to speed up or slow down the simulation.
 - **Edit Button**: Lets you edit the simulation by adding/removing organisms or obstacles.
-
+  
 ### **Victory Conditions**
 When one team has no organisms left alive, the simulation automatically ends and displays the winning team.
 
 ### **Stats Analysis**
 Allows you to view statistics about the simulation, such as kill counts and distances traveled by each organism.
 
+### UI Screenshots
+
+#### Simulation in Action
+![SimulationScreenshot](https://github.com/chessper53/OrganismSim/tree/main/src/assets/WebpageImages/SimulationScreenshot.png)
+
+This screenshot shows the battlefield during an ongoing simulation. You can see:
+
+- **Red and Blue Teams**: Both factions are actively moving and engaging with one another.
+- **Icons**: Each type of organism is represented by different icons, such as castles, ships, and soldiers.
+- **Kill Feed**: The top bar displays a kill feed showing who has been eliminated from each team.
+- **Counter**: The large numbers near the castles indicate how many organisms are still alive for each team.
+- **Obstacles**: The battlefield contains a large lake and other environmental obstacles, which units avoid as part of the pathfinding algorithm.
+
+#### Unit Selection and Placement
+![DashboardScreenshot](https://github.com/chessper53/OrganismSim/tree/main/src/assets/WebpageImages/DashboardScreenshot.png)
+
+This is the main dashboard screen where you can select the units to be deployed for both Red and Blue teams:
+
+- **Unit Selection Panel**: At the top, you can see various unit types (legionnaire, medic, centurion, archer, etc.) with plus and minus buttons to adjust the number of units to deploy.
+- **Simulation Field**: The empty grid below is where the units will be placed. You can either manually drag units onto the field or let the system randomly assign their positions.
+
+#### Stats Analysis Page
+![GraphScreenshot](https://github.com/chessper53/OrganismSim/tree/main/src/assets/WebpageImages/GraphScreenshot.png)
+
+This is the stats analysis screen, which provides real-time statistics about the simulation:
+
+- **Top 3 Units**: Lists the top three units with the most kills during the simulation.
+- **Top 3 Travelers**: Displays the units that have traveled the furthest distance.
+- **Graph**: Shows a bar graph comparing the number of deaths on both teams, offering a visual representation of how the battle is progressing.
 
 ## Organism Roles
 
@@ -189,6 +216,3 @@ The simulation features various roles with unique behaviors. Click on each role 
   - **Behavior**: Water-based unit with high health and long-range attacks.
 
 </details>
-
-
-
